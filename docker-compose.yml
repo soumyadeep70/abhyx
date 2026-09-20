@@ -1,0 +1,60 @@
+version: '3.9'
+
+services:
+  postgres:
+    image: postgres:16-alpine
+    restart: unless-stopped
+    environment:
+      POSTGRES_USER: placement_user
+      POSTGRES_PASSWORD: placement_pass
+      POSTGRES_DB: placement_platform
+    ports:
+      - '5432:5432'
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+    healthcheck:
+      test: ['CMD-SHELL', 'pg_isready -U placement_user -d placement_platform']
+      interval: 5s
+      timeout: 5s
+      retries: 10
+
+  backend:
+    build: .
+    restart: unless-stopped
+    depends_on:
+      postgres:
+        condition: service_healthy
+      mock-ai-service:
+        condition: service_started
+    environment:
+      NODE_ENV: production
+      PORT: 8080
+      DATABASE_URL: postgres://placement_user:placement_pass@postgres:5432/placement_platform
+      DATABASE_SSL: 'false'
+      BETTER_AUTH_SECRET: ${BETTER_AUTH_SECRET:-dev-better-auth-secret-change-me-please-32}
+      BETTER_AUTH_URL: ${BETTER_AUTH_URL:-http://localhost:8080}
+      AI_SERVICE_BASE_URL: ${AI_SERVICE_BASE_URL:-http://mock-ai-service:9000}
+      AI_SERVICE_API_KEY: ${AI_SERVICE_API_KEY:-}
+      JUDGE0_BASE_URL: ${JUDGE0_BASE_URL:-https://judge0-ce.p.rapidapi.com}
+      JUDGE0_API_KEY: ${JUDGE0_API_KEY:-}
+      JUDGE0_API_HOST: ${JUDGE0_API_HOST:-}
+      CORS_ORIGINS: ${CORS_ORIGINS:-http://localhost:5173}
+      ENABLE_CRON: 'true'
+    ports:
+      - '8080:8080'
+    volumes:
+      - resume_uploads:/app/uploads
+
+  # Zero-dependency stand-in for the real FastAPI AI microservice (see
+  # mock-ai-service/README.md). Good enough to run/dev/test the whole
+  # backend end-to-end without the real AI service. Point AI_SERVICE_BASE_URL
+  # at a real deployment instead once one exists.
+  mock-ai-service:
+    build: ./mock-ai-service
+    restart: unless-stopped
+    ports:
+      - '9000:9000'
+
+volumes:
+  pgdata:
+  resume_uploads:

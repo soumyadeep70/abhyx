@@ -1,0 +1,38 @@
+{
+  "compilerOptions": {
+    "target": "ES2022",
+    "lib": ["ES2022"],
+
+    /* Module system: "nodenext" is the modern replacement for the removed
+     * classic "node"/"node10" moduleResolution (TypeScript 7 drops classic
+     * resolution entirely -- see docs/ARCHITECTURE.md's TypeScript 7 note).
+     * package.json has no "type": "module", so this package compiles as
+     * CommonJS; under nodenext, a CommonJS-context file resolves relative
+     * imports exactly like the old "node" mode did (no .js extensions
+     * required on `import ... from '../foo'`), so no import statements
+     * needed to change. */
+    "module": "nodenext",
+    "moduleResolution": "nodenext",
+
+    "outDir": "dist",
+    "rootDir": "src",
+    "strict": true,
+    "esModuleInterop": true,
+    "skipLibCheck": true,
+    "forceConsistentCasingInFileNames": true,
+    "resolveJsonModule": true,
+    "declaration": false,
+    "sourceMap": true,
+    "noUnusedLocals": false,
+    "noUnusedParameters": false,
+    "noImplicitAny": true,
+    "strictPropertyInitialization": false,
+
+    /* TypeScript 6+ defaults "types" to [] instead of auto-including every
+     * @types/* package in node_modules -- without this, Node globals
+     * (process, Buffer, __dirname, NodeJS.Timeout, ...) stop resolving. */
+    "types": ["node"]
+  },
+  "include": ["src/**/*.ts"],
+  "exclude": ["node_modules", "dist"]
+}
