@@ -1,5 +1,6 @@
 import { Request, Response } from 'express';
 import { asyncHandler } from '../../utils/asyncHandler';
+import { getParam } from '../../utils/params';
 import * as service from './mockTests.service';
 
 export const startHandler = asyncHandler(async (req: Request, res: Response) => {
@@ -14,21 +15,21 @@ export const startHandler = asyncHandler(async (req: Request, res: Response) => 
 });
 
 export const getHandler = asyncHandler(async (req: Request, res: Response) => {
-  const test = await service.getMockTestDetail(req.params.mockTestId);
+  const test = await service.getMockTestDetail(getParam(req, 'mockTestId'));
   res.json({ mock_test: test });
 });
 
 export const completeHandler = asyncHandler(async (req: Request, res: Response) => {
-  const result = await service.finishMockTest(req.params.mockTestId, req.user!.sub);
+  const result = await service.finishMockTest(getParam(req, 'mockTestId'), req.user!.sub);
   res.json(result);
 });
 
 export const abandonHandler = asyncHandler(async (req: Request, res: Response) => {
-  const result = await service.abandonMockTest(req.params.mockTestId);
+  const result = await service.abandonMockTest(getParam(req, 'mockTestId'));
   res.json(result);
 });
 
 export const listHandler = asyncHandler(async (req: Request, res: Response) => {
-  const tests = await service.listMockTests(req.params.userId);
+  const tests = await service.listMockTests(getParam(req, 'userId'));
   res.json({ mock_tests: tests });
 });

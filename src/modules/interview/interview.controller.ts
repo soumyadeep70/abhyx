@@ -1,5 +1,6 @@
 import { Request, Response } from 'express';
 import { asyncHandler } from '../../utils/asyncHandler';
+import { getParam } from '../../utils/params';
 import * as service from './interview.service';
 
 export const startHandler = asyncHandler(async (req: Request, res: Response) => {
@@ -13,7 +14,7 @@ export const startHandler = asyncHandler(async (req: Request, res: Response) => 
 
 export const respondHandler = asyncHandler(async (req: Request, res: Response) => {
   const result = await service.respond({
-    sessionId: req.params.sessionId,
+    sessionId: getParam(req, 'sessionId'),
     userId: req.user!.sub,
     message: req.body.message,
   });
@@ -21,16 +22,16 @@ export const respondHandler = asyncHandler(async (req: Request, res: Response) =
 });
 
 export const scorecardHandler = asyncHandler(async (req: Request, res: Response) => {
-  const scorecard = await service.getScorecardOrCompute(req.params.sessionId, req.user!.sub);
+  const scorecard = await service.getScorecardOrCompute(getParam(req, 'sessionId'), req.user!.sub);
   res.json({ scorecard });
 });
 
 export const completeHandler = asyncHandler(async (req: Request, res: Response) => {
-  const scorecard = await service.completeSession(req.params.sessionId, req.user!.sub);
+  const scorecard = await service.completeSession(getParam(req, 'sessionId'), req.user!.sub);
   res.json({ scorecard });
 });
 
 export const listHandler = asyncHandler(async (req: Request, res: Response) => {
-  const sessions = await service.listSessions(req.params.userId);
+  const sessions = await service.listSessions(getParam(req, 'userId'));
   res.json({ sessions });
 });

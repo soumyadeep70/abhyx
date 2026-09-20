@@ -1,11 +1,12 @@
 import { Request, Response } from 'express';
 import { asyncHandler } from '../../utils/asyncHandler';
+import { getParam } from '../../utils/params';
 import { ApiError } from '../../utils/ApiError';
 import { getQuestionWithDetails } from '../questions/questions.repository';
 import * as service from './coding.service';
 
 export const getProblemHandler = asyncHandler(async (req: Request, res: Response) => {
-  const question = await getQuestionWithDetails(req.params.questionId, false);
+  const question = await getQuestionWithDetails(getParam(req, 'questionId'), false);
   if (!question || question.type !== 'coding') throw ApiError.notFound('Coding problem not found');
   res.json({ question });
 });
@@ -25,11 +26,11 @@ export const submitCodeHandler = asyncHandler(async (req: Request, res: Response
 });
 
 export const getSubmissionHandler = asyncHandler(async (req: Request, res: Response) => {
-  const submission = await service.getSubmission(req.params.submissionId);
+  const submission = await service.getSubmission(getParam(req, 'submissionId'));
   res.json({ submission });
 });
 
 export const listSubmissionsHandler = asyncHandler(async (req: Request, res: Response) => {
-  const submissions = await service.listSubmissions(req.params.userId);
+  const submissions = await service.listSubmissions(getParam(req, 'userId'));
   res.json({ submissions });
 });

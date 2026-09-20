@@ -18,7 +18,7 @@ export const createAptitudeQuestionSchema = z.object({
   title: z.string().min(1),
   prompt: z.string().min(1),
   options: z.array(z.string()).min(2),
-  correct_answer: z.record(z.any()),
+  correct_answer: z.record(z.string(), z.unknown()),
   tag_ids: z.array(z.string().uuid()).optional().default([]),
   company_ids: z.array(z.string().uuid()).optional().default([]),
 });
@@ -30,7 +30,7 @@ export const createCodingQuestionSchema = z.object({
   title: z.string().min(1),
   prompt: z.string().min(1),
   function_signature: z.string().optional(),
-  starter_code: z.record(z.string()).optional().default({}),
+  starter_code: z.record(z.string(), z.string()).optional().default({}),
   test_cases: z.array(z.object({ input: z.string(), expected: z.string() })).min(1),
   constraints_text: z.string().optional(),
   time_limit_ms: z.number().int().positive().optional().default(2000),

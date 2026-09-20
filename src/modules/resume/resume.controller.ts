@@ -1,5 +1,6 @@
 import { Request, Response } from 'express';
 import { asyncHandler } from '../../utils/asyncHandler';
+import { getParam } from '../../utils/params';
 import { ApiError } from '../../utils/ApiError';
 import * as service from './resume.service';
 
@@ -15,6 +16,6 @@ export const uploadHandler = asyncHandler(async (req: Request, res: Response) =>
 });
 
 export const listHandler = asyncHandler(async (req: Request, res: Response) => {
-  const resumes = await service.listResumeHistory(req.params.userId);
+  const resumes = await service.listResumeHistory(getParam(req, 'userId'));
   res.json({ resumes });
 });

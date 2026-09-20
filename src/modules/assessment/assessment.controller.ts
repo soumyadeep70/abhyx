@@ -1,5 +1,6 @@
 import { Request, Response } from 'express';
 import { asyncHandler } from '../../utils/asyncHandler';
+import { getParam } from '../../utils/params';
 import * as service from './assessment.service';
 
 export const submitHandler = asyncHandler(async (req: Request, res: Response) => {
@@ -27,6 +28,6 @@ export const nextQuestionHandler = asyncHandler(async (req: Request, res: Respon
 });
 
 export const analyticsHandler = asyncHandler(async (req: Request, res: Response) => {
-  const analytics = await service.getTopicAnalytics(req.params.userId);
+  const analytics = await service.getTopicAnalytics(getParam(req, 'userId'));
   res.json({ topics: analytics });
 });

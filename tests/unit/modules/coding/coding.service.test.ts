@@ -1,12 +1,14 @@
 import { describe, it, expect, vi, beforeEach } from 'vitest';
 
-const repoMock = {
+// vi.mock() factories are hoisted above module-level consts; vi.hoisted() keeps
+// this object initialised in time for the factory below (avoids a TDZ ReferenceError).
+const repoMock = vi.hoisted(() => ({
   getCodingQuestionForJudging: vi.fn(),
   insertAssessmentAttemptForCoding: vi.fn(),
   insertCodeSubmission: vi.fn(),
   getSubmissionById: vi.fn(),
   listSubmissionsForUser: vi.fn(),
-};
+}));
 vi.mock('../../../../src/modules/coding/coding.repository', () => repoMock);
 
 const withTransactionMock = vi.fn(async (fn: any) => fn({} as any));

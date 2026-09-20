@@ -1,13 +1,15 @@
 import { describe, it, expect, vi, beforeEach } from 'vitest';
 
-const repoMock = {
+// vi.mock() factories are hoisted above module-level consts; vi.hoisted() keeps
+// this object initialised in time for the factory below (avoids a TDZ ReferenceError).
+const repoMock = vi.hoisted(() => ({
   getAptitudeAnswerKey: vi.fn(),
   insertAssessmentAttempt: vi.fn(),
   countAttemptsSince: vi.fn(),
   getTopicPerformance: vi.fn(),
   upsertSkillMap: vi.fn(),
   pickAdaptiveQuestion: vi.fn(),
-};
+}));
 vi.mock('../../../../src/modules/assessment/assessment.repository', () => repoMock);
 
 const withTransactionMock = vi.fn(async (fn: any) => fn({} as any));
@@ -59,6 +61,7 @@ function flush() {
 describe('assessment.service.submitAptitudeAnswer', () => {
   beforeEach(() => {
     Object.values(repoMock).forEach((fn) => fn.mockReset());
+    withTransactionMock.mockClear(); // keep the passthrough impl, drop call history from earlier tests
     recordActivityMock.mockReset();
     checkAptitudeBadgesMock.mockReset().mockResolvedValue(undefined);
     analyzeWeakTopicsMock.mockReset();

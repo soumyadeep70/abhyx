@@ -1,5 +1,6 @@
 import { Request, Response } from 'express';
 import { asyncHandler } from '../../utils/asyncHandler';
+import { getParam } from '../../utils/params';
 import { ApiError } from '../../utils/ApiError';
 import * as repo from './questions.repository';
 
@@ -18,7 +19,7 @@ export const listQuestionsHandler = asyncHandler(async (req: Request, res: Respo
 
 export const getQuestionHandler = asyncHandler(async (req: Request, res: Response) => {
   const isAdmin = req.user?.role === 'admin';
-  const question = await repo.getQuestionWithDetails(req.params.questionId, isAdmin);
+  const question = await repo.getQuestionWithDetails(getParam(req, 'questionId'), isAdmin);
   if (!question) throw ApiError.notFound('Question not found');
   res.json({ question });
 });
@@ -30,7 +31,7 @@ export const createQuestionHandler = asyncHandler(async (req: Request, res: Resp
 });
 
 export const deactivateQuestionHandler = asyncHandler(async (req: Request, res: Response) => {
-  await repo.deactivateQuestion(req.params.questionId);
+  await repo.deactivateQuestion(getParam(req, 'questionId'));
   res.status(204).send();
 });
 

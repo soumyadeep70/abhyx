@@ -1,5 +1,6 @@
 import { Request, Response } from 'express';
 import { asyncHandler } from '../../utils/asyncHandler';
+import { getParam } from '../../utils/params';
 import { ApiError } from '../../utils/ApiError';
 import * as repo from './companies.repository';
 
@@ -9,7 +10,7 @@ export const listCompaniesHandler = asyncHandler(async (_req: Request, res: Resp
 });
 
 export const getTierHandler = asyncHandler(async (req: Request, res: Response) => {
-  const tier = await repo.getTierById(req.params.tierId);
+  const tier = await repo.getTierById(getParam(req, 'tierId'));
   if (!tier) throw ApiError.notFound('Company tier not found');
   res.json({ tier });
 });

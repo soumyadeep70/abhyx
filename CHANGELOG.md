@@ -340,8 +340,11 @@ found via better-auth's own GitHub issues while verifying the design:
 Grepped every `*.schema.ts` for zod v4's known breaking patterns (custom
 `{ message: ... }` error options, discriminated-union internals). Found
 none in actual use — the one `message:` match in `interview.schema.ts` is
-an unrelated field named `message`, not a zod option. No schema files
-needed code changes; only the version bump. better-auth itself has been
+an unrelated field named `message`, not a zod option. ~~No schema files
+needed code changes; only the version bump.~~ **Corrected in §10:** the
+grep missed zod 4's removal of single-argument `z.record(valueSchema)` (3
+call sites broke `tsc`), and zod 4's stricter `.uuid()` invalidated some
+test fixtures. better-auth itself has been
 zod-4-based since its 1.3.x line, so this also removes a latent v3/v4
 mismatch between this app's zod and better-auth's internal one.
 
@@ -357,16 +360,76 @@ running it — the removed-in-4.0 item found during research was the
 
 ### Left alone, on purpose
 
-- **`multer` stays on `1.4.5-lts.1`**, not the `2.x` rewrite. That specific
-  tag is multer's own maintained-patched LTS line; jumping to a major
-  rewrite of a file-upload middleware, unable to test the actual multipart
-  upload path (`resume` module), was judged higher-risk than lower-value
-  here.
+- ~~**`multer` stays on `1.4.5-lts.1`**~~ **Superseded in §10:** upgraded to
+  `2.4.0` once the multipart path could actually be tested (npm flags 1.x
+  as deprecated for published vulnerabilities).
 - **Every other dependency** (`axios`, `bcryptjs`, `pg`, `pino`,
-  `node-cron`, `helmet`, `cors`, `compression`, `express-rate-limit`,
+  ~~`node-cron`~~ (see §10), `helmet`, `cors`, `compression`, `express-rate-limit`,
   `pino-http`, `tsx`, `supertest`, etc.) got a minor/patch bump within its
   existing major version, not a researched major jump — no evidence
   surfaced of a breaking major release for any of them that this app's
   usage would hit. `npm outdated` after install is the authoritative
   source on all of these, not this file.
 
+## 10. First real compile + test run (`tsc --noEmit`, `npm test`)
+
+§9 was written without being able to run anything. The first real run
+(TypeScript 7.0.2, Express 5.2, Zod 4.6, Vitest 4.1) found the following,
+all now fixed. Final state: `tsc --noEmit` clean, `npm run build` OK,
+`npm test` = 161 passed / 2 skipped (the 2 are the Postgres-gated
+`tests/db-integration` suite), `npm audit` = 0 vulnerabilities.
+
+### Compile errors (36 -> 0)
+
+- **Express 5 route-param typing (33 errors).** `@types/express@5` types
+  `req.params.x` as `string | string[]`. Added `src/utils/params.ts ->
+  getParam(req, name)`, which narrows to `string` and fails closed with a
+  400 if the value is missing/an array. All controllers use it. (Chosen over
+  `as string` casts so a route that forgets `validate()` can't push an array
+  or `undefined` into a SQL query.)
+- **Zod 4 `z.record()` (3 errors).** Now requires an explicit key schema:
+  `z.record(z.string(), z.unknown())`.
+
+### Latent bugs the compiler could not see
+
+- **Test suite could not load (4 files).** `vi.mock()` factories referenced a
+  module-level `const repoMock`, which is hoisted-over -> TDZ error. Wrapped
+  in `vi.hoisted()`.
+- **`auth.service.test.ts` imported `../../../src` from 4 levels deep**
+  (resolved to `tests/src`). Fixed to `../../../../src`.
+- **Zod 4 `.uuid()` is RFC 4122-strict** (version + variant bits). Test
+  fixtures like `1111...1111` were rejected. Production ids are always v4
+  (`gen_random_uuid()` / `generateId: 'uuid'`), so the *schemas are correct*
+  and the fixtures were changed, not the validation.
+- **`asyncHandler` didn't return its promise**, contradicting its own test.
+  It now returns a `Promise<void>` that always resolves.
+- **Leaking mock call counts** in `assessment.service.test.ts`
+  (`withTransactionMock.mockClear()` added to `beforeEach`).
+- **Client errors reported as 500:**
+  `GET /companies/tiers/:tierId` and `GET /users/:userId/badges` had no
+  `validate()`, so a malformed id hit Postgres (`22P02`) -> 500. Both now
+  validate; `errorHandler` also maps `22P02` -> 400 as a safety net.
+  Non-PDF uploads and over-size uploads also returned 500 (plain `Error` from
+  multer's `fileFilter`, unhandled `MulterError`); now **415** and **413**.
+
+### Dependencies
+
+- `package-lock.json` was badly out of sync with `package.json` (lock had
+  TS 5.9 / Zod 3 / Express 4 / Vitest 2 and no better-auth). The
+  `Dockerfile` runs `npm ci`, which hard-fails on that mismatch. Regenerated;
+  `npm ci` (dev and `--omit=dev`) verified under npm 10 and npm 12.
+- `multer` 1.4.5-lts.2 -> **2.4.0**, `@types/multer` -> 2.2.0. Multipart path
+  now covered by `tests/integration/resumeUpload.test.ts`.
+- `node-cron` 3 -> **4.6.0** (clears the two moderate `uuid` advisories that
+  `npm audit` reported); `@types/node-cron` removed (v4 ships its own types).
+  Compiled build verified to schedule a job at runtime.
+- **Not changed, worth knowing:** `uuid` / `@types/uuid` are declared in
+  `package.json` but nothing under `src/` imports them; the `lint` script
+  calls `eslint`, which is not installed and has no config.
+
+### New tests
+
+`tests/unit/utils/params.test.ts`, `tests/integration/paramValidation.test.ts`
+(verified to fail when the route fix is reverted),
+`tests/integration/resumeUpload.test.ts`, plus a `22P02` case in
+`tests/integration/errorHandler.test.ts`.

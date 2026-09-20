@@ -33,6 +33,11 @@ function buildTestApp() {
     err.code = '23514';
     throw err;
   });
+  app.get('/boom/invalid-text-representation', () => {
+    const err: any = new Error('invalid input syntax for type uuid: "abc"');
+    err.code = '22P02';
+    throw err;
+  });
   app.get('/boom/unknown', () => {
     throw new Error('something unexpected');
   });
@@ -86,5 +91,12 @@ describe('errorHandler', () => {
     const res = await request(app).get('/does-not-exist');
     expect(res.status).toBe(404);
     expect(res.body.error.message).toContain('GET /does-not-exist');
+  });
+
+  it('maps Postgres 22P02 (malformed uuid etc.) to 400 without leaking the driver message', async () => {
+    const res = await request(app).get('/boom/invalid-text-representation');
+    expect(res.status).toBe(400);
+    expect(res.body.error.message).toBe('Malformed identifier or value');
+    expect(JSON.stringify(res.body)).not.toContain('invalid input syntax');
   });
 });

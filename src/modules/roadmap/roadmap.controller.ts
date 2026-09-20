@@ -1,5 +1,6 @@
 import { Request, Response } from 'express';
 import { asyncHandler } from '../../utils/asyncHandler';
+import { getParam } from '../../utils/params';
 import { ApiError } from '../../utils/ApiError';
 import * as service from './roadmap.service';
 
@@ -15,12 +16,12 @@ export const generateHandler = asyncHandler(async (req: Request, res: Response) 
 });
 
 export const getActiveHandler = asyncHandler(async (req: Request, res: Response) => {
-  const roadmap = await service.getActiveRoadmap(req.params.userId);
+  const roadmap = await service.getActiveRoadmap(getParam(req, 'userId'));
   if (!roadmap) throw ApiError.notFound('No active roadmap for this user');
   res.json({ roadmap });
 });
 
 export const completePhaseHandler = asyncHandler(async (req: Request, res: Response) => {
-  const roadmap = await service.completePhase(req.params.userId, req.params.id);
+  const roadmap = await service.completePhase(getParam(req, 'userId'), getParam(req, 'id'));
   res.json({ roadmap });
 });

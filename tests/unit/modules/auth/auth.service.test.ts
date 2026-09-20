@@ -6,7 +6,7 @@ const signOutMock = vi.fn();
 const getSessionMock = vi.fn();
 const attachOnboardingMock = vi.fn();
 
-vi.mock('../../../src/lib/auth', () => ({
+vi.mock('../../../../src/lib/auth', () => ({
   auth: {
     api: {
       signUpEmail: (...args: any[]) => signUpEmailMock(...args),
@@ -17,12 +17,12 @@ vi.mock('../../../src/lib/auth', () => ({
   },
 }));
 
-vi.mock('../../../src/modules/auth/auth.repository', () => ({
+vi.mock('../../../../src/modules/auth/auth.repository', () => ({
   attachOnboarding: (...args: any[]) => attachOnboardingMock(...args),
 }));
 
-import * as authService from '../../../src/modules/auth/auth.service';
-import { ApiError } from '../../../src/utils/ApiError';
+import * as authService from '../../../../src/modules/auth/auth.service';
+import { ApiError } from '../../../../src/utils/ApiError';
 
 const HEADERS = { authorization: 'Bearer whatever' };
 

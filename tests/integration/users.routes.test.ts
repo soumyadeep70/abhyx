@@ -6,13 +6,15 @@ vi.mock('../../src/lib/auth', () => ({
   auth: { api: { getSession: (...args: any[]) => getSessionMock(...args) } },
 }));
 
-const repoMock = {
+// vi.mock() factories are hoisted above module-level consts; vi.hoisted() keeps
+// this object initialised in time for the factory below (avoids a TDZ ReferenceError).
+const repoMock = vi.hoisted(() => ({
   getProfile: vi.fn(),
   getTargetCompanies: vi.fn(),
   getStreak: vi.fn(),
   replaceTargetCompanies: vi.fn(),
   getActivityHeatmap: vi.fn(),
-};
+}));
 vi.mock('../../src/modules/users/users.repository', () => repoMock);
 
 import { createApp } from '../../src/app';
@@ -28,8 +30,11 @@ function asUser(user: typeof STUDENT_1) {
   return { Authorization: 'Bearer token-for-' + user.id };
 }
 
+// NOTE: fixture UUIDs must be RFC 4122-valid (version nibble 1-8, variant nibble 8/9/a/b).
+// Zod 4's z.string().uuid() enforces that (Zod 3 did not), and every real id in this
+// system is a v4 UUID from gen_random_uuid()/crypto.randomUUID().
 describe('GET /api/v1/users/:userId', () => {
-  const VALID_UUID = '11111111-1111-1111-1111-111111111111';
+  const VALID_UUID = '11111111-1111-4111-8111-111111111111';
 
   beforeEach(() => {
     getSessionMock.mockReset();
@@ -78,8 +83,8 @@ describe('GET /api/v1/users/:userId', () => {
 });
 
 describe('PUT /api/v1/users/:userId/target-companies', () => {
-  const VALID_UUID = '22222222-2222-2222-2222-222222222222';
-  const TIER_ID = '33333333-3333-3333-3333-333333333333';
+  const VALID_UUID = '22222222-2222-4222-8222-222222222222';
+  const TIER_ID = '33333333-3333-4333-8333-333333333333';
 
   beforeEach(() => {
     getSessionMock.mockReset();
