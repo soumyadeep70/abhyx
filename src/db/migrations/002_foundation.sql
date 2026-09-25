@@ -1,10 +1,18 @@
 -- 002_foundation.sql
 -- 01 · Foundation — Identity, Companies & Content Catalog
 
+-- Credentials are not stored here: better-auth owns email/password auth and
+-- keeps the password hash on its own `account` table (provider
+-- "credential"), not on the user row. `email_verified` and `image` are the
+-- two columns better-auth's core `user` model always expects; see
+-- src/lib/auth.ts (`user.modelName: "users"`) for how this table is mapped
+-- onto that model, and 009_better_auth.sql for the accompanying
+-- session/account/verification tables.
 CREATE TABLE users (
   id                UUID PRIMARY KEY DEFAULT gen_random_uuid(),
   email             CITEXT NOT NULL UNIQUE,
-  password_hash     TEXT NOT NULL,
+  email_verified    BOOLEAN NOT NULL DEFAULT false,
+  image             TEXT,
   full_name         TEXT NOT NULL,
   role              user_role NOT NULL DEFAULT 'student',
   college           TEXT,

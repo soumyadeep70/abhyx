@@ -26,5 +26,6 @@ export const logoutHandler = asyncHandler(async (req: Request, res: Response) =>
 });
 
 export const meHandler = asyncHandler(async (req: Request, res: Response) => {
-  res.status(200).json({ user: req.user });
+  const user = await authService.getCurrentUser(req.headers);
+  res.status(200).json({ user });
 });

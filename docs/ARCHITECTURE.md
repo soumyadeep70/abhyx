@@ -199,9 +199,11 @@ whole email/password + session lifecycle.
   `input: false`, meaning a client can never set it via the public sign-up
   request — see §5.4 for how admins actually get created.
 - **New tables** (migration `009_better_auth.sql`): `session`, `account`,
-  `verification` — better-auth's own core schema. Passwords live in
-  `account.password` (provider `credential`), not on `users` anymore —
-  `users.password_hash` was dropped in the same migration.
+  `verification` — better-auth's own core schema, created directly (no
+  `ALTER`/`DROP` — this schema has never shipped, so there was nothing to
+  migrate away from). Passwords live in `account.password` (provider
+  `credential`); `users` never has a `password_hash` column — see
+  `002_foundation.sql`.
 - **`middlewares/auth.ts`** — `requireAuth` calls
   `auth.api.getSession({ headers: fromNodeHeaders(req.headers) })` and, on
   success, populates `req.user = { sub, role, email, fullName }`. Every

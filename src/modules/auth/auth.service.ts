@@ -140,6 +140,12 @@ export async function refresh(requestHeaders: Record<string, string | string[] |
   };
 }
 
+export async function getCurrentUser(requestHeaders: Record<string, string | string[] | undefined>) {
+  const result = await auth.api.getSession({ headers: fromNodeHeaders(requestHeaders as any) });
+  if (!result?.user) throw ApiError.unauthorized('No active session');
+  return toPublicUser(result.user as any);
+}
+
 export async function logout(requestHeaders: Record<string, string | string[] | undefined>) {
   try {
     await auth.api.signOut({ headers: fromNodeHeaders(requestHeaders as any) });

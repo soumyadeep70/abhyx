@@ -1,30 +1,19 @@
 -- 009_better_auth.sql
--- Replaces the hand-rolled JWT + refresh_tokens auth (migration 007,
--- ADDITION 1) with better-auth. See CHANGES_AND_ASSUMPTIONS.md for the
--- rationale.
+-- better-auth's own core tables: session, account, verification.
 --
--- `users` keeps its identity (id, email, full_name, role, college,
--- graduation_year, is_active) and stays the model better-auth's `user`
--- table maps onto (see src/lib/auth.ts `user.modelName: "users"`). It picks
--- up two columns better-auth's core schema always expects, and loses
--- `password_hash`, which now lives in `account.password` instead (better-
--- auth stores email/password credentials as a provider account, not on the
--- user row -- this is also what makes adding OAuth providers later a
--- config change instead of a schema change).
+-- `users` already carries everything better-auth's `user` model needs
+-- (email_verified, image -- see 002_foundation.sql) and is mapped onto that
+-- model via `user.modelName: "users"` in src/lib/auth.ts. There's no manual
+-- JWT signing or refresh-token table anywhere in this schema (see
+-- 007_platform_additions.sql) -- session issuance, rotation and revocation
+-- are entirely better-auth's job, backed by the `session` table below.
 
-ALTER TABLE users
-  ADD COLUMN email_verified BOOLEAN NOT NULL DEFAULT false,
-  ADD COLUMN image TEXT;
-
-ALTER TABLE users
-  DROP COLUMN password_hash;
-
--- better-auth core tables. Ids are UUIDs, matching every other table in
--- this schema. better-auth generates them itself (advanced.database.
--- generateId: "uuid" in src/lib/auth.ts calls crypto.randomUUID() per
--- insert) rather than relying on the column default below to fire --
--- that default is a defensive fallback for any row inserted outside
--- better-auth's own code path, not the primary mechanism.
+-- Ids are UUIDs, matching every other table in this schema. better-auth
+-- generates them itself (advanced.database.generateId: "uuid" in
+-- src/lib/auth.ts calls crypto.randomUUID() per insert) rather than relying
+-- on the column default below to fire -- that default is a defensive
+-- fallback for any row inserted outside better-auth's own code path, not
+-- the primary mechanism.
 
 CREATE TABLE session (
   id          UUID PRIMARY KEY DEFAULT gen_random_uuid(),
@@ -44,6 +33,8 @@ CREATE TRIGGER trg_session_updated_at BEFORE UPDATE ON session
 -- One row per login method per user. For this app that's always exactly one
 -- ('credential' / email+password) today, but the shape is what lets a
 -- future "Sign in with Google" become additive rather than a rewrite.
+-- `password` holds the credential-provider password hash -- this is where
+-- user credentials live now, not on `users`.
 CREATE TABLE account (
   id                        UUID PRIMARY KEY DEFAULT gen_random_uuid(),
   user_id                   UUID NOT NULL REFERENCES users(id) ON DELETE CASCADE,
@@ -74,5 +65,3 @@ CREATE TABLE verification (
   updated_at  TIMESTAMPTZ NOT NULL DEFAULT now()
 );
 CREATE INDEX idx_verification_identifier ON verification(identifier);
-
-DROP TABLE refresh_tokens;
