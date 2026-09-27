@@ -16,19 +16,13 @@
   "remoteUser": "node",
   "updateRemoteUserUID": true,
 
-  // "forwardPorts": [
-  //   3000,
-  //   3001,
-  // ],
+  "forwardPorts": [5173],
 
-  // "portsAttributes": {
-  //   "3000": {
-  //     "label": "Node.js"
-  //   },
-  //   "3001": {
-  //     "label": "Node.js API"
-  //   },
-  // },
+  "portsAttributes": {
+    "5173": {
+      "label": "VITE frontend"
+    }
+  },
 
   "customizations": {
     "vscode": {
