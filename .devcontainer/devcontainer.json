@@ -1,0 +1,76 @@
+{
+  "name": "Node container",
+
+  "build": {
+    "dockerfile": "Dockerfile",
+    "context": ".."
+  },
+
+  // workaround for selinux issue with bind mounts
+  "workspaceMount": "",
+  "workspaceFolder": "/workspaces/${localWorkspaceFolderBasename}",
+  "runArgs": [
+    "--volume=${localWorkspaceFolder}:/workspaces/${localWorkspaceFolderBasename}:cached,z"
+  ],
+
+  "remoteUser": "node",
+  "updateRemoteUserUID": true,
+
+  // "forwardPorts": [
+  //   3000,
+  //   3001,
+  // ],
+
+  // "portsAttributes": {
+  //   "3000": {
+  //     "label": "Node.js"
+  //   },
+  //   "3001": {
+  //     "label": "Node.js API"
+  //   },
+  // },
+
+  "customizations": {
+    "vscode": {
+      "extensions": [
+        "dbaeumer.vscode-eslint",
+        "esbenp.prettier-vscode",
+        "bradlc.vscode-tailwindcss",
+        "ms-vscode.vscode-typescript-next",
+        "formulahendry.auto-rename-tag",
+        "formulahendry.auto-close-tag",
+        "usernamehw.errorlens",
+        "eamodio.gitlens",
+        "christian-kohler.path-intellisense",
+        "mikestead.dotenv",
+        "yoavbls.pretty-ts-errors"
+      ],
+
+      "settings": {
+        "editor.formatOnSave": true,
+        "editor.defaultFormatter": "esbenp.prettier-vscode",
+
+        "editor.codeActionsOnSave": {
+          "source.fixAll.eslint": "explicit"
+        },
+
+        "js/ts.tsdk.path": "node_modules/typescript/lib",
+        "js/ts.tsdk.promptToUseWorkspaceVersion": true,
+        "js/ts.suggest.autoImports": true,
+
+        "files.exclude": {
+          "**/.git": true,
+          "**/.DS_Store": true
+        },
+
+        "search.exclude": {
+          "**/node_modules": true,
+          "**/.git": true,
+          "**/dist": true,
+          "**/build": true,
+          "**/.next": true
+        }
+      }
+    }
+  }
+}

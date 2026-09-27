@@ -1,0 +1,49 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  html {
+    scroll-behavior: smooth;
+  }
+  body {
+    background-color: theme('colors.paper');
+  }
+  ::selection {
+    background-color: theme('colors.signal.100');
+  }
+  :focus-visible {
+    outline: 2px solid theme('colors.signal.500');
+    outline-offset: 2px;
+  }
+}
+
+@layer components {
+  .card {
+    @apply bg-white shadow-hairline rounded-md p-5;
+  }
+  .btn {
+    @apply inline-flex items-center justify-center gap-2 rounded-sm px-4 py-2 text-sm font-medium transition-colors disabled:cursor-not-allowed disabled:opacity-50;
+  }
+  .btn-primary {
+    @apply btn bg-ink-900 text-paper hover:bg-ink-700;
+  }
+  .btn-secondary {
+    @apply btn bg-white text-ink-900 shadow-hairline hover:bg-ink-50;
+  }
+  .btn-signal {
+    @apply btn bg-signal-500 text-white hover:bg-signal-600;
+  }
+  .btn-danger {
+    @apply btn bg-alert-500 text-white hover:bg-alert-500/90;
+  }
+  .field-label {
+    @apply block text-xs font-medium uppercase tracking-wide text-ink-400 mb-1;
+  }
+  .field-input {
+    @apply w-full rounded-sm border border-ink-200 bg-white px-3 py-2 text-sm text-ink-900 placeholder:text-ink-300 focus:border-signal-500 focus:ring-1 focus:ring-signal-500;
+  }
+  .chip {
+    @apply inline-flex items-center gap-1 rounded-full px-2.5 py-1 text-xs font-medium;
+  }
+}
