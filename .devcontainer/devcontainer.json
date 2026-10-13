@@ -1,10 +1,7 @@
 {
   "name": "Node container",
 
-  "build": {
-    "dockerfile": "Dockerfile",
-    "context": ".."
-  },
+  "image": "mcr.microsoft.com/devcontainers/typescript-node",
 
   // workaround for selinux issue with bind mounts
   "workspaceMount": "",
