@@ -1,8 +1,4 @@
--- 008_seed_reference_data.sql
--- Reference data the app cannot function without: companies + tiers with the
--- exact weight table from HLD Section 04, core topics, and starter badges.
--- (Question bank seeding lives in db/seeds/ and is run separately via
--- `npm run seed`, since it's large and content, not schema.)
+-- Core reference data used by the app and the sample question seed.
 
 INSERT INTO companies (name) VALUES
   ('TCS'), ('Infosys'), ('Wipro'), ('Amazon'), ('Accenture')
@@ -20,17 +16,8 @@ FROM (VALUES
 JOIN companies c ON c.name = t.company_name
 ON CONFLICT (company_id, tier_name) DO NOTHING;
 
--- NOTE ON WEIGHTS: HLD Section 04's table gives Aptitude/Coding/Resume/Interview
--- weights that sum to 100 on their own (e.g. TCS Ninja 40+25+10+25=100) and
--- has no separate consistency column, but Section 04's own body text and the
--- schema PDF's company_tiers table both require 5 weights (including
--- consistency) summing to 100. To satisfy the schema's CHECK constraint
--- without silently dropping the "consistency is a weighted factor in
--- readiness" requirement from Section 04's Feature 8, this seed folds a flat
--- 5-point consistency weight into every tier and reduces that tier's
--- interview_weight by 5 points to keep the total at 100. This is a judgment
--- call, not a value from either source document — flagged in
--- CHANGES_AND_ASSUMPTIONS.md as an open question for the team.
+-- Keep consistency at 5 points and reduce interview weight accordingly so
+-- each tier's five weights satisfy the schema's total-weight constraint.
 
 INSERT INTO topics (name, category) VALUES
   ('Quantitative Aptitude', 'aptitude'),
