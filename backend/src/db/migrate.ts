@@ -68,12 +68,19 @@ async function status() {
 }
 
 async function seed() {
+  // One connection + one transaction for every seed file: the question seeds
+  // rely on session-local helper functions (pg_temp, defined in
+  // 010_question_helpers.sql) that must be visible to the files after it, and
+  // a failure in any file should roll the whole seed back, not leave a
+  // half-populated question bank behind.
   const files = listSqlFiles(SEEDS_DIR);
-  for (const file of files) {
-    const sql = fs.readFileSync(path.join(SEEDS_DIR, file), 'utf8');
-    logger.info({ file }, 'Running seed file');
-    await pool.query(sql);
-  }
+  await withTransaction(async (client) => {
+    for (const file of files) {
+      const sql = fs.readFileSync(path.join(SEEDS_DIR, file), 'utf8');
+      logger.info({ file }, 'Running seed file');
+      await client.query(sql);
+    }
+  });
   logger.info('Seeding complete');
 }
 

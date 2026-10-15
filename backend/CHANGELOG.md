@@ -4,7 +4,7 @@ This is the single source of truth for "what did you change from the spec,
 and why" and "what did you assume when the spec didn't say." Everything here
 is also commented in-line at the exact file/line it applies to (search for
 `TRADEOFF`, `ASSUMPTION`, `NOTE ON`, `CONTRADICTION`) — this file just
-collects them in one place for review. §7–§9 cover the later better-auth
+collects them in one place for review. §11 covers the question-bank seeding; §7–§9 cover the later better-auth
 migration, test suite, and TypeScript 7/Express 5/dependency-majors pass,
 all of which post-date the original schema/route sections below.
 
@@ -433,3 +433,17 @@ all now fixed. Final state: `tsc --noEmit` clean, `npm run build` OK,
 (verified to fail when the route fix is reverted),
 `tests/integration/resumeUpload.test.ts`, plus a `22P02` case in
 `tests/integration/errorHandler.test.ts`.
+
+---
+
+## 11. Question-bank seeding (per-topic files)
+
+| Change | Why |
+|---|---|
+| `001_sample_questions.sql` replaced by 16 per-topic files (`100`–`130` aptitude, `200`–`310` coding), 372 questions | One file per topic, 22–25 questions each. The 7 original questions were kept (same titles) inside their topic files. |
+| Seeds are **idempotent upserts** on (topic, title) via `010_question_helpers.sql` | The old seed inserted a fresh copy of every question on each `npm run seed` (7 -> 14 -> 21 ...). `is_active` is never overwritten. |
+| `seed()` in `migrate.ts` runs all files on one connection in one transaction | The helpers are `pg_temp` functions (no schema pollution) which need a shared session; also makes a failed seed all-or-nothing. |
+| Coding seeds are real stdin -> stdout programs with starter code for all 4 languages | The grader runs the whole submission and diffs stdout. The old `Two Sum` starter (`def two_sum(): pass`, no I/O) could never pass. |
+| OS / DBMS / OOP are runnable simulations, not theory MCQs | The schema trigger forces `question.type = topic.category`, and those topics are `coding`. |
+| `sql` added to the accepted languages (`coding.schema.ts`, `coding.service.ts`, `judge0Client.ts` -> Judge0 id 82) | The 24 SQL questions are graded by SQLite; without this the API would reject every SQL submission. |
+| *Limitation:* a SQL question has a single test case | The data lives inside the submitted script, so stdin can't vary it; the sample output shown to students is also the graded output. |

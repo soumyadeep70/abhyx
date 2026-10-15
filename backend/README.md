@@ -46,7 +46,7 @@ API at `http://localhost:8080/api/v1`, health check at `/health`.
 npm install
 cp .env.example .env          # point DATABASE_URL at your own Postgres
 npm run migrate               # applies src/db/migrations/*.sql in order
-npm run seed                  # companies/tiers/topics/badges + sample questions
+npm run seed                  # reference data + 372 questions (src/db/seeds/README.md); safe to re-run
 npm run mock-ai               # in a second terminal — stands in for the AI service
 npm run dev                   # tsx watch mode
 ```

@@ -118,6 +118,6 @@ describe('pollUntilDone', () => {
 
 describe('JUDGE0_LANGUAGE_IDS', () => {
   it('covers every language coding.service accepts', () => {
-    expect(JUDGE0_LANGUAGE_IDS).toMatchObject({ python: 71, javascript: 63, java: 62, cpp: 54 });
+    expect(JUDGE0_LANGUAGE_IDS).toMatchObject({ python: 71, javascript: 63, java: 62, cpp: 54, sql: 82 });
   });
 });

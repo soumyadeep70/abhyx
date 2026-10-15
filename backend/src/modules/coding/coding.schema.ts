@@ -2,7 +2,7 @@ import { z } from 'zod';
 
 export const submitCodeSchema = z.object({
   question_id: z.string().uuid(),
-  language: z.enum(['python', 'javascript', 'java', 'cpp']),
+  language: z.enum(['python', 'javascript', 'java', 'cpp', 'sql']),
   source_code: z.string().min(1),
   time_taken_seconds: z.number().int().positive().optional(),
   hints_used: z.number().int().min(0).optional().default(0),

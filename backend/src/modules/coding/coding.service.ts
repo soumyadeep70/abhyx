@@ -25,7 +25,7 @@ const STATUS_SEVERITY: Record<Judge0SubmissionStatus, number> = {
 export async function submitCode(params: {
   userId: string;
   questionId: string;
-  language: 'python' | 'javascript' | 'java' | 'cpp';
+  language: 'python' | 'javascript' | 'java' | 'cpp' | 'sql';
   sourceCode: string;
   timeTakenSeconds?: number;
   hintsUsed: number;

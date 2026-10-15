@@ -73,7 +73,8 @@ backend/
       migrations/*.sql        numbered, hand-written schema migrations,
                                001 → 009, applied in order and tracked in
                                a `schema_migrations` table
-      seeds/*.sql              reference + sample content data
+      seeds/*.sql              reference data + the question bank, one file per topic
+                               (idempotent upserts; see seeds/README.md)
     middlewares/
       auth.ts                  requireAuth / requireRole / requireSelfOrAdmin
       validate.ts              wraps a zod schema as Express middleware
@@ -263,7 +264,7 @@ the compose network, and `AI_SERVICE_BASE_URL` defaults to it.
 npm install
 cp .env.example .env          # point DATABASE_URL at your own Postgres
 npm run migrate               # applies src/db/migrations/*.sql in order
-npm run seed                  # companies/tiers/topics/badges + sample questions
+npm run seed                  # reference data + 372 questions (src/db/seeds/README.md); safe to re-run
 npm run mock-ai               # in a second terminal — see §7
 npm run dev                   # tsx watch mode
 ```

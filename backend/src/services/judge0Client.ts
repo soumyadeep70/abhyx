@@ -115,4 +115,5 @@ export const JUDGE0_LANGUAGE_IDS: Record<string, number> = {
   javascript: 63,
   java: 62,
   cpp: 54,
+  sql: 82, // SQLite 3.27 - used by the SQL topic; the whole script (schema + query) is the submission
 };
