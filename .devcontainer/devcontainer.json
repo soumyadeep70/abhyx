@@ -34,7 +34,8 @@
         "eamodio.gitlens",
         "christian-kohler.path-intellisense",
         "mikestead.dotenv",
-        "yoavbls.pretty-ts-errors"
+        "yoavbls.pretty-ts-errors",
+        "ms-azuretools.vscode-containers"
       ],
 
       "settings": {
