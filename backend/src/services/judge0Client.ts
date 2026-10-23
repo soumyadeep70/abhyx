@@ -1,7 +1,7 @@
-import axios from 'axios';
-import { env } from '../config/env';
-import { logger } from '../utils/logger';
-import { ApiError } from '../utils/ApiError';
+import axios from "axios";
+import { env } from "../config/env";
+import { logger } from "../utils/logger";
+import { ApiError } from "../utils/ApiError";
 
 /**
  * Judge0 CE client. Submissions are created, then polled until Judge0 reports
@@ -10,12 +10,21 @@ import { ApiError } from '../utils/ApiError';
  * in the HLD without a public callback URL.
  */
 
+const isRapidAPI = Boolean(env.JUDGE0_API_HOST);
+
 const client = axios.create({
   baseURL: env.JUDGE0_BASE_URL,
   headers: {
-    'Content-Type': 'application/json',
+    "Content-Type": "application/json",
     ...(env.JUDGE0_API_KEY
-      ? { 'X-RapidAPI-Key': env.JUDGE0_API_KEY, 'X-RapidAPI-Host': env.JUDGE0_API_HOST }
+      ? isRapidAPI
+        ? {
+            "X-RapidAPI-Key": env.JUDGE0_API_KEY,
+            "X-RapidAPI-Host": env.JUDGE0_API_HOST,
+          }
+        : {
+            "X-Auth-Token": env.JUDGE0_API_KEY,
+          }
       : {}),
   },
   timeout: 15000,
@@ -26,20 +35,20 @@ const client = axios.create({
 const TERMINAL_STATUS_IDS = new Set([3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14]);
 
 export type Judge0SubmissionStatus =
-  | 'accepted'
-  | 'wrong_answer'
-  | 'tle'
-  | 'compile_error'
-  | 'runtime_error'
-  | 'pending';
+  | "accepted"
+  | "wrong_answer"
+  | "tle"
+  | "compile_error"
+  | "runtime_error"
+  | "pending";
 
 export function mapJudge0Status(statusId: number): Judge0SubmissionStatus {
-  if (statusId === 3) return 'accepted';
-  if (statusId === 4) return 'wrong_answer';
-  if (statusId === 5) return 'tle';
-  if (statusId === 6) return 'compile_error';
-  if (statusId >= 7 && statusId <= 12) return 'runtime_error';
-  return 'pending';
+  if (statusId === 3) return "accepted";
+  if (statusId === 4) return "wrong_answer";
+  if (statusId === 5) return "tle";
+  if (statusId === 6) return "compile_error";
+  if (statusId >= 7 && statusId <= 12) return "runtime_error";
+  return "pending";
 }
 
 export interface Judge0CreateResult {
@@ -55,18 +64,23 @@ export async function createSubmission(params: {
   memoryLimitKb?: number;
 }): Promise<Judge0CreateResult> {
   try {
-    const { data } = await client.post('/submissions?base64_encoded=false&wait=false', {
-      language_id: params.languageId,
-      source_code: params.sourceCode,
-      stdin: params.stdin,
-      expected_output: params.expectedOutput,
-      cpu_time_limit: params.timeLimitSeconds ?? 2,
-      memory_limit: params.memoryLimitKb ?? 131072,
-    });
+    const { data } = await client.post(
+      "/submissions?base64_encoded=false&wait=false",
+      {
+        language_id: params.languageId,
+        source_code: params.sourceCode,
+        stdin: params.stdin,
+        expected_output: params.expectedOutput,
+        cpu_time_limit: params.timeLimitSeconds ?? 2,
+        memory_limit: params.memoryLimitKb ?? 131072,
+      },
+    );
     return { token: data.token };
   } catch (err: any) {
-    logger.error({ err: err?.message }, 'Judge0 submission creation failed');
-    throw ApiError.badGateway('Judge0 submission failed', { upstream: err?.response?.data });
+    logger.error({ err: err?.message }, "Judge0 submission creation failed");
+    throw ApiError.badGateway("Judge0 submission failed", {
+      upstream: err?.response?.data,
+    });
   }
 }
 
@@ -80,9 +94,11 @@ export interface Judge0Result {
   memory: number | null; // KB
 }
 
-export async function getSubmissionResult(token: string): Promise<Judge0Result> {
+export async function getSubmissionResult(
+  token: string,
+): Promise<Judge0Result> {
   const { data } = await client.get(
-    `/submissions/${token}?base64_encoded=false&fields=status,stdout,stderr,compile_output,time,memory`
+    `/submissions/${token}?base64_encoded=false&fields=status,stdout,stderr,compile_output,time,memory`,
   );
   return {
     statusId: data.status?.id,
@@ -106,7 +122,7 @@ export async function pollUntilDone(token: string): Promise<Judge0Result> {
     if (isTerminal(result.statusId)) return result;
     await new Promise((r) => setTimeout(r, env.JUDGE0_POLL_INTERVAL_MS));
   }
-  throw ApiError.badGateway('Judge0 submission timed out waiting for a result');
+  throw ApiError.badGateway("Judge0 submission timed out waiting for a result");
 }
 
 // Common Judge0 language IDs used by this platform (CE instance defaults).

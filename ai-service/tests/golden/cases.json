@@ -1,0 +1,5453 @@
+{
+ "_meta": "Recorded from the original Node mock-ai-service/server.js over HTTP.",
+ "cases": [
+  {
+   "name": "resume/empty-object",
+   "method": "POST",
+   "path": "/resume/analyze",
+   "raw_body": "{}",
+   "status": 200,
+   "response": {
+    "ats_score": 5,
+    "skills_present": [],
+    "skills_missing": [
+     "javascript",
+     "typescript",
+     "python",
+     "java",
+     "react",
+     "node"
+    ],
+    "keyword_gaps": [
+     "javascript",
+     "typescript",
+     "python"
+    ],
+    "summary": "Resume text is very short; the mock analyzer could not extract much signal."
+   }
+  },
+  {
+   "name": "resume/empty-string",
+   "method": "POST",
+   "path": "/resume/analyze",
+   "raw_body": "{\"resume_text\": \"\"}",
+   "status": 200,
+   "response": {
+    "ats_score": 5,
+    "skills_present": [],
+    "skills_missing": [
+     "javascript",
+     "typescript",
+     "python",
+     "java",
+     "react",
+     "node"
+    ],
+    "keyword_gaps": [
+     "javascript",
+     "typescript",
+     "python"
+    ],
+    "summary": "Resume text is very short; the mock analyzer could not extract much signal."
+   }
+  },
+  {
+   "name": "resume/short",
+   "method": "POST",
+   "path": "/resume/analyze",
+   "raw_body": "{\"resume_text\": \"python dev\"}",
+   "status": 200,
+   "response": {
+    "ats_score": 5,
+    "skills_present": [
+     "python"
+    ],
+    "skills_missing": [
+     "javascript",
+     "typescript",
+     "java",
+     "react",
+     "node",
+     "express"
+    ],
+    "keyword_gaps": [
+     "javascript",
+     "typescript",
+     "java"
+    ],
+    "summary": "Resume text is very short; the mock analyzer could not extract much signal."
+   }
+  },
+  {
+   "name": "resume/spec-example",
+   "method": "POST",
+   "path": "/resume/analyze",
+   "raw_body": "{\"resume_text\": \"Experienced in javascript, react, node, docker, git and sql.\"}",
+   "status": 200,
+   "response": {
+    "ats_score": 21,
+    "skills_present": [
+     "javascript",
+     "react",
+     "node",
+     "sql",
+     "docker",
+     "git"
+    ],
+    "skills_missing": [
+     "typescript",
+     "python",
+     "java",
+     "express",
+     "postgresql",
+     "kubernetes"
+    ],
+    "keyword_gaps": [
+     "typescript",
+     "python",
+     "java"
+    ],
+    "summary": "Mock analysis found 6 recognized skill keyword(s) and estimates an ATS score of 21."
+   }
+  },
+  {
+   "name": "resume/rich-long",
+   "method": "POST",
+   "path": "/resume/analyze",
+   "raw_body": "{\"resume_text\": \"javascript typescript react node express sql postgresql docker kubernetes aws git rest graphql testing ci cd padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding \"}",
+   "status": 200,
+   "response": {
+    "ats_score": 87,
+    "skills_present": [
+     "javascript",
+     "typescript",
+     "react",
+     "node",
+     "express",
+     "sql",
+     "postgresql",
+     "docker",
+     "kubernetes",
+     "aws",
+     "git",
+     "rest",
+     "graphql",
+     "testing",
+     "ci",
+     "cd"
+    ],
+    "skills_missing": [
+     "python",
+     "java"
+    ],
+    "keyword_gaps": [
+     "python",
+     "java"
+    ],
+    "summary": "Mock analysis found 16 recognized skill keyword(s) and estimates an ATS score of 87."
+   }
+  },
+  {
+   "name": "resume/case-and-punct",
+   "method": "POST",
+   "path": "/resume/analyze",
+   "raw_body": "{\"resume_text\": \"PYTHON/Java; Node.js, C++ & AWS-cloud, ci_cd, REST-ful PYTHON/Java; Node.js, C++ & AWS-cloud, ci_cd, REST-ful PYTHON/Java; Node.js, C++ & AWS-cloud, ci_cd, REST-ful \"}",
+   "status": 200,
+   "response": {
+    "ats_score": 20,
+    "skills_present": [
+     "python",
+     "java",
+     "node",
+     "aws",
+     "rest"
+    ],
+    "skills_missing": [
+     "javascript",
+     "typescript",
+     "react",
+     "express",
+     "sql",
+     "postgresql"
+    ],
+    "keyword_gaps": [
+     "javascript",
+     "typescript",
+     "react"
+    ],
+    "summary": "Mock analysis found 5 recognized skill keyword(s) and estimates an ATS score of 20."
+   }
+  },
+  {
+   "name": "resume/underscore-is-word",
+   "method": "POST",
+   "path": "/resume/analyze",
+   "raw_body": "{\"resume_text\": \"python_dev java_script git\"}",
+   "status": 200,
+   "response": {
+    "ats_score": 5,
+    "skills_present": [
+     "git"
+    ],
+    "skills_missing": [
+     "javascript",
+     "typescript",
+     "python",
+     "java",
+     "react",
+     "node"
+    ],
+    "keyword_gaps": [
+     "javascript",
+     "typescript",
+     "python"
+    ],
+    "summary": "Resume text is very short; the mock analyzer could not extract much signal."
+   }
+  },
+  {
+   "name": "resume/unicode-letters",
+   "method": "POST",
+   "path": "/resume/analyze",
+   "raw_body": "{\"resume_text\": \"caf\\u00e9 python r\\u00e9sum\\u00e9 java caf\\u00e9 python r\\u00e9sum\\u00e9 java caf\\u00e9 python r\\u00e9sum\\u00e9 java caf\\u00e9 python r\\u00e9sum\\u00e9 java caf\\u00e9 python r\\u00e9sum\\u00e9 java \"}",
+   "status": 200,
+   "response": {
+    "ats_score": 9,
+    "skills_present": [
+     "python",
+     "java"
+    ],
+    "skills_missing": [
+     "javascript",
+     "typescript",
+     "react",
+     "node",
+     "express",
+     "sql"
+    ],
+    "keyword_gaps": [
+     "javascript",
+     "typescript",
+     "react"
+    ],
+    "summary": "Mock analysis found 2 recognized skill keyword(s) and estimates an ATS score of 9."
+   }
+  },
+  {
+   "name": "resume/emoji-utf16-length",
+   "method": "POST",
+   "path": "/resume/analyze",
+   "raw_body": "{\"resume_text\": \"\\ud83d\\ude00\\ud83d\\ude00\\ud83d\\ude00\\ud83d\\ude00\\ud83d\\ude00\\ud83d\\ude00\\ud83d\\ude00\\ud83d\\ude00\\ud83d\\ude00\\ud83d\\ude00\\ud83d\\ude00\\ud83d\\ude00\\ud83d\\ude00\\ud83d\\ude00\\ud83d\\ude00\\ud83d\\ude00\\ud83d\\ude00\\ud83d\\ude00\\ud83d\\ude00\\ud83d\\ude00\\ud83d\\ude00\\ud83d\\ude00\\ud83d\\ude00\\ud83d\\ude00\\ud83d\\ude00\\ud83d\\ude00\\ud83d\\ude00\\ud83d\\ude00\\ud83d\\ude00\\ud83d\\ude00 python\"}",
+   "status": 200,
+   "response": {
+    "ats_score": 5,
+    "skills_present": [
+     "python"
+    ],
+    "skills_missing": [
+     "javascript",
+     "typescript",
+     "java",
+     "react",
+     "node",
+     "express"
+    ],
+    "keyword_gaps": [
+     "javascript",
+     "typescript",
+     "java"
+    ],
+    "summary": "Mock analysis found 1 recognized skill keyword(s) and estimates an ATS score of 5."
+   }
+  },
+  {
+   "name": "resume/emoji-just-under-50",
+   "method": "POST",
+   "path": "/resume/analyze",
+   "raw_body": "{\"resume_text\": \"\\ud83d\\ude00\\ud83d\\ude00\\ud83d\\ude00\\ud83d\\ude00\\ud83d\\ude00\\ud83d\\ude00\\ud83d\\ude00\\ud83d\\ude00\\ud83d\\ude00\\ud83d\\ude00\\ud83d\\ude00\\ud83d\\ude00\\ud83d\\ude00\\ud83d\\ude00\\ud83d\\ude00\\ud83d\\ude00\\ud83d\\ude00\\ud83d\\ude00\\ud83d\\ude00\\ud83d\\ude00\\ud83d\\ude00\\ud83d\\ude00\\ud83d\\ude00\\ud83d\\ude00\"}",
+   "status": 200,
+   "response": {
+    "ats_score": 5,
+    "skills_present": [],
+    "skills_missing": [
+     "javascript",
+     "typescript",
+     "python",
+     "java",
+     "react",
+     "node"
+    ],
+    "keyword_gaps": [
+     "javascript",
+     "typescript",
+     "python"
+    ],
+    "summary": "Resume text is very short; the mock analyzer could not extract much signal."
+   }
+  },
+  {
+   "name": "resume/number-text",
+   "method": "POST",
+   "path": "/resume/analyze",
+   "raw_body": "{\"resume_text\": 12345}",
+   "status": 200,
+   "response": {
+    "ats_score": 5,
+    "skills_present": [],
+    "skills_missing": [
+     "javascript",
+     "typescript",
+     "python",
+     "java",
+     "react",
+     "node"
+    ],
+    "keyword_gaps": [
+     "javascript",
+     "typescript",
+     "python"
+    ],
+    "summary": "Resume text is very short; the mock analyzer could not extract much signal."
+   }
+  },
+  {
+   "name": "resume/true-text",
+   "method": "POST",
+   "path": "/resume/analyze",
+   "raw_body": "{\"resume_text\": true}",
+   "status": 200,
+   "response": {
+    "ats_score": 5,
+    "skills_present": [],
+    "skills_missing": [
+     "javascript",
+     "typescript",
+     "python",
+     "java",
+     "react",
+     "node"
+    ],
+    "keyword_gaps": [
+     "javascript",
+     "typescript",
+     "python"
+    ],
+    "summary": "Resume text is very short; the mock analyzer could not extract much signal."
+   }
+  },
+  {
+   "name": "resume/false-text",
+   "method": "POST",
+   "path": "/resume/analyze",
+   "raw_body": "{\"resume_text\": false}",
+   "status": 200,
+   "response": {
+    "ats_score": 5,
+    "skills_present": [],
+    "skills_missing": [
+     "javascript",
+     "typescript",
+     "python",
+     "java",
+     "react",
+     "node"
+    ],
+    "keyword_gaps": [
+     "javascript",
+     "typescript",
+     "python"
+    ],
+    "summary": "Resume text is very short; the mock analyzer could not extract much signal."
+   }
+  },
+  {
+   "name": "resume/list-text",
+   "method": "POST",
+   "path": "/resume/analyze",
+   "raw_body": "{\"resume_text\": [\"python\", \"java\"]}",
+   "status": 200,
+   "response": {
+    "ats_score": 7,
+    "skills_present": [
+     "python",
+     "java"
+    ],
+    "skills_missing": [
+     "javascript",
+     "typescript",
+     "react",
+     "node",
+     "express",
+     "sql"
+    ],
+    "keyword_gaps": [
+     "javascript",
+     "typescript",
+     "react"
+    ],
+    "summary": "Resume text is very short; the mock analyzer could not extract much signal."
+   }
+  },
+  {
+   "name": "resume/dict-text",
+   "method": "POST",
+   "path": "/resume/analyze",
+   "raw_body": "{\"resume_text\": {\"a\": 1}}",
+   "status": 200,
+   "response": {
+    "ats_score": 5,
+    "skills_present": [],
+    "skills_missing": [
+     "javascript",
+     "typescript",
+     "python",
+     "java",
+     "react",
+     "node"
+    ],
+    "keyword_gaps": [
+     "javascript",
+     "typescript",
+     "python"
+    ],
+    "summary": "Resume text is very short; the mock analyzer could not extract much signal."
+   }
+  },
+  {
+   "name": "resume/all-skills-huge",
+   "method": "POST",
+   "path": "/resume/analyze",
+   "raw_body": "{\"resume_text\": \"javascript typescript python java react node express sql postgresql docker kubernetes aws git rest graphql testing ci cd javascript typescript python java react node express sql postgresql docker kubernetes aws git rest graphql testing ci cd javascript typescript python java react node express sql postgresql docker kubernetes aws git rest graphql testing ci cd javascript typescript python java react node express sql postgresql docker kubernetes aws git rest graphql testing ci cd javascript typescript python java react node express sql postgresql docker kubernetes aws git rest graphql testing ci cd javascript typescript python java react node express sql postgresql docker kubernetes aws git rest graphql testing ci cd javascript typescript python java react node express sql postgresql docker kubernetes aws git rest graphql testing ci cd javascript typescript python java react node express sql postgresql docker kubernetes aws git rest graphql testing ci cd javascript typescript python java react node express sql postgresql docker kubernetes aws git rest graphql testing ci cd javascript typescript python java react node express sql postgresql docker kubernetes aws git rest graphql testing ci cd javascript typescript python java react node express sql postgresql docker kubernetes aws git rest graphql testing ci cd javascript typescript python java react node express sql postgresql docker kubernetes aws git rest graphql testing ci cd javascript typescript python java react node express sql postgresql docker kubernetes aws git rest graphql testing ci cd javascript typescript python java react node express sql postgresql docker kubernetes aws git rest graphql testing ci cd javascript typescript python java react node express sql postgresql docker kubernetes aws git rest graphql testing ci cd javascript typescript python java react node express sql postgresql docker kubernetes aws git rest graphql testing ci cd javascript typescript python java react node express sql postgresql docker kubernetes aws git rest graphql testing ci cd javascript typescript python java react node express sql postgresql docker kubernetes aws git rest graphql testing ci cd javascript typescript python java react node express sql postgresql docker kubernetes aws git rest graphql testing ci cd javascript typescript python java react node express sql postgresql docker kubernetes aws git rest graphql testing ci cd javascript typescript python java react node express sql postgresql docker kubernetes aws git rest graphql testing ci cd javascript typescript python java react node express sql postgresql docker kubernetes aws git rest graphql testing ci cd javascript typescript python java react node express sql postgresql docker kubernetes aws git rest graphql testing ci cd javascript typescript python java react node express sql postgresql docker kubernetes aws git rest graphql testing ci cd javascript typescript python java react node express sql postgresql docker kubernetes aws git rest graphql testing ci cd javascript typescript python java react node express sql postgresql docker kubernetes aws git rest graphql testing ci cd javascript typescript python java react node express sql postgresql docker kubernetes aws git rest graphql testing ci cd javascript typescript python java react node express sql postgresql docker kubernetes aws git rest graphql testing ci cd javascript typescript python java react node express sql postgresql docker kubernetes aws git rest graphql testing ci cd javascript typescript python java react node express sql postgresql docker kubernetes aws git rest graphql testing ci cd javascript typescript python java react node express sql postgresql docker kubernetes aws git rest graphql testing ci cd javascript typescript python java react node express sql postgresql docker kubernetes aws git rest graphql testing ci cd javascript typescript python java react node express sql postgresql docker kubernetes aws git rest graphql testing ci cd javascript typescript python java react node express sql postgresql docker kubernetes aws git rest graphql testing ci cd javascript typescript python java react node express sql postgresql docker kubernetes aws git rest graphql testing ci cd javascript typescript python java react node express sql postgresql docker kubernetes aws git rest graphql testing ci cd javascript typescript python java react node express sql postgresql docker kubernetes aws git rest graphql testing ci cd javascript typescript python java react node express sql postgresql docker kubernetes aws git rest graphql testing ci cd javascript typescript python java react node express sql postgresql docker kubernetes aws git rest graphql testing ci cd javascript typescript python java react node express sql postgresql docker kubernetes aws git rest graphql testing ci cd\"}",
+   "status": 200,
+   "response": {
+    "ats_score": 98,
+    "skills_present": [
+     "javascript",
+     "typescript",
+     "python",
+     "java",
+     "react",
+     "node",
+     "express",
+     "sql",
+     "postgresql",
+     "docker",
+     "kubernetes",
+     "aws",
+     "git",
+     "rest",
+     "graphql",
+     "testing",
+     "ci",
+     "cd"
+    ],
+    "skills_missing": [],
+    "keyword_gaps": [],
+    "summary": "Mock analysis found 18 recognized skill keyword(s) and estimates an ATS score of 98."
+   }
+  },
+  {
+   "name": "resume/length-exactly-50",
+   "method": "POST",
+   "path": "/resume/analyze",
+   "raw_body": "{\"resume_text\": \"xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx\"}",
+   "status": 200,
+   "response": {
+    "ats_score": 5,
+    "skills_present": [],
+    "skills_missing": [
+     "javascript",
+     "typescript",
+     "python",
+     "java",
+     "react",
+     "node"
+    ],
+    "keyword_gaps": [
+     "javascript",
+     "typescript",
+     "python"
+    ],
+    "summary": "Mock analysis found 0 recognized skill keyword(s) and estimates an ATS score of 5."
+   }
+  },
+  {
+   "name": "resume/length-49",
+   "method": "POST",
+   "path": "/resume/analyze",
+   "raw_body": "{\"resume_text\": \"xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx\"}",
+   "status": 200,
+   "response": {
+    "ats_score": 5,
+    "skills_present": [],
+    "skills_missing": [
+     "javascript",
+     "typescript",
+     "python",
+     "java",
+     "react",
+     "node"
+    ],
+    "keyword_gaps": [
+     "javascript",
+     "typescript",
+     "python"
+    ],
+    "summary": "Resume text is very short; the mock analyzer could not extract much signal."
+   }
+  },
+  {
+   "name": "resume/rounding-half",
+   "method": "POST",
+   "path": "/resume/analyze",
+   "raw_body": "{\"resume_text\": \"xxxxxxxxxxxxxxxxxxxxxxxxx\"}",
+   "status": 200,
+   "response": {
+    "ats_score": 5,
+    "skills_present": [],
+    "skills_missing": [
+     "javascript",
+     "typescript",
+     "python",
+     "java",
+     "react",
+     "node"
+    ],
+    "keyword_gaps": [
+     "javascript",
+     "typescript",
+     "python"
+    ],
+    "summary": "Resume text is very short; the mock analyzer could not extract much signal."
+   }
+  },
+  {
+   "name": "interview/empty-technical",
+   "method": "POST",
+   "path": "/interview/score",
+   "raw_body": "{\"question\": \"Explain closures\", \"answer\": \"\", \"round_type\": \"technical\"}",
+   "status": 200,
+   "response": {
+    "technical_accuracy": 45,
+    "communication_clarity": 38,
+    "problem_solving_approach": 45,
+    "depth_of_knowledge": 35,
+    "hr_readiness": null,
+    "feedback": "Answer was quite brief. Mock feedback: elaborate with a concrete example next time.",
+    "follow_up_question": "Mock follow-up: can you walk through a specific example of that?"
+   }
+  },
+  {
+   "name": "interview/empty-hr",
+   "method": "POST",
+   "path": "/interview/score",
+   "raw_body": "{\"question\": \"Explain closures\", \"answer\": \"\", \"round_type\": \"hr\"}",
+   "status": 200,
+   "response": {
+    "technical_accuracy": 45,
+    "communication_clarity": 38,
+    "problem_solving_approach": 45,
+    "depth_of_knowledge": 35,
+    "hr_readiness": 40,
+    "feedback": "Answer was quite brief. Mock feedback: elaborate with a concrete example next time.",
+    "follow_up_question": "Mock follow-up: can you walk through a specific example of that?"
+   }
+  },
+  {
+   "name": "interview/short-technical",
+   "method": "POST",
+   "path": "/interview/score",
+   "raw_body": "{\"question\": \"Explain closures\", \"answer\": \"ok\", \"round_type\": \"technical\"}",
+   "status": 200,
+   "response": {
+    "technical_accuracy": 45,
+    "communication_clarity": 38,
+    "problem_solving_approach": 45,
+    "depth_of_knowledge": 35,
+    "hr_readiness": null,
+    "feedback": "Answer was quite brief. Mock feedback: elaborate with a concrete example next time.",
+    "follow_up_question": "Mock follow-up: can you walk through a specific example of that?"
+   }
+  },
+  {
+   "name": "interview/short-hr",
+   "method": "POST",
+   "path": "/interview/score",
+   "raw_body": "{\"question\": \"Explain closures\", \"answer\": \"ok\", \"round_type\": \"hr\"}",
+   "status": 200,
+   "response": {
+    "technical_accuracy": 45,
+    "communication_clarity": 38,
+    "problem_solving_approach": 45,
+    "depth_of_knowledge": 35,
+    "hr_readiness": 40,
+    "feedback": "Answer was quite brief. Mock feedback: elaborate with a concrete example next time.",
+    "follow_up_question": "Mock follow-up: can you walk through a specific example of that?"
+   }
+  },
+  {
+   "name": "interview/19-technical",
+   "method": "POST",
+   "path": "/interview/score",
+   "raw_body": "{\"question\": \"Explain closures\", \"answer\": \"aaaaaaaaaaaaaaaaaaa\", \"round_type\": \"technical\"}",
+   "status": 200,
+   "response": {
+    "technical_accuracy": 47,
+    "communication_clarity": 40,
+    "problem_solving_approach": 47,
+    "depth_of_knowledge": 37,
+    "hr_readiness": null,
+    "feedback": "Answer was quite brief. Mock feedback: elaborate with a concrete example next time.",
+    "follow_up_question": "Mock follow-up: can you walk through a specific example of that?"
+   }
+  },
+  {
+   "name": "interview/19-hr",
+   "method": "POST",
+   "path": "/interview/score",
+   "raw_body": "{\"question\": \"Explain closures\", \"answer\": \"aaaaaaaaaaaaaaaaaaa\", \"round_type\": \"hr\"}",
+   "status": 200,
+   "response": {
+    "technical_accuracy": 47,
+    "communication_clarity": 40,
+    "problem_solving_approach": 47,
+    "depth_of_knowledge": 37,
+    "hr_readiness": 42,
+    "feedback": "Answer was quite brief. Mock feedback: elaborate with a concrete example next time.",
+    "follow_up_question": "Mock follow-up: can you walk through a specific example of that?"
+   }
+  },
+  {
+   "name": "interview/20-technical",
+   "method": "POST",
+   "path": "/interview/score",
+   "raw_body": "{\"question\": \"Explain closures\", \"answer\": \"aaaaaaaaaaaaaaaaaaaa\", \"round_type\": \"technical\"}",
+   "status": 200,
+   "response": {
+    "technical_accuracy": 47,
+    "communication_clarity": 40,
+    "problem_solving_approach": 47,
+    "depth_of_knowledge": 37,
+    "hr_readiness": null,
+    "feedback": "Mock feedback: solid structure. Consider quantifying impact where possible.",
+    "follow_up_question": "Mock follow-up: can you walk through a specific example of that?"
+   }
+  },
+  {
+   "name": "interview/20-hr",
+   "method": "POST",
+   "path": "/interview/score",
+   "raw_body": "{\"question\": \"Explain closures\", \"answer\": \"aaaaaaaaaaaaaaaaaaaa\", \"round_type\": \"hr\"}",
+   "status": 200,
+   "response": {
+    "technical_accuracy": 47,
+    "communication_clarity": 40,
+    "problem_solving_approach": 47,
+    "depth_of_knowledge": 37,
+    "hr_readiness": 42,
+    "feedback": "Mock feedback: solid structure. Consider quantifying impact where possible.",
+    "follow_up_question": "Mock follow-up: can you walk through a specific example of that?"
+   }
+  },
+  {
+   "name": "interview/long-technical",
+   "method": "POST",
+   "path": "/interview/score",
+   "raw_body": "{\"question\": \"Explain closures\", \"answer\": \"word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word \", \"round_type\": \"technical\"}",
+   "status": 200,
+   "response": {
+    "technical_accuracy": 100,
+    "communication_clarity": 93,
+    "problem_solving_approach": 100,
+    "depth_of_knowledge": 90,
+    "hr_readiness": null,
+    "feedback": "Mock feedback: solid structure. Consider quantifying impact where possible.",
+    "follow_up_question": "Mock follow-up: can you walk through a specific example of that?"
+   }
+  },
+  {
+   "name": "interview/long-hr",
+   "method": "POST",
+   "path": "/interview/score",
+   "raw_body": "{\"question\": \"Explain closures\", \"answer\": \"word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word \", \"round_type\": \"hr\"}",
+   "status": 200,
+   "response": {
+    "technical_accuracy": 100,
+    "communication_clarity": 93,
+    "problem_solving_approach": 100,
+    "depth_of_knowledge": 90,
+    "hr_readiness": 95,
+    "feedback": "Mock feedback: solid structure. Consider quantifying impact where possible.",
+    "follow_up_question": "Mock follow-up: can you walk through a specific example of that?"
+   }
+  },
+  {
+   "name": "interview/huge-technical",
+   "method": "POST",
+   "path": "/interview/score",
+   "raw_body": "{\"question\": \"Explain closures\", \"answer\": \"zzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzz\", \"round_type\": \"technical\"}",
+   "status": 200,
+   "response": {
+    "technical_accuracy": 100,
+    "communication_clarity": 93,
+    "problem_solving_approach": 100,
+    "depth_of_knowledge": 90,
+    "hr_readiness": null,
+    "feedback": "Mock feedback: solid structure. Consider quantifying impact where possible.",
+    "follow_up_question": "Mock follow-up: can you walk through a specific example of that?"
+   }
+  },
+  {
+   "name": "interview/huge-hr",
+   "method": "POST",
+   "path": "/interview/score",
+   "raw_body": "{\"question\": \"Explain closures\", \"answer\": \"zzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzz\", \"round_type\": \"hr\"}",
+   "status": 200,
+   "response": {
+    "technical_accuracy": 100,
+    "communication_clarity": 93,
+    "problem_solving_approach": 100,
+    "depth_of_knowledge": 90,
+    "hr_readiness": 95,
+    "feedback": "Mock feedback: solid structure. Consider quantifying impact where possible.",
+    "follow_up_question": "Mock follow-up: can you walk through a specific example of that?"
+   }
+  },
+  {
+   "name": "interview/rounding-technical",
+   "method": "POST",
+   "path": "/interview/score",
+   "raw_body": "{\"question\": \"Explain closures\", \"answer\": \"aaaaaaaaaaaaaaaaaaaaaaaaa\", \"round_type\": \"technical\"}",
+   "status": 200,
+   "response": {
+    "technical_accuracy": 48,
+    "communication_clarity": 41,
+    "problem_solving_approach": 48,
+    "depth_of_knowledge": 38,
+    "hr_readiness": null,
+    "feedback": "Mock feedback: solid structure. Consider quantifying impact where possible.",
+    "follow_up_question": "Mock follow-up: can you walk through a specific example of that?"
+   }
+  },
+  {
+   "name": "interview/rounding-hr",
+   "method": "POST",
+   "path": "/interview/score",
+   "raw_body": "{\"question\": \"Explain closures\", \"answer\": \"aaaaaaaaaaaaaaaaaaaaaaaaa\", \"round_type\": \"hr\"}",
+   "status": 200,
+   "response": {
+    "technical_accuracy": 48,
+    "communication_clarity": 41,
+    "problem_solving_approach": 48,
+    "depth_of_knowledge": 38,
+    "hr_readiness": 43,
+    "feedback": "Mock feedback: solid structure. Consider quantifying impact where possible.",
+    "follow_up_question": "Mock follow-up: can you walk through a specific example of that?"
+   }
+  },
+  {
+   "name": "interview/emoji-technical",
+   "method": "POST",
+   "path": "/interview/score",
+   "raw_body": "{\"question\": \"Explain closures\", \"answer\": \"\\ud83d\\ude00\\ud83d\\ude00\\ud83d\\ude00\\ud83d\\ude00\\ud83d\\ude00\\ud83d\\ude00\\ud83d\\ude00\\ud83d\\ude00\\ud83d\\ude00\\ud83d\\ude00\\ud83d\\ude00\\ud83d\\ude00\", \"round_type\": \"technical\"}",
+   "status": 200,
+   "response": {
+    "technical_accuracy": 47,
+    "communication_clarity": 40,
+    "problem_solving_approach": 47,
+    "depth_of_knowledge": 37,
+    "hr_readiness": null,
+    "feedback": "Mock feedback: solid structure. Consider quantifying impact where possible.",
+    "follow_up_question": "Mock follow-up: can you walk through a specific example of that?"
+   }
+  },
+  {
+   "name": "interview/emoji-hr",
+   "method": "POST",
+   "path": "/interview/score",
+   "raw_body": "{\"question\": \"Explain closures\", \"answer\": \"\\ud83d\\ude00\\ud83d\\ude00\\ud83d\\ude00\\ud83d\\ude00\\ud83d\\ude00\\ud83d\\ude00\\ud83d\\ude00\\ud83d\\ude00\\ud83d\\ude00\\ud83d\\ude00\\ud83d\\ude00\\ud83d\\ude00\", \"round_type\": \"hr\"}",
+   "status": 200,
+   "response": {
+    "technical_accuracy": 47,
+    "communication_clarity": 40,
+    "problem_solving_approach": 47,
+    "depth_of_knowledge": 37,
+    "hr_readiness": 42,
+    "feedback": "Mock feedback: solid structure. Consider quantifying impact where possible.",
+    "follow_up_question": "Mock follow-up: can you walk through a specific example of that?"
+   }
+  },
+  {
+   "name": "interview/empty-object",
+   "method": "POST",
+   "path": "/interview/score",
+   "raw_body": "{}",
+   "status": 200,
+   "response": {
+    "technical_accuracy": 33,
+    "communication_clarity": 41,
+    "problem_solving_approach": 33,
+    "depth_of_knowledge": 41,
+    "hr_readiness": null,
+    "feedback": "Answer was quite brief. Mock feedback: elaborate with a concrete example next time.",
+    "follow_up_question": "Mock follow-up: can you walk through a specific example of that?"
+   }
+  },
+  {
+   "name": "interview/no-question",
+   "method": "POST",
+   "path": "/interview/score",
+   "raw_body": "{\"answer\": \"some answer text here that is long enough\"}",
+   "status": 200,
+   "response": {
+    "technical_accuracy": 37,
+    "communication_clarity": 45,
+    "problem_solving_approach": 37,
+    "depth_of_knowledge": 45,
+    "hr_readiness": null,
+    "feedback": "Mock feedback: solid structure. Consider quantifying impact where possible.",
+    "follow_up_question": "Mock follow-up: can you walk through a specific example of that?"
+   }
+  },
+  {
+   "name": "interview/unicode-question",
+   "method": "POST",
+   "path": "/interview/score",
+   "raw_body": "{\"question\": \"\\u00bfQu\\u00e9 es un cierre? \\ud83d\\ude00\", \"answer\": \"xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx\", \"round_type\": \"hr\"}",
+   "status": 200,
+   "response": {
+    "technical_accuracy": 46,
+    "communication_clarity": 53,
+    "problem_solving_approach": 46,
+    "depth_of_knowledge": 48,
+    "hr_readiness": 43,
+    "feedback": "Mock feedback: solid structure. Consider quantifying impact where possible.",
+    "follow_up_question": "Mock follow-up: can you walk through a specific example of that?"
+   }
+  },
+  {
+   "name": "interview/long-question",
+   "method": "POST",
+   "path": "/interview/score",
+   "raw_body": "{\"question\": \"qqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqq\", \"answer\": \"xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx\", \"round_type\": \"hr\"}",
+   "status": 200,
+   "response": {
+    "technical_accuracy": 50,
+    "communication_clarity": 42,
+    "problem_solving_approach": 50,
+    "depth_of_knowledge": 40,
+    "hr_readiness": 50,
+    "feedback": "Mock feedback: solid structure. Consider quantifying impact where possible.",
+    "follow_up_question": "Mock follow-up: can you walk through a specific example of that?"
+   }
+  },
+  {
+   "name": "interview/number-question",
+   "method": "POST",
+   "path": "/interview/score",
+   "raw_body": "{\"question\": 42, \"answer\": 12345678901234567890, \"round_type\": \"hr\"}",
+   "status": 200,
+   "response": {
+    "technical_accuracy": 47,
+    "communication_clarity": 40,
+    "problem_solving_approach": 47,
+    "depth_of_knowledge": 44,
+    "hr_readiness": 40,
+    "feedback": "Mock feedback: solid structure. Consider quantifying impact where possible.",
+    "follow_up_question": "Mock follow-up: can you walk through a specific example of that?"
+   }
+  },
+  {
+   "name": "interview/hr-uppercase",
+   "method": "POST",
+   "path": "/interview/score",
+   "raw_body": "{\"question\": \"Q\", \"answer\": \"xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx\", \"round_type\": \"HR\"}",
+   "status": 200,
+   "response": {
+    "technical_accuracy": 43,
+    "communication_clarity": 51,
+    "problem_solving_approach": 43,
+    "depth_of_knowledge": 39,
+    "hr_readiness": null,
+    "feedback": "Mock feedback: solid structure. Consider quantifying impact where possible.",
+    "follow_up_question": "Mock follow-up: can you walk through a specific example of that?"
+   }
+  },
+  {
+   "name": "interview/many-questions-hash-wrap",
+   "method": "POST",
+   "path": "/interview/score",
+   "raw_body": "{\"question\": \"The quick brown fox jumps over the lazy dog, repeatedly and with gusto.\", \"answer\": \"xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx\", \"round_type\": \"hr\"}",
+   "status": 200,
+   "response": {
+    "technical_accuracy": 45,
+    "communication_clarity": 53,
+    "problem_solving_approach": 45,
+    "depth_of_knowledge": 53,
+    "hr_readiness": 51,
+    "feedback": "Mock feedback: solid structure. Consider quantifying impact where possible.",
+    "follow_up_question": "Mock follow-up: can you walk through a specific example of that?"
+   }
+  },
+  {
+   "name": "interview/q0",
+   "method": "POST",
+   "path": "/interview/score",
+   "raw_body": "{\"question\": \"Question number 0: describe your approach\", \"answer\": \"\", \"round_type\": \"technical\"}",
+   "status": 200,
+   "response": {
+    "technical_accuracy": 37,
+    "communication_clarity": 44,
+    "problem_solving_approach": 37,
+    "depth_of_knowledge": 37,
+    "hr_readiness": null,
+    "feedback": "Answer was quite brief. Mock feedback: elaborate with a concrete example next time.",
+    "follow_up_question": "Mock follow-up: can you walk through a specific example of that?"
+   }
+  },
+  {
+   "name": "interview/q1",
+   "method": "POST",
+   "path": "/interview/score",
+   "raw_body": "{\"question\": \"Question number 1: describe your approach\", \"answer\": \"yyyyyyyyyyyyy\", \"round_type\": \"hr\"}",
+   "status": 200,
+   "response": {
+    "technical_accuracy": 41,
+    "communication_clarity": 48,
+    "problem_solving_approach": 41,
+    "depth_of_knowledge": 46,
+    "hr_readiness": 44,
+    "feedback": "Answer was quite brief. Mock feedback: elaborate with a concrete example next time.",
+    "follow_up_question": "Mock follow-up: can you walk through a specific example of that?"
+   }
+  },
+  {
+   "name": "interview/q2",
+   "method": "POST",
+   "path": "/interview/score",
+   "raw_body": "{\"question\": \"Question number 2: describe your approach\", \"answer\": \"yyyyyyyyyyyyyyyyyyyyyyyyyy\", \"round_type\": \"technical\"}",
+   "status": 200,
+   "response": {
+    "technical_accuracy": 41,
+    "communication_clarity": 49,
+    "problem_solving_approach": 41,
+    "depth_of_knowledge": 41,
+    "hr_readiness": null,
+    "feedback": "Mock feedback: solid structure. Consider quantifying impact where possible.",
+    "follow_up_question": "Mock follow-up: can you walk through a specific example of that?"
+   }
+  },
+  {
+   "name": "interview/q3",
+   "method": "POST",
+   "path": "/interview/score",
+   "raw_body": "{\"question\": \"Question number 3: describe your approach\", \"answer\": \"yyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyy\", \"round_type\": \"hr\"}",
+   "status": 200,
+   "response": {
+    "technical_accuracy": 39,
+    "communication_clarity": 47,
+    "problem_solving_approach": 39,
+    "depth_of_knowledge": 50,
+    "hr_readiness": 46,
+    "feedback": "Mock feedback: solid structure. Consider quantifying impact where possible.",
+    "follow_up_question": "Mock follow-up: can you walk through a specific example of that?"
+   }
+  },
+  {
+   "name": "interview/q4",
+   "method": "POST",
+   "path": "/interview/score",
+   "raw_body": "{\"question\": \"Question number 4: describe your approach\", \"answer\": \"yyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyy\", \"round_type\": \"technical\"}",
+   "status": 200,
+   "response": {
+    "technical_accuracy": 52,
+    "communication_clarity": 45,
+    "problem_solving_approach": 52,
+    "depth_of_knowledge": 44,
+    "hr_readiness": null,
+    "feedback": "Mock feedback: solid structure. Consider quantifying impact where possible.",
+    "follow_up_question": "Mock follow-up: can you walk through a specific example of that?"
+   }
+  },
+  {
+   "name": "interview/q5",
+   "method": "POST",
+   "path": "/interview/score",
+   "raw_body": "{\"question\": \"Question number 5: describe your approach\", \"answer\": \"yyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyy\", \"round_type\": \"hr\"}",
+   "status": 200,
+   "response": {
+    "technical_accuracy": 45,
+    "communication_clarity": 52,
+    "problem_solving_approach": 45,
+    "depth_of_knowledge": 54,
+    "hr_readiness": 43,
+    "feedback": "Mock feedback: solid structure. Consider quantifying impact where possible.",
+    "follow_up_question": "Mock follow-up: can you walk through a specific example of that?"
+   }
+  },
+  {
+   "name": "interview/q6",
+   "method": "POST",
+   "path": "/interview/score",
+   "raw_body": "{\"question\": \"Question number 6: describe your approach\", \"answer\": \"yyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyy\", \"round_type\": \"technical\"}",
+   "status": 200,
+   "response": {
+    "technical_accuracy": 49,
+    "communication_clarity": 41,
+    "problem_solving_approach": 49,
+    "depth_of_knowledge": 48,
+    "hr_readiness": null,
+    "feedback": "Mock feedback: solid structure. Consider quantifying impact where possible.",
+    "follow_up_question": "Mock follow-up: can you walk through a specific example of that?"
+   }
+  },
+  {
+   "name": "interview/q7",
+   "method": "POST",
+   "path": "/interview/score",
+   "raw_body": "{\"question\": \"Question number 7: describe your approach\", \"answer\": \"yyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyy\", \"round_type\": \"hr\"}",
+   "status": 200,
+   "response": {
+    "technical_accuracy": 53,
+    "communication_clarity": 45,
+    "problem_solving_approach": 53,
+    "depth_of_knowledge": 42,
+    "hr_readiness": 43,
+    "feedback": "Mock feedback: solid structure. Consider quantifying impact where possible.",
+    "follow_up_question": "Mock follow-up: can you walk through a specific example of that?"
+   }
+  },
+  {
+   "name": "interview/q8",
+   "method": "POST",
+   "path": "/interview/score",
+   "raw_body": "{\"question\": \"Question number 8: describe your approach\", \"answer\": \"yyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyy\", \"round_type\": \"technical\"}",
+   "status": 200,
+   "response": {
+    "technical_accuracy": 44,
+    "communication_clarity": 52,
+    "problem_solving_approach": 44,
+    "depth_of_knowledge": 51,
+    "hr_readiness": null,
+    "feedback": "Mock feedback: solid structure. Consider quantifying impact where possible.",
+    "follow_up_question": "Mock follow-up: can you walk through a specific example of that?"
+   }
+  },
+  {
+   "name": "interview/q9",
+   "method": "POST",
+   "path": "/interview/score",
+   "raw_body": "{\"question\": \"Question number 9: describe your approach\", \"answer\": \"yyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyy\", \"round_type\": \"hr\"}",
+   "status": 200,
+   "response": {
+    "technical_accuracy": 58,
+    "communication_clarity": 51,
+    "problem_solving_approach": 58,
+    "depth_of_knowledge": 46,
+    "hr_readiness": 56,
+    "feedback": "Mock feedback: solid structure. Consider quantifying impact where possible.",
+    "follow_up_question": "Mock follow-up: can you walk through a specific example of that?"
+   }
+  },
+  {
+   "name": "interview/q10",
+   "method": "POST",
+   "path": "/interview/score",
+   "raw_body": "{\"question\": \"Question number 10: describe your approach\", \"answer\": \"yyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyy\", \"round_type\": \"technical\"}",
+   "status": 200,
+   "response": {
+    "technical_accuracy": 57,
+    "communication_clarity": 50,
+    "problem_solving_approach": 57,
+    "depth_of_knowledge": 59,
+    "hr_readiness": null,
+    "feedback": "Mock feedback: solid structure. Consider quantifying impact where possible.",
+    "follow_up_question": "Mock follow-up: can you walk through a specific example of that?"
+   }
+  },
+  {
+   "name": "interview/q11",
+   "method": "POST",
+   "path": "/interview/score",
+   "raw_body": "{\"question\": \"Question number 11: describe your approach\", \"answer\": \"yyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyy\", \"round_type\": \"hr\"}",
+   "status": 200,
+   "response": {
+    "technical_accuracy": 55,
+    "communication_clarity": 48,
+    "problem_solving_approach": 55,
+    "depth_of_knowledge": 52,
+    "hr_readiness": 56,
+    "feedback": "Mock feedback: solid structure. Consider quantifying impact where possible.",
+    "follow_up_question": "Mock follow-up: can you walk through a specific example of that?"
+   }
+  },
+  {
+   "name": "interview/q12",
+   "method": "POST",
+   "path": "/interview/score",
+   "raw_body": "{\"question\": \"Question number 12: describe your approach\", \"answer\": \"yyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyy\", \"round_type\": \"technical\"}",
+   "status": 200,
+   "response": {
+    "technical_accuracy": 60,
+    "communication_clarity": 52,
+    "problem_solving_approach": 60,
+    "depth_of_knowledge": 61,
+    "hr_readiness": null,
+    "feedback": "Mock feedback: solid structure. Consider quantifying impact where possible.",
+    "follow_up_question": "Mock follow-up: can you walk through a specific example of that?"
+   }
+  },
+  {
+   "name": "interview/q13",
+   "method": "POST",
+   "path": "/interview/score",
+   "raw_body": "{\"question\": \"Question number 13: describe your approach\", \"answer\": \"yyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyy\", \"round_type\": \"hr\"}",
+   "status": 200,
+   "response": {
+    "technical_accuracy": 64,
+    "communication_clarity": 56,
+    "problem_solving_approach": 64,
+    "depth_of_knowledge": 54,
+    "hr_readiness": 60,
+    "feedback": "Mock feedback: solid structure. Consider quantifying impact where possible.",
+    "follow_up_question": "Mock follow-up: can you walk through a specific example of that?"
+   }
+  },
+  {
+   "name": "interview/q14",
+   "method": "POST",
+   "path": "/interview/score",
+   "raw_body": "{\"question\": \"Question number 14: describe your approach\", \"answer\": \"yyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyy\", \"round_type\": \"technical\"}",
+   "status": 200,
+   "response": {
+    "technical_accuracy": 53,
+    "communication_clarity": 60,
+    "problem_solving_approach": 53,
+    "depth_of_knowledge": 62,
+    "hr_readiness": null,
+    "feedback": "Mock feedback: solid structure. Consider quantifying impact where possible.",
+    "follow_up_question": "Mock follow-up: can you walk through a specific example of that?"
+   }
+  },
+  {
+   "name": "interview/q15",
+   "method": "POST",
+   "path": "/interview/score",
+   "raw_body": "{\"question\": \"Question number 15: describe your approach\", \"answer\": \"yyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyy\", \"round_type\": \"hr\"}",
+   "status": 200,
+   "response": {
+    "technical_accuracy": 63,
+    "communication_clarity": 56,
+    "problem_solving_approach": 63,
+    "depth_of_knowledge": 56,
+    "hr_readiness": 55,
+    "feedback": "Mock feedback: solid structure. Consider quantifying impact where possible.",
+    "follow_up_question": "Mock follow-up: can you walk through a specific example of that?"
+   }
+  },
+  {
+   "name": "interview/q16",
+   "method": "POST",
+   "path": "/interview/score",
+   "raw_body": "{\"question\": \"Question number 16: describe your approach\", \"answer\": \"yyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyy\", \"round_type\": \"technical\"}",
+   "status": 200,
+   "response": {
+    "technical_accuracy": 61,
+    "communication_clarity": 54,
+    "problem_solving_approach": 61,
+    "depth_of_knowledge": 64,
+    "hr_readiness": null,
+    "feedback": "Mock feedback: solid structure. Consider quantifying impact where possible.",
+    "follow_up_question": "Mock follow-up: can you walk through a specific example of that?"
+   }
+  },
+  {
+   "name": "interview/q17",
+   "method": "POST",
+   "path": "/interview/score",
+   "raw_body": "{\"question\": \"Question number 17: describe your approach\", \"answer\": \"yyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyy\", \"round_type\": \"hr\"}",
+   "status": 200,
+   "response": {
+    "technical_accuracy": 59,
+    "communication_clarity": 67,
+    "problem_solving_approach": 59,
+    "depth_of_knowledge": 57,
+    "hr_readiness": 68,
+    "feedback": "Mock feedback: solid structure. Consider quantifying impact where possible.",
+    "follow_up_question": "Mock follow-up: can you walk through a specific example of that?"
+   }
+  },
+  {
+   "name": "interview/q18",
+   "method": "POST",
+   "path": "/interview/score",
+   "raw_body": "{\"question\": \"Question number 18: describe your approach\", \"answer\": \"yyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyy\", \"round_type\": \"technical\"}",
+   "status": 200,
+   "response": {
+    "technical_accuracy": 57,
+    "communication_clarity": 65,
+    "problem_solving_approach": 57,
+    "depth_of_knowledge": 65,
+    "hr_readiness": null,
+    "feedback": "Mock feedback: solid structure. Consider quantifying impact where possible.",
+    "follow_up_question": "Mock follow-up: can you walk through a specific example of that?"
+   }
+  },
+  {
+   "name": "interview/q19",
+   "method": "POST",
+   "path": "/interview/score",
+   "raw_body": "{\"question\": \"Question number 19: describe your approach\", \"answer\": \"yyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyy\", \"round_type\": \"hr\"}",
+   "status": 200,
+   "response": {
+    "technical_accuracy": 61,
+    "communication_clarity": 68,
+    "problem_solving_approach": 61,
+    "depth_of_knowledge": 59,
+    "hr_readiness": 64,
+    "feedback": "Mock feedback: solid structure. Consider quantifying impact where possible.",
+    "follow_up_question": "Mock follow-up: can you walk through a specific example of that?"
+   }
+  },
+  {
+   "name": "interview/q20",
+   "method": "POST",
+   "path": "/interview/score",
+   "raw_body": "{\"question\": \"Question number 20: describe your approach\", \"answer\": \"yyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyy\", \"round_type\": \"technical\"}",
+   "status": 200,
+   "response": {
+    "technical_accuracy": 62,
+    "communication_clarity": 70,
+    "problem_solving_approach": 62,
+    "depth_of_knowledge": 64,
+    "hr_readiness": null,
+    "feedback": "Mock feedback: solid structure. Consider quantifying impact where possible.",
+    "follow_up_question": "Mock follow-up: can you walk through a specific example of that?"
+   }
+  },
+  {
+   "name": "interview/q21",
+   "method": "POST",
+   "path": "/interview/score",
+   "raw_body": "{\"question\": \"Question number 21: describe your approach\", \"answer\": \"yyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyy\", \"round_type\": \"hr\"}",
+   "status": 200,
+   "response": {
+    "technical_accuracy": 60,
+    "communication_clarity": 68,
+    "problem_solving_approach": 60,
+    "depth_of_knowledge": 72,
+    "hr_readiness": 74,
+    "feedback": "Mock feedback: solid structure. Consider quantifying impact where possible.",
+    "follow_up_question": "Mock follow-up: can you walk through a specific example of that?"
+   }
+  },
+  {
+   "name": "interview/q22",
+   "method": "POST",
+   "path": "/interview/score",
+   "raw_body": "{\"question\": \"Question number 22: describe your approach\", \"answer\": \"yyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyy\", \"round_type\": \"technical\"}",
+   "status": 200,
+   "response": {
+    "technical_accuracy": 66,
+    "communication_clarity": 73,
+    "problem_solving_approach": 66,
+    "depth_of_knowledge": 66,
+    "hr_readiness": null,
+    "feedback": "Mock feedback: solid structure. Consider quantifying impact where possible.",
+    "follow_up_question": "Mock follow-up: can you walk through a specific example of that?"
+   }
+  },
+  {
+   "name": "interview/q23",
+   "method": "POST",
+   "path": "/interview/score",
+   "raw_body": "{\"question\": \"Question number 23: describe your approach\", \"answer\": \"yyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyy\", \"round_type\": \"hr\"}",
+   "status": 200,
+   "response": {
+    "technical_accuracy": 70,
+    "communication_clarity": 77,
+    "problem_solving_approach": 70,
+    "depth_of_knowledge": 74,
+    "hr_readiness": 68,
+    "feedback": "Mock feedback: solid structure. Consider quantifying impact where possible.",
+    "follow_up_question": "Mock follow-up: can you walk through a specific example of that?"
+   }
+  },
+  {
+   "name": "interview/q24",
+   "method": "POST",
+   "path": "/interview/score",
+   "raw_body": "{\"question\": \"Question number 24: describe your approach\", \"answer\": \"yyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyy\", \"round_type\": \"technical\"}",
+   "status": 200,
+   "response": {
+    "technical_accuracy": 74,
+    "communication_clarity": 66,
+    "problem_solving_approach": 74,
+    "depth_of_knowledge": 67,
+    "hr_readiness": null,
+    "feedback": "Mock feedback: solid structure. Consider quantifying impact where possible.",
+    "follow_up_question": "Mock follow-up: can you walk through a specific example of that?"
+   }
+  },
+  {
+   "name": "roadmap/empty",
+   "method": "POST",
+   "path": "/roadmap/generate",
+   "raw_body": "{}",
+   "status": 200,
+   "response": {
+    "phases": [
+     {
+      "phase_number": 1,
+      "title": "General practice, week 1",
+      "topics": [
+       "Mixed review"
+      ],
+      "estimated_days": 7,
+      "resources": [
+       "Mock resource list for general review"
+      ]
+     },
+     {
+      "phase_number": 2,
+      "title": "General practice, week 2",
+      "topics": [
+       "Mixed review"
+      ],
+      "estimated_days": 7,
+      "resources": [
+       "Mock resource list for general review"
+      ]
+     },
+     {
+      "phase_number": 3,
+      "title": "General practice, week 3",
+      "topics": [
+       "Mixed review"
+      ],
+      "estimated_days": 7,
+      "resources": [
+       "Mock resource list for general review"
+      ]
+     },
+     {
+      "phase_number": 4,
+      "title": "General practice, week 4",
+      "topics": [
+       "Mixed review"
+      ],
+      "estimated_days": 7,
+      "resources": [
+       "Mock resource list for general review"
+      ]
+     }
+    ]
+   }
+  },
+  {
+   "name": "roadmap/spec",
+   "method": "POST",
+   "path": "/roadmap/generate",
+   "raw_body": "{\"weak_topics\": [\"DP\", \"Graphs\", \"Trees\", \"Greedy\"], \"weeks_available\": 2}",
+   "status": 200,
+   "response": {
+    "phases": [
+     {
+      "phase_number": 1,
+      "title": "Focus: DP, Graphs",
+      "topics": [
+       "DP",
+       "Graphs"
+      ],
+      "estimated_days": 7,
+      "resources": [
+       "Mock resource list for DP"
+      ]
+     },
+     {
+      "phase_number": 2,
+      "title": "Focus: Trees, Greedy",
+      "topics": [
+       "Trees",
+       "Greedy"
+      ],
+      "estimated_days": 7,
+      "resources": [
+       "Mock resource list for Trees"
+      ]
+     }
+    ]
+   }
+  },
+  {
+   "name": "roadmap/more-weeks-than-topics",
+   "method": "POST",
+   "path": "/roadmap/generate",
+   "raw_body": "{\"weak_topics\": [\"DP\"], \"weeks_available\": 5}",
+   "status": 200,
+   "response": {
+    "phases": [
+     {
+      "phase_number": 1,
+      "title": "Focus: DP",
+      "topics": [
+       "DP"
+      ],
+      "estimated_days": 7,
+      "resources": [
+       "Mock resource list for DP"
+      ]
+     },
+     {
+      "phase_number": 2,
+      "title": "General practice, week 2",
+      "topics": [
+       "Mixed review"
+      ],
+      "estimated_days": 7,
+      "resources": [
+       "Mock resource list for general review"
+      ]
+     },
+     {
+      "phase_number": 3,
+      "title": "General practice, week 3",
+      "topics": [
+       "Mixed review"
+      ],
+      "estimated_days": 7,
+      "resources": [
+       "Mock resource list for general review"
+      ]
+     },
+     {
+      "phase_number": 4,
+      "title": "General practice, week 4",
+      "topics": [
+       "Mixed review"
+      ],
+      "estimated_days": 7,
+      "resources": [
+       "Mock resource list for general review"
+      ]
+     },
+     {
+      "phase_number": 5,
+      "title": "General practice, week 5",
+      "topics": [
+       "Mixed review"
+      ],
+      "estimated_days": 7,
+      "resources": [
+       "Mock resource list for general review"
+      ]
+     }
+    ]
+   }
+  },
+  {
+   "name": "roadmap/default-weeks",
+   "method": "POST",
+   "path": "/roadmap/generate",
+   "raw_body": "{\"weak_topics\": [\"a\", \"b\", \"c\", \"d\", \"e\", \"f\", \"g\"]}",
+   "status": 200,
+   "response": {
+    "phases": [
+     {
+      "phase_number": 1,
+      "title": "Focus: a, b",
+      "topics": [
+       "a",
+       "b"
+      ],
+      "estimated_days": 7,
+      "resources": [
+       "Mock resource list for a"
+      ]
+     },
+     {
+      "phase_number": 2,
+      "title": "Focus: c, d",
+      "topics": [
+       "c",
+       "d"
+      ],
+      "estimated_days": 7,
+      "resources": [
+       "Mock resource list for c"
+      ]
+     },
+     {
+      "phase_number": 3,
+      "title": "Focus: e, f",
+      "topics": [
+       "e",
+       "f"
+      ],
+      "estimated_days": 7,
+      "resources": [
+       "Mock resource list for e"
+      ]
+     },
+     {
+      "phase_number": 4,
+      "title": "Focus: g",
+      "topics": [
+       "g"
+      ],
+      "estimated_days": 7,
+      "resources": [
+       "Mock resource list for g"
+      ]
+     }
+    ]
+   }
+  },
+  {
+   "name": "roadmap/uneven",
+   "method": "POST",
+   "path": "/roadmap/generate",
+   "raw_body": "{\"weak_topics\": [\"a\", \"b\", \"c\", \"d\", \"e\"], \"weeks_available\": 3}",
+   "status": 200,
+   "response": {
+    "phases": [
+     {
+      "phase_number": 1,
+      "title": "Focus: a, b",
+      "topics": [
+       "a",
+       "b"
+      ],
+      "estimated_days": 7,
+      "resources": [
+       "Mock resource list for a"
+      ]
+     },
+     {
+      "phase_number": 2,
+      "title": "Focus: c, d",
+      "topics": [
+       "c",
+       "d"
+      ],
+      "estimated_days": 7,
+      "resources": [
+       "Mock resource list for c"
+      ]
+     },
+     {
+      "phase_number": 3,
+      "title": "Focus: e",
+      "topics": [
+       "e"
+      ],
+      "estimated_days": 7,
+      "resources": [
+       "Mock resource list for e"
+      ]
+     }
+    ]
+   }
+  },
+  {
+   "name": "roadmap/zero-weeks",
+   "method": "POST",
+   "path": "/roadmap/generate",
+   "raw_body": "{\"weak_topics\": [\"a\"], \"weeks_available\": 0}",
+   "status": 200,
+   "response": {
+    "phases": [
+     {
+      "phase_number": 1,
+      "title": "Focus: a",
+      "topics": [
+       "a"
+      ],
+      "estimated_days": 7,
+      "resources": [
+       "Mock resource list for a"
+      ]
+     },
+     {
+      "phase_number": 2,
+      "title": "General practice, week 2",
+      "topics": [
+       "Mixed review"
+      ],
+      "estimated_days": 7,
+      "resources": [
+       "Mock resource list for general review"
+      ]
+     },
+     {
+      "phase_number": 3,
+      "title": "General practice, week 3",
+      "topics": [
+       "Mixed review"
+      ],
+      "estimated_days": 7,
+      "resources": [
+       "Mock resource list for general review"
+      ]
+     },
+     {
+      "phase_number": 4,
+      "title": "General practice, week 4",
+      "topics": [
+       "Mixed review"
+      ],
+      "estimated_days": 7,
+      "resources": [
+       "Mock resource list for general review"
+      ]
+     }
+    ]
+   }
+  },
+  {
+   "name": "roadmap/negative-weeks",
+   "method": "POST",
+   "path": "/roadmap/generate",
+   "raw_body": "{\"weak_topics\": [\"a\"], \"weeks_available\": -3}",
+   "status": 200,
+   "response": {
+    "phases": [
+     {
+      "phase_number": 1,
+      "title": "Focus: a",
+      "topics": [
+       "a"
+      ],
+      "estimated_days": 7,
+      "resources": [
+       "Mock resource list for a"
+      ]
+     },
+     {
+      "phase_number": 2,
+      "title": "General practice, week 2",
+      "topics": [
+       "Mixed review"
+      ],
+      "estimated_days": 7,
+      "resources": [
+       "Mock resource list for general review"
+      ]
+     },
+     {
+      "phase_number": 3,
+      "title": "General practice, week 3",
+      "topics": [
+       "Mixed review"
+      ],
+      "estimated_days": 7,
+      "resources": [
+       "Mock resource list for general review"
+      ]
+     },
+     {
+      "phase_number": 4,
+      "title": "General practice, week 4",
+      "topics": [
+       "Mixed review"
+      ],
+      "estimated_days": 7,
+      "resources": [
+       "Mock resource list for general review"
+      ]
+     }
+    ]
+   }
+  },
+  {
+   "name": "roadmap/string-weeks",
+   "method": "POST",
+   "path": "/roadmap/generate",
+   "raw_body": "{\"weak_topics\": [\"a\", \"b\"], \"weeks_available\": \"2\"}",
+   "status": 200,
+   "response": {
+    "phases": [
+     {
+      "phase_number": 1,
+      "title": "Focus: a",
+      "topics": [
+       "a"
+      ],
+      "estimated_days": 7,
+      "resources": [
+       "Mock resource list for a"
+      ]
+     },
+     {
+      "phase_number": 2,
+      "title": "Focus: b",
+      "topics": [
+       "b"
+      ],
+      "estimated_days": 7,
+      "resources": [
+       "Mock resource list for b"
+      ]
+     }
+    ]
+   }
+  },
+  {
+   "name": "roadmap/garbage-weeks",
+   "method": "POST",
+   "path": "/roadmap/generate",
+   "raw_body": "{\"weak_topics\": [\"a\", \"b\"], \"weeks_available\": \"abc\"}",
+   "status": 200,
+   "response": {
+    "phases": [
+     {
+      "phase_number": 1,
+      "title": "Focus: a",
+      "topics": [
+       "a"
+      ],
+      "estimated_days": 7,
+      "resources": [
+       "Mock resource list for a"
+      ]
+     },
+     {
+      "phase_number": 2,
+      "title": "Focus: b",
+      "topics": [
+       "b"
+      ],
+      "estimated_days": 7,
+      "resources": [
+       "Mock resource list for b"
+      ]
+     },
+     {
+      "phase_number": 3,
+      "title": "General practice, week 3",
+      "topics": [
+       "Mixed review"
+      ],
+      "estimated_days": 7,
+      "resources": [
+       "Mock resource list for general review"
+      ]
+     },
+     {
+      "phase_number": 4,
+      "title": "General practice, week 4",
+      "topics": [
+       "Mixed review"
+      ],
+      "estimated_days": 7,
+      "resources": [
+       "Mock resource list for general review"
+      ]
+     }
+    ]
+   }
+  },
+  {
+   "name": "roadmap/blank-weeks",
+   "method": "POST",
+   "path": "/roadmap/generate",
+   "raw_body": "{\"weak_topics\": [\"a\", \"b\"], \"weeks_available\": \"  \"}",
+   "status": 200,
+   "response": {
+    "phases": [
+     {
+      "phase_number": 1,
+      "title": "Focus: a",
+      "topics": [
+       "a"
+      ],
+      "estimated_days": 7,
+      "resources": [
+       "Mock resource list for a"
+      ]
+     },
+     {
+      "phase_number": 2,
+      "title": "Focus: b",
+      "topics": [
+       "b"
+      ],
+      "estimated_days": 7,
+      "resources": [
+       "Mock resource list for b"
+      ]
+     },
+     {
+      "phase_number": 3,
+      "title": "General practice, week 3",
+      "topics": [
+       "Mixed review"
+      ],
+      "estimated_days": 7,
+      "resources": [
+       "Mock resource list for general review"
+      ]
+     },
+     {
+      "phase_number": 4,
+      "title": "General practice, week 4",
+      "topics": [
+       "Mixed review"
+      ],
+      "estimated_days": 7,
+      "resources": [
+       "Mock resource list for general review"
+      ]
+     }
+    ]
+   }
+  },
+  {
+   "name": "roadmap/hex-weeks",
+   "method": "POST",
+   "path": "/roadmap/generate",
+   "raw_body": "{\"weak_topics\": [\"a\", \"b\"], \"weeks_available\": \"0x3\"}",
+   "status": 200,
+   "response": {
+    "phases": [
+     {
+      "phase_number": 1,
+      "title": "Focus: a",
+      "topics": [
+       "a"
+      ],
+      "estimated_days": 7,
+      "resources": [
+       "Mock resource list for a"
+      ]
+     },
+     {
+      "phase_number": 2,
+      "title": "Focus: b",
+      "topics": [
+       "b"
+      ],
+      "estimated_days": 7,
+      "resources": [
+       "Mock resource list for b"
+      ]
+     },
+     {
+      "phase_number": 3,
+      "title": "General practice, week 3",
+      "topics": [
+       "Mixed review"
+      ],
+      "estimated_days": 7,
+      "resources": [
+       "Mock resource list for general review"
+      ]
+     }
+    ]
+   }
+  },
+  {
+   "name": "roadmap/true-weeks",
+   "method": "POST",
+   "path": "/roadmap/generate",
+   "raw_body": "{\"weak_topics\": [\"a\", \"b\"], \"weeks_available\": true}",
+   "status": 200,
+   "response": {
+    "phases": [
+     {
+      "phase_number": 1,
+      "title": "Focus: a, b",
+      "topics": [
+       "a",
+       "b"
+      ],
+      "estimated_days": 7,
+      "resources": [
+       "Mock resource list for a"
+      ]
+     }
+    ]
+   }
+  },
+  {
+   "name": "roadmap/null-weeks",
+   "method": "POST",
+   "path": "/roadmap/generate",
+   "raw_body": "{\"weak_topics\": [\"a\", \"b\"], \"weeks_available\": null}",
+   "status": 200,
+   "response": {
+    "phases": [
+     {
+      "phase_number": 1,
+      "title": "Focus: a",
+      "topics": [
+       "a"
+      ],
+      "estimated_days": 7,
+      "resources": [
+       "Mock resource list for a"
+      ]
+     },
+     {
+      "phase_number": 2,
+      "title": "Focus: b",
+      "topics": [
+       "b"
+      ],
+      "estimated_days": 7,
+      "resources": [
+       "Mock resource list for b"
+      ]
+     },
+     {
+      "phase_number": 3,
+      "title": "General practice, week 3",
+      "topics": [
+       "Mixed review"
+      ],
+      "estimated_days": 7,
+      "resources": [
+       "Mock resource list for general review"
+      ]
+     },
+     {
+      "phase_number": 4,
+      "title": "General practice, week 4",
+      "topics": [
+       "Mixed review"
+      ],
+      "estimated_days": 7,
+      "resources": [
+       "Mock resource list for general review"
+      ]
+     }
+    ]
+   }
+  },
+  {
+   "name": "roadmap/list-weeks",
+   "method": "POST",
+   "path": "/roadmap/generate",
+   "raw_body": "{\"weak_topics\": [\"a\", \"b\"], \"weeks_available\": [3]}",
+   "status": 200,
+   "response": {
+    "phases": [
+     {
+      "phase_number": 1,
+      "title": "Focus: a",
+      "topics": [
+       "a"
+      ],
+      "estimated_days": 7,
+      "resources": [
+       "Mock resource list for a"
+      ]
+     },
+     {
+      "phase_number": 2,
+      "title": "Focus: b",
+      "topics": [
+       "b"
+      ],
+      "estimated_days": 7,
+      "resources": [
+       "Mock resource list for b"
+      ]
+     },
+     {
+      "phase_number": 3,
+      "title": "General practice, week 3",
+      "topics": [
+       "Mixed review"
+      ],
+      "estimated_days": 7,
+      "resources": [
+       "Mock resource list for general review"
+      ]
+     }
+    ]
+   }
+  },
+  {
+   "name": "roadmap/fractional-weeks",
+   "method": "POST",
+   "path": "/roadmap/generate",
+   "raw_body": "{\"weak_topics\": [\"a\", \"b\", \"c\", \"d\", \"e\"], \"weeks_available\": 2.5}",
+   "status": 200,
+   "response": {
+    "phases": [
+     {
+      "phase_number": 1,
+      "title": "Focus: a, b",
+      "topics": [
+       "a",
+       "b"
+      ],
+      "estimated_days": 7,
+      "resources": [
+       "Mock resource list for a"
+      ]
+     },
+     {
+      "phase_number": 2,
+      "title": "Focus: c, d",
+      "topics": [
+       "c",
+       "d"
+      ],
+      "estimated_days": 7,
+      "resources": [
+       "Mock resource list for c"
+      ]
+     },
+     {
+      "phase_number": 3,
+      "title": "Focus: e",
+      "topics": [
+       "e"
+      ],
+      "estimated_days": 7,
+      "resources": [
+       "Mock resource list for e"
+      ]
+     }
+    ]
+   }
+  },
+  {
+   "name": "roadmap/tiny-fractional-weeks",
+   "method": "POST",
+   "path": "/roadmap/generate",
+   "raw_body": "{\"weak_topics\": [\"a\", \"b\", \"c\"], \"weeks_available\": 0.5}",
+   "status": 200,
+   "response": {
+    "phases": [
+     {
+      "phase_number": 1,
+      "title": "Focus: a, b, c",
+      "topics": [
+       "a",
+       "b",
+       "c"
+      ],
+      "estimated_days": 7,
+      "resources": [
+       "Mock resource list for a"
+      ]
+     }
+    ]
+   }
+  },
+  {
+   "name": "roadmap/integral-float-weeks",
+   "method": "POST",
+   "path": "/roadmap/generate",
+   "raw_body": "{\"weak_topics\": [\"a\", \"b\"], \"weeks_available\": 2.0}",
+   "status": 200,
+   "response": {
+    "phases": [
+     {
+      "phase_number": 1,
+      "title": "Focus: a",
+      "topics": [
+       "a"
+      ],
+      "estimated_days": 7,
+      "resources": [
+       "Mock resource list for a"
+      ]
+     },
+     {
+      "phase_number": 2,
+      "title": "Focus: b",
+      "topics": [
+       "b"
+      ],
+      "estimated_days": 7,
+      "resources": [
+       "Mock resource list for b"
+      ]
+     }
+    ]
+   }
+  },
+  {
+   "name": "roadmap/exp-weeks",
+   "method": "POST",
+   "path": "/roadmap/generate",
+   "raw_body": "{\"weak_topics\": [\"a\", \"b\"], \"weeks_available\": 2.0}",
+   "status": 200,
+   "response": {
+    "phases": [
+     {
+      "phase_number": 1,
+      "title": "Focus: a",
+      "topics": [
+       "a"
+      ],
+      "estimated_days": 7,
+      "resources": [
+       "Mock resource list for a"
+      ]
+     },
+     {
+      "phase_number": 2,
+      "title": "Focus: b",
+      "topics": [
+       "b"
+      ],
+      "estimated_days": 7,
+      "resources": [
+       "Mock resource list for b"
+      ]
+     }
+    ]
+   }
+  },
+  {
+   "name": "roadmap/not-array-topics",
+   "method": "POST",
+   "path": "/roadmap/generate",
+   "raw_body": "{\"weak_topics\": \"DP\", \"weeks_available\": 2}",
+   "status": 200,
+   "response": {
+    "phases": [
+     {
+      "phase_number": 1,
+      "title": "General practice, week 1",
+      "topics": [
+       "Mixed review"
+      ],
+      "estimated_days": 7,
+      "resources": [
+       "Mock resource list for general review"
+      ]
+     },
+     {
+      "phase_number": 2,
+      "title": "General practice, week 2",
+      "topics": [
+       "Mixed review"
+      ],
+      "estimated_days": 7,
+      "resources": [
+       "Mock resource list for general review"
+      ]
+     }
+    ]
+   }
+  },
+  {
+   "name": "roadmap/object-topics",
+   "method": "POST",
+   "path": "/roadmap/generate",
+   "raw_body": "{\"weak_topics\": {\"a\": 1}, \"weeks_available\": 2}",
+   "status": 200,
+   "response": {
+    "phases": [
+     {
+      "phase_number": 1,
+      "title": "General practice, week 1",
+      "topics": [
+       "Mixed review"
+      ],
+      "estimated_days": 7,
+      "resources": [
+       "Mock resource list for general review"
+      ]
+     },
+     {
+      "phase_number": 2,
+      "title": "General practice, week 2",
+      "topics": [
+       "Mixed review"
+      ],
+      "estimated_days": 7,
+      "resources": [
+       "Mock resource list for general review"
+      ]
+     }
+    ]
+   }
+  },
+  {
+   "name": "roadmap/mixed-topics",
+   "method": "POST",
+   "path": "/roadmap/generate",
+   "raw_body": "{\"weak_topics\": [1, \"a\", null, true, 2.5, 2.0, [1, 2], {\"k\": \"v\"}, 0, \"\"], \"weeks_available\": 4}",
+   "status": 200,
+   "response": {
+    "phases": [
+     {
+      "phase_number": 1,
+      "title": "Focus: 1, a, ",
+      "topics": [
+       1,
+       "a",
+       null
+      ],
+      "estimated_days": 7,
+      "resources": [
+       "Mock resource list for 1"
+      ]
+     },
+     {
+      "phase_number": 2,
+      "title": "Focus: true, 2.5, 2",
+      "topics": [
+       true,
+       2.5,
+       2
+      ],
+      "estimated_days": 7,
+      "resources": [
+       "Mock resource list for true"
+      ]
+     },
+     {
+      "phase_number": 3,
+      "title": "Focus: 1,2, [object Object], 0",
+      "topics": [
+       [
+        1,
+        2
+       ],
+       {
+        "k": "v"
+       },
+       0
+      ],
+      "estimated_days": 7,
+      "resources": [
+       "Mock resource list for 1,2"
+      ]
+     },
+     {
+      "phase_number": 4,
+      "title": "Focus: ",
+      "topics": [
+       ""
+      ],
+      "estimated_days": 7,
+      "resources": [
+       "Mock resource list for general review"
+      ]
+     }
+    ]
+   }
+  },
+  {
+   "name": "roadmap/falsy-first-topic",
+   "method": "POST",
+   "path": "/roadmap/generate",
+   "raw_body": "{\"weak_topics\": [0, \"b\"], \"weeks_available\": 2}",
+   "status": 200,
+   "response": {
+    "phases": [
+     {
+      "phase_number": 1,
+      "title": "Focus: 0",
+      "topics": [
+       0
+      ],
+      "estimated_days": 7,
+      "resources": [
+       "Mock resource list for general review"
+      ]
+     },
+     {
+      "phase_number": 2,
+      "title": "Focus: b",
+      "topics": [
+       "b"
+      ],
+      "estimated_days": 7,
+      "resources": [
+       "Mock resource list for b"
+      ]
+     }
+    ]
+   }
+  },
+  {
+   "name": "roadmap/null-first-topic",
+   "method": "POST",
+   "path": "/roadmap/generate",
+   "raw_body": "{\"weak_topics\": [null, \"b\"], \"weeks_available\": 2}",
+   "status": 200,
+   "response": {
+    "phases": [
+     {
+      "phase_number": 1,
+      "title": "Focus: ",
+      "topics": [
+       null
+      ],
+      "estimated_days": 7,
+      "resources": [
+       "Mock resource list for general review"
+      ]
+     },
+     {
+      "phase_number": 2,
+      "title": "Focus: b",
+      "topics": [
+       "b"
+      ],
+      "estimated_days": 7,
+      "resources": [
+       "Mock resource list for b"
+      ]
+     }
+    ]
+   }
+  },
+  {
+   "name": "roadmap/empty-string-first",
+   "method": "POST",
+   "path": "/roadmap/generate",
+   "raw_body": "{\"weak_topics\": [\"\", \"b\"], \"weeks_available\": 2}",
+   "status": 200,
+   "response": {
+    "phases": [
+     {
+      "phase_number": 1,
+      "title": "Focus: ",
+      "topics": [
+       ""
+      ],
+      "estimated_days": 7,
+      "resources": [
+       "Mock resource list for general review"
+      ]
+     },
+     {
+      "phase_number": 2,
+      "title": "Focus: b",
+      "topics": [
+       "b"
+      ],
+      "estimated_days": 7,
+      "resources": [
+       "Mock resource list for b"
+      ]
+     }
+    ]
+   }
+  },
+  {
+   "name": "roadmap/52-weeks",
+   "method": "POST",
+   "path": "/roadmap/generate",
+   "raw_body": "{\"weak_topics\": [\"a\", \"a\", \"a\", \"a\", \"a\", \"a\", \"a\", \"a\", \"a\", \"a\"], \"weeks_available\": 52}",
+   "status": 200,
+   "response": {
+    "phases": [
+     {
+      "phase_number": 1,
+      "title": "Focus: a",
+      "topics": [
+       "a"
+      ],
+      "estimated_days": 7,
+      "resources": [
+       "Mock resource list for a"
+      ]
+     },
+     {
+      "phase_number": 2,
+      "title": "Focus: a",
+      "topics": [
+       "a"
+      ],
+      "estimated_days": 7,
+      "resources": [
+       "Mock resource list for a"
+      ]
+     },
+     {
+      "phase_number": 3,
+      "title": "Focus: a",
+      "topics": [
+       "a"
+      ],
+      "estimated_days": 7,
+      "resources": [
+       "Mock resource list for a"
+      ]
+     },
+     {
+      "phase_number": 4,
+      "title": "Focus: a",
+      "topics": [
+       "a"
+      ],
+      "estimated_days": 7,
+      "resources": [
+       "Mock resource list for a"
+      ]
+     },
+     {
+      "phase_number": 5,
+      "title": "Focus: a",
+      "topics": [
+       "a"
+      ],
+      "estimated_days": 7,
+      "resources": [
+       "Mock resource list for a"
+      ]
+     },
+     {
+      "phase_number": 6,
+      "title": "Focus: a",
+      "topics": [
+       "a"
+      ],
+      "estimated_days": 7,
+      "resources": [
+       "Mock resource list for a"
+      ]
+     },
+     {
+      "phase_number": 7,
+      "title": "Focus: a",
+      "topics": [
+       "a"
+      ],
+      "estimated_days": 7,
+      "resources": [
+       "Mock resource list for a"
+      ]
+     },
+     {
+      "phase_number": 8,
+      "title": "Focus: a",
+      "topics": [
+       "a"
+      ],
+      "estimated_days": 7,
+      "resources": [
+       "Mock resource list for a"
+      ]
+     },
+     {
+      "phase_number": 9,
+      "title": "Focus: a",
+      "topics": [
+       "a"
+      ],
+      "estimated_days": 7,
+      "resources": [
+       "Mock resource list for a"
+      ]
+     },
+     {
+      "phase_number": 10,
+      "title": "Focus: a",
+      "topics": [
+       "a"
+      ],
+      "estimated_days": 7,
+      "resources": [
+       "Mock resource list for a"
+      ]
+     },
+     {
+      "phase_number": 11,
+      "title": "General practice, week 11",
+      "topics": [
+       "Mixed review"
+      ],
+      "estimated_days": 7,
+      "resources": [
+       "Mock resource list for general review"
+      ]
+     },
+     {
+      "phase_number": 12,
+      "title": "General practice, week 12",
+      "topics": [
+       "Mixed review"
+      ],
+      "estimated_days": 7,
+      "resources": [
+       "Mock resource list for general review"
+      ]
+     },
+     {
+      "phase_number": 13,
+      "title": "General practice, week 13",
+      "topics": [
+       "Mixed review"
+      ],
+      "estimated_days": 7,
+      "resources": [
+       "Mock resource list for general review"
+      ]
+     },
+     {
+      "phase_number": 14,
+      "title": "General practice, week 14",
+      "topics": [
+       "Mixed review"
+      ],
+      "estimated_days": 7,
+      "resources": [
+       "Mock resource list for general review"
+      ]
+     },
+     {
+      "phase_number": 15,
+      "title": "General practice, week 15",
+      "topics": [
+       "Mixed review"
+      ],
+      "estimated_days": 7,
+      "resources": [
+       "Mock resource list for general review"
+      ]
+     },
+     {
+      "phase_number": 16,
+      "title": "General practice, week 16",
+      "topics": [
+       "Mixed review"
+      ],
+      "estimated_days": 7,
+      "resources": [
+       "Mock resource list for general review"
+      ]
+     },
+     {
+      "phase_number": 17,
+      "title": "General practice, week 17",
+      "topics": [
+       "Mixed review"
+      ],
+      "estimated_days": 7,
+      "resources": [
+       "Mock resource list for general review"
+      ]
+     },
+     {
+      "phase_number": 18,
+      "title": "General practice, week 18",
+      "topics": [
+       "Mixed review"
+      ],
+      "estimated_days": 7,
+      "resources": [
+       "Mock resource list for general review"
+      ]
+     },
+     {
+      "phase_number": 19,
+      "title": "General practice, week 19",
+      "topics": [
+       "Mixed review"
+      ],
+      "estimated_days": 7,
+      "resources": [
+       "Mock resource list for general review"
+      ]
+     },
+     {
+      "phase_number": 20,
+      "title": "General practice, week 20",
+      "topics": [
+       "Mixed review"
+      ],
+      "estimated_days": 7,
+      "resources": [
+       "Mock resource list for general review"
+      ]
+     },
+     {
+      "phase_number": 21,
+      "title": "General practice, week 21",
+      "topics": [
+       "Mixed review"
+      ],
+      "estimated_days": 7,
+      "resources": [
+       "Mock resource list for general review"
+      ]
+     },
+     {
+      "phase_number": 22,
+      "title": "General practice, week 22",
+      "topics": [
+       "Mixed review"
+      ],
+      "estimated_days": 7,
+      "resources": [
+       "Mock resource list for general review"
+      ]
+     },
+     {
+      "phase_number": 23,
+      "title": "General practice, week 23",
+      "topics": [
+       "Mixed review"
+      ],
+      "estimated_days": 7,
+      "resources": [
+       "Mock resource list for general review"
+      ]
+     },
+     {
+      "phase_number": 24,
+      "title": "General practice, week 24",
+      "topics": [
+       "Mixed review"
+      ],
+      "estimated_days": 7,
+      "resources": [
+       "Mock resource list for general review"
+      ]
+     },
+     {
+      "phase_number": 25,
+      "title": "General practice, week 25",
+      "topics": [
+       "Mixed review"
+      ],
+      "estimated_days": 7,
+      "resources": [
+       "Mock resource list for general review"
+      ]
+     },
+     {
+      "phase_number": 26,
+      "title": "General practice, week 26",
+      "topics": [
+       "Mixed review"
+      ],
+      "estimated_days": 7,
+      "resources": [
+       "Mock resource list for general review"
+      ]
+     },
+     {
+      "phase_number": 27,
+      "title": "General practice, week 27",
+      "topics": [
+       "Mixed review"
+      ],
+      "estimated_days": 7,
+      "resources": [
+       "Mock resource list for general review"
+      ]
+     },
+     {
+      "phase_number": 28,
+      "title": "General practice, week 28",
+      "topics": [
+       "Mixed review"
+      ],
+      "estimated_days": 7,
+      "resources": [
+       "Mock resource list for general review"
+      ]
+     },
+     {
+      "phase_number": 29,
+      "title": "General practice, week 29",
+      "topics": [
+       "Mixed review"
+      ],
+      "estimated_days": 7,
+      "resources": [
+       "Mock resource list for general review"
+      ]
+     },
+     {
+      "phase_number": 30,
+      "title": "General practice, week 30",
+      "topics": [
+       "Mixed review"
+      ],
+      "estimated_days": 7,
+      "resources": [
+       "Mock resource list for general review"
+      ]
+     },
+     {
+      "phase_number": 31,
+      "title": "General practice, week 31",
+      "topics": [
+       "Mixed review"
+      ],
+      "estimated_days": 7,
+      "resources": [
+       "Mock resource list for general review"
+      ]
+     },
+     {
+      "phase_number": 32,
+      "title": "General practice, week 32",
+      "topics": [
+       "Mixed review"
+      ],
+      "estimated_days": 7,
+      "resources": [
+       "Mock resource list for general review"
+      ]
+     },
+     {
+      "phase_number": 33,
+      "title": "General practice, week 33",
+      "topics": [
+       "Mixed review"
+      ],
+      "estimated_days": 7,
+      "resources": [
+       "Mock resource list for general review"
+      ]
+     },
+     {
+      "phase_number": 34,
+      "title": "General practice, week 34",
+      "topics": [
+       "Mixed review"
+      ],
+      "estimated_days": 7,
+      "resources": [
+       "Mock resource list for general review"
+      ]
+     },
+     {
+      "phase_number": 35,
+      "title": "General practice, week 35",
+      "topics": [
+       "Mixed review"
+      ],
+      "estimated_days": 7,
+      "resources": [
+       "Mock resource list for general review"
+      ]
+     },
+     {
+      "phase_number": 36,
+      "title": "General practice, week 36",
+      "topics": [
+       "Mixed review"
+      ],
+      "estimated_days": 7,
+      "resources": [
+       "Mock resource list for general review"
+      ]
+     },
+     {
+      "phase_number": 37,
+      "title": "General practice, week 37",
+      "topics": [
+       "Mixed review"
+      ],
+      "estimated_days": 7,
+      "resources": [
+       "Mock resource list for general review"
+      ]
+     },
+     {
+      "phase_number": 38,
+      "title": "General practice, week 38",
+      "topics": [
+       "Mixed review"
+      ],
+      "estimated_days": 7,
+      "resources": [
+       "Mock resource list for general review"
+      ]
+     },
+     {
+      "phase_number": 39,
+      "title": "General practice, week 39",
+      "topics": [
+       "Mixed review"
+      ],
+      "estimated_days": 7,
+      "resources": [
+       "Mock resource list for general review"
+      ]
+     },
+     {
+      "phase_number": 40,
+      "title": "General practice, week 40",
+      "topics": [
+       "Mixed review"
+      ],
+      "estimated_days": 7,
+      "resources": [
+       "Mock resource list for general review"
+      ]
+     },
+     {
+      "phase_number": 41,
+      "title": "General practice, week 41",
+      "topics": [
+       "Mixed review"
+      ],
+      "estimated_days": 7,
+      "resources": [
+       "Mock resource list for general review"
+      ]
+     },
+     {
+      "phase_number": 42,
+      "title": "General practice, week 42",
+      "topics": [
+       "Mixed review"
+      ],
+      "estimated_days": 7,
+      "resources": [
+       "Mock resource list for general review"
+      ]
+     },
+     {
+      "phase_number": 43,
+      "title": "General practice, week 43",
+      "topics": [
+       "Mixed review"
+      ],
+      "estimated_days": 7,
+      "resources": [
+       "Mock resource list for general review"
+      ]
+     },
+     {
+      "phase_number": 44,
+      "title": "General practice, week 44",
+      "topics": [
+       "Mixed review"
+      ],
+      "estimated_days": 7,
+      "resources": [
+       "Mock resource list for general review"
+      ]
+     },
+     {
+      "phase_number": 45,
+      "title": "General practice, week 45",
+      "topics": [
+       "Mixed review"
+      ],
+      "estimated_days": 7,
+      "resources": [
+       "Mock resource list for general review"
+      ]
+     },
+     {
+      "phase_number": 46,
+      "title": "General practice, week 46",
+      "topics": [
+       "Mixed review"
+      ],
+      "estimated_days": 7,
+      "resources": [
+       "Mock resource list for general review"
+      ]
+     },
+     {
+      "phase_number": 47,
+      "title": "General practice, week 47",
+      "topics": [
+       "Mixed review"
+      ],
+      "estimated_days": 7,
+      "resources": [
+       "Mock resource list for general review"
+      ]
+     },
+     {
+      "phase_number": 48,
+      "title": "General practice, week 48",
+      "topics": [
+       "Mixed review"
+      ],
+      "estimated_days": 7,
+      "resources": [
+       "Mock resource list for general review"
+      ]
+     },
+     {
+      "phase_number": 49,
+      "title": "General practice, week 49",
+      "topics": [
+       "Mixed review"
+      ],
+      "estimated_days": 7,
+      "resources": [
+       "Mock resource list for general review"
+      ]
+     },
+     {
+      "phase_number": 50,
+      "title": "General practice, week 50",
+      "topics": [
+       "Mixed review"
+      ],
+      "estimated_days": 7,
+      "resources": [
+       "Mock resource list for general review"
+      ]
+     },
+     {
+      "phase_number": 51,
+      "title": "General practice, week 51",
+      "topics": [
+       "Mixed review"
+      ],
+      "estimated_days": 7,
+      "resources": [
+       "Mock resource list for general review"
+      ]
+     },
+     {
+      "phase_number": 52,
+      "title": "General practice, week 52",
+      "topics": [
+       "Mixed review"
+      ],
+      "estimated_days": 7,
+      "resources": [
+       "Mock resource list for general review"
+      ]
+     }
+    ]
+   }
+  },
+  {
+   "name": "roadmap/104-weeks",
+   "method": "POST",
+   "path": "/roadmap/generate",
+   "raw_body": "{\"weak_topics\": [\"a\", \"a\", \"a\", \"a\", \"a\", \"a\", \"a\", \"a\", \"a\", \"a\"], \"weeks_available\": 104}",
+   "status": 200,
+   "response": {
+    "phases": [
+     {
+      "phase_number": 1,
+      "title": "Focus: a",
+      "topics": [
+       "a"
+      ],
+      "estimated_days": 7,
+      "resources": [
+       "Mock resource list for a"
+      ]
+     },
+     {
+      "phase_number": 2,
+      "title": "Focus: a",
+      "topics": [
+       "a"
+      ],
+      "estimated_days": 7,
+      "resources": [
+       "Mock resource list for a"
+      ]
+     },
+     {
+      "phase_number": 3,
+      "title": "Focus: a",
+      "topics": [
+       "a"
+      ],
+      "estimated_days": 7,
+      "resources": [
+       "Mock resource list for a"
+      ]
+     },
+     {
+      "phase_number": 4,
+      "title": "Focus: a",
+      "topics": [
+       "a"
+      ],
+      "estimated_days": 7,
+      "resources": [
+       "Mock resource list for a"
+      ]
+     },
+     {
+      "phase_number": 5,
+      "title": "Focus: a",
+      "topics": [
+       "a"
+      ],
+      "estimated_days": 7,
+      "resources": [
+       "Mock resource list for a"
+      ]
+     },
+     {
+      "phase_number": 6,
+      "title": "Focus: a",
+      "topics": [
+       "a"
+      ],
+      "estimated_days": 7,
+      "resources": [
+       "Mock resource list for a"
+      ]
+     },
+     {
+      "phase_number": 7,
+      "title": "Focus: a",
+      "topics": [
+       "a"
+      ],
+      "estimated_days": 7,
+      "resources": [
+       "Mock resource list for a"
+      ]
+     },
+     {
+      "phase_number": 8,
+      "title": "Focus: a",
+      "topics": [
+       "a"
+      ],
+      "estimated_days": 7,
+      "resources": [
+       "Mock resource list for a"
+      ]
+     },
+     {
+      "phase_number": 9,
+      "title": "Focus: a",
+      "topics": [
+       "a"
+      ],
+      "estimated_days": 7,
+      "resources": [
+       "Mock resource list for a"
+      ]
+     },
+     {
+      "phase_number": 10,
+      "title": "Focus: a",
+      "topics": [
+       "a"
+      ],
+      "estimated_days": 7,
+      "resources": [
+       "Mock resource list for a"
+      ]
+     },
+     {
+      "phase_number": 11,
+      "title": "General practice, week 11",
+      "topics": [
+       "Mixed review"
+      ],
+      "estimated_days": 7,
+      "resources": [
+       "Mock resource list for general review"
+      ]
+     },
+     {
+      "phase_number": 12,
+      "title": "General practice, week 12",
+      "topics": [
+       "Mixed review"
+      ],
+      "estimated_days": 7,
+      "resources": [
+       "Mock resource list for general review"
+      ]
+     },
+     {
+      "phase_number": 13,
+      "title": "General practice, week 13",
+      "topics": [
+       "Mixed review"
+      ],
+      "estimated_days": 7,
+      "resources": [
+       "Mock resource list for general review"
+      ]
+     },
+     {
+      "phase_number": 14,
+      "title": "General practice, week 14",
+      "topics": [
+       "Mixed review"
+      ],
+      "estimated_days": 7,
+      "resources": [
+       "Mock resource list for general review"
+      ]
+     },
+     {
+      "phase_number": 15,
+      "title": "General practice, week 15",
+      "topics": [
+       "Mixed review"
+      ],
+      "estimated_days": 7,
+      "resources": [
+       "Mock resource list for general review"
+      ]
+     },
+     {
+      "phase_number": 16,
+      "title": "General practice, week 16",
+      "topics": [
+       "Mixed review"
+      ],
+      "estimated_days": 7,
+      "resources": [
+       "Mock resource list for general review"
+      ]
+     },
+     {
+      "phase_number": 17,
+      "title": "General practice, week 17",
+      "topics": [
+       "Mixed review"
+      ],
+      "estimated_days": 7,
+      "resources": [
+       "Mock resource list for general review"
+      ]
+     },
+     {
+      "phase_number": 18,
+      "title": "General practice, week 18",
+      "topics": [
+       "Mixed review"
+      ],
+      "estimated_days": 7,
+      "resources": [
+       "Mock resource list for general review"
+      ]
+     },
+     {
+      "phase_number": 19,
+      "title": "General practice, week 19",
+      "topics": [
+       "Mixed review"
+      ],
+      "estimated_days": 7,
+      "resources": [
+       "Mock resource list for general review"
+      ]
+     },
+     {
+      "phase_number": 20,
+      "title": "General practice, week 20",
+      "topics": [
+       "Mixed review"
+      ],
+      "estimated_days": 7,
+      "resources": [
+       "Mock resource list for general review"
+      ]
+     },
+     {
+      "phase_number": 21,
+      "title": "General practice, week 21",
+      "topics": [
+       "Mixed review"
+      ],
+      "estimated_days": 7,
+      "resources": [
+       "Mock resource list for general review"
+      ]
+     },
+     {
+      "phase_number": 22,
+      "title": "General practice, week 22",
+      "topics": [
+       "Mixed review"
+      ],
+      "estimated_days": 7,
+      "resources": [
+       "Mock resource list for general review"
+      ]
+     },
+     {
+      "phase_number": 23,
+      "title": "General practice, week 23",
+      "topics": [
+       "Mixed review"
+      ],
+      "estimated_days": 7,
+      "resources": [
+       "Mock resource list for general review"
+      ]
+     },
+     {
+      "phase_number": 24,
+      "title": "General practice, week 24",
+      "topics": [
+       "Mixed review"
+      ],
+      "estimated_days": 7,
+      "resources": [
+       "Mock resource list for general review"
+      ]
+     },
+     {
+      "phase_number": 25,
+      "title": "General practice, week 25",
+      "topics": [
+       "Mixed review"
+      ],
+      "estimated_days": 7,
+      "resources": [
+       "Mock resource list for general review"
+      ]
+     },
+     {
+      "phase_number": 26,
+      "title": "General practice, week 26",
+      "topics": [
+       "Mixed review"
+      ],
+      "estimated_days": 7,
+      "resources": [
+       "Mock resource list for general review"
+      ]
+     },
+     {
+      "phase_number": 27,
+      "title": "General practice, week 27",
+      "topics": [
+       "Mixed review"
+      ],
+      "estimated_days": 7,
+      "resources": [
+       "Mock resource list for general review"
+      ]
+     },
+     {
+      "phase_number": 28,
+      "title": "General practice, week 28",
+      "topics": [
+       "Mixed review"
+      ],
+      "estimated_days": 7,
+      "resources": [
+       "Mock resource list for general review"
+      ]
+     },
+     {
+      "phase_number": 29,
+      "title": "General practice, week 29",
+      "topics": [
+       "Mixed review"
+      ],
+      "estimated_days": 7,
+      "resources": [
+       "Mock resource list for general review"
+      ]
+     },
+     {
+      "phase_number": 30,
+      "title": "General practice, week 30",
+      "topics": [
+       "Mixed review"
+      ],
+      "estimated_days": 7,
+      "resources": [
+       "Mock resource list for general review"
+      ]
+     },
+     {
+      "phase_number": 31,
+      "title": "General practice, week 31",
+      "topics": [
+       "Mixed review"
+      ],
+      "estimated_days": 7,
+      "resources": [
+       "Mock resource list for general review"
+      ]
+     },
+     {
+      "phase_number": 32,
+      "title": "General practice, week 32",
+      "topics": [
+       "Mixed review"
+      ],
+      "estimated_days": 7,
+      "resources": [
+       "Mock resource list for general review"
+      ]
+     },
+     {
+      "phase_number": 33,
+      "title": "General practice, week 33",
+      "topics": [
+       "Mixed review"
+      ],
+      "estimated_days": 7,
+      "resources": [
+       "Mock resource list for general review"
+      ]
+     },
+     {
+      "phase_number": 34,
+      "title": "General practice, week 34",
+      "topics": [
+       "Mixed review"
+      ],
+      "estimated_days": 7,
+      "resources": [
+       "Mock resource list for general review"
+      ]
+     },
+     {
+      "phase_number": 35,
+      "title": "General practice, week 35",
+      "topics": [
+       "Mixed review"
+      ],
+      "estimated_days": 7,
+      "resources": [
+       "Mock resource list for general review"
+      ]
+     },
+     {
+      "phase_number": 36,
+      "title": "General practice, week 36",
+      "topics": [
+       "Mixed review"
+      ],
+      "estimated_days": 7,
+      "resources": [
+       "Mock resource list for general review"
+      ]
+     },
+     {
+      "phase_number": 37,
+      "title": "General practice, week 37",
+      "topics": [
+       "Mixed review"
+      ],
+      "estimated_days": 7,
+      "resources": [
+       "Mock resource list for general review"
+      ]
+     },
+     {
+      "phase_number": 38,
+      "title": "General practice, week 38",
+      "topics": [
+       "Mixed review"
+      ],
+      "estimated_days": 7,
+      "resources": [
+       "Mock resource list for general review"
+      ]
+     },
+     {
+      "phase_number": 39,
+      "title": "General practice, week 39",
+      "topics": [
+       "Mixed review"
+      ],
+      "estimated_days": 7,
+      "resources": [
+       "Mock resource list for general review"
+      ]
+     },
+     {
+      "phase_number": 40,
+      "title": "General practice, week 40",
+      "topics": [
+       "Mixed review"
+      ],
+      "estimated_days": 7,
+      "resources": [
+       "Mock resource list for general review"
+      ]
+     },
+     {
+      "phase_number": 41,
+      "title": "General practice, week 41",
+      "topics": [
+       "Mixed review"
+      ],
+      "estimated_days": 7,
+      "resources": [
+       "Mock resource list for general review"
+      ]
+     },
+     {
+      "phase_number": 42,
+      "title": "General practice, week 42",
+      "topics": [
+       "Mixed review"
+      ],
+      "estimated_days": 7,
+      "resources": [
+       "Mock resource list for general review"
+      ]
+     },
+     {
+      "phase_number": 43,
+      "title": "General practice, week 43",
+      "topics": [
+       "Mixed review"
+      ],
+      "estimated_days": 7,
+      "resources": [
+       "Mock resource list for general review"
+      ]
+     },
+     {
+      "phase_number": 44,
+      "title": "General practice, week 44",
+      "topics": [
+       "Mixed review"
+      ],
+      "estimated_days": 7,
+      "resources": [
+       "Mock resource list for general review"
+      ]
+     },
+     {
+      "phase_number": 45,
+      "title": "General practice, week 45",
+      "topics": [
+       "Mixed review"
+      ],
+      "estimated_days": 7,
+      "resources": [
+       "Mock resource list for general review"
+      ]
+     },
+     {
+      "phase_number": 46,
+      "title": "General practice, week 46",
+      "topics": [
+       "Mixed review"
+      ],
+      "estimated_days": 7,
+      "resources": [
+       "Mock resource list for general review"
+      ]
+     },
+     {
+      "phase_number": 47,
+      "title": "General practice, week 47",
+      "topics": [
+       "Mixed review"
+      ],
+      "estimated_days": 7,
+      "resources": [
+       "Mock resource list for general review"
+      ]
+     },
+     {
+      "phase_number": 48,
+      "title": "General practice, week 48",
+      "topics": [
+       "Mixed review"
+      ],
+      "estimated_days": 7,
+      "resources": [
+       "Mock resource list for general review"
+      ]
+     },
+     {
+      "phase_number": 49,
+      "title": "General practice, week 49",
+      "topics": [
+       "Mixed review"
+      ],
+      "estimated_days": 7,
+      "resources": [
+       "Mock resource list for general review"
+      ]
+     },
+     {
+      "phase_number": 50,
+      "title": "General practice, week 50",
+      "topics": [
+       "Mixed review"
+      ],
+      "estimated_days": 7,
+      "resources": [
+       "Mock resource list for general review"
+      ]
+     },
+     {
+      "phase_number": 51,
+      "title": "General practice, week 51",
+      "topics": [
+       "Mixed review"
+      ],
+      "estimated_days": 7,
+      "resources": [
+       "Mock resource list for general review"
+      ]
+     },
+     {
+      "phase_number": 52,
+      "title": "General practice, week 52",
+      "topics": [
+       "Mixed review"
+      ],
+      "estimated_days": 7,
+      "resources": [
+       "Mock resource list for general review"
+      ]
+     },
+     {
+      "phase_number": 53,
+      "title": "General practice, week 53",
+      "topics": [
+       "Mixed review"
+      ],
+      "estimated_days": 7,
+      "resources": [
+       "Mock resource list for general review"
+      ]
+     },
+     {
+      "phase_number": 54,
+      "title": "General practice, week 54",
+      "topics": [
+       "Mixed review"
+      ],
+      "estimated_days": 7,
+      "resources": [
+       "Mock resource list for general review"
+      ]
+     },
+     {
+      "phase_number": 55,
+      "title": "General practice, week 55",
+      "topics": [
+       "Mixed review"
+      ],
+      "estimated_days": 7,
+      "resources": [
+       "Mock resource list for general review"
+      ]
+     },
+     {
+      "phase_number": 56,
+      "title": "General practice, week 56",
+      "topics": [
+       "Mixed review"
+      ],
+      "estimated_days": 7,
+      "resources": [
+       "Mock resource list for general review"
+      ]
+     },
+     {
+      "phase_number": 57,
+      "title": "General practice, week 57",
+      "topics": [
+       "Mixed review"
+      ],
+      "estimated_days": 7,
+      "resources": [
+       "Mock resource list for general review"
+      ]
+     },
+     {
+      "phase_number": 58,
+      "title": "General practice, week 58",
+      "topics": [
+       "Mixed review"
+      ],
+      "estimated_days": 7,
+      "resources": [
+       "Mock resource list for general review"
+      ]
+     },
+     {
+      "phase_number": 59,
+      "title": "General practice, week 59",
+      "topics": [
+       "Mixed review"
+      ],
+      "estimated_days": 7,
+      "resources": [
+       "Mock resource list for general review"
+      ]
+     },
+     {
+      "phase_number": 60,
+      "title": "General practice, week 60",
+      "topics": [
+       "Mixed review"
+      ],
+      "estimated_days": 7,
+      "resources": [
+       "Mock resource list for general review"
+      ]
+     },
+     {
+      "phase_number": 61,
+      "title": "General practice, week 61",
+      "topics": [
+       "Mixed review"
+      ],
+      "estimated_days": 7,
+      "resources": [
+       "Mock resource list for general review"
+      ]
+     },
+     {
+      "phase_number": 62,
+      "title": "General practice, week 62",
+      "topics": [
+       "Mixed review"
+      ],
+      "estimated_days": 7,
+      "resources": [
+       "Mock resource list for general review"
+      ]
+     },
+     {
+      "phase_number": 63,
+      "title": "General practice, week 63",
+      "topics": [
+       "Mixed review"
+      ],
+      "estimated_days": 7,
+      "resources": [
+       "Mock resource list for general review"
+      ]
+     },
+     {
+      "phase_number": 64,
+      "title": "General practice, week 64",
+      "topics": [
+       "Mixed review"
+      ],
+      "estimated_days": 7,
+      "resources": [
+       "Mock resource list for general review"
+      ]
+     },
+     {
+      "phase_number": 65,
+      "title": "General practice, week 65",
+      "topics": [
+       "Mixed review"
+      ],
+      "estimated_days": 7,
+      "resources": [
+       "Mock resource list for general review"
+      ]
+     },
+     {
+      "phase_number": 66,
+      "title": "General practice, week 66",
+      "topics": [
+       "Mixed review"
+      ],
+      "estimated_days": 7,
+      "resources": [
+       "Mock resource list for general review"
+      ]
+     },
+     {
+      "phase_number": 67,
+      "title": "General practice, week 67",
+      "topics": [
+       "Mixed review"
+      ],
+      "estimated_days": 7,
+      "resources": [
+       "Mock resource list for general review"
+      ]
+     },
+     {
+      "phase_number": 68,
+      "title": "General practice, week 68",
+      "topics": [
+       "Mixed review"
+      ],
+      "estimated_days": 7,
+      "resources": [
+       "Mock resource list for general review"
+      ]
+     },
+     {
+      "phase_number": 69,
+      "title": "General practice, week 69",
+      "topics": [
+       "Mixed review"
+      ],
+      "estimated_days": 7,
+      "resources": [
+       "Mock resource list for general review"
+      ]
+     },
+     {
+      "phase_number": 70,
+      "title": "General practice, week 70",
+      "topics": [
+       "Mixed review"
+      ],
+      "estimated_days": 7,
+      "resources": [
+       "Mock resource list for general review"
+      ]
+     },
+     {
+      "phase_number": 71,
+      "title": "General practice, week 71",
+      "topics": [
+       "Mixed review"
+      ],
+      "estimated_days": 7,
+      "resources": [
+       "Mock resource list for general review"
+      ]
+     },
+     {
+      "phase_number": 72,
+      "title": "General practice, week 72",
+      "topics": [
+       "Mixed review"
+      ],
+      "estimated_days": 7,
+      "resources": [
+       "Mock resource list for general review"
+      ]
+     },
+     {
+      "phase_number": 73,
+      "title": "General practice, week 73",
+      "topics": [
+       "Mixed review"
+      ],
+      "estimated_days": 7,
+      "resources": [
+       "Mock resource list for general review"
+      ]
+     },
+     {
+      "phase_number": 74,
+      "title": "General practice, week 74",
+      "topics": [
+       "Mixed review"
+      ],
+      "estimated_days": 7,
+      "resources": [
+       "Mock resource list for general review"
+      ]
+     },
+     {
+      "phase_number": 75,
+      "title": "General practice, week 75",
+      "topics": [
+       "Mixed review"
+      ],
+      "estimated_days": 7,
+      "resources": [
+       "Mock resource list for general review"
+      ]
+     },
+     {
+      "phase_number": 76,
+      "title": "General practice, week 76",
+      "topics": [
+       "Mixed review"
+      ],
+      "estimated_days": 7,
+      "resources": [
+       "Mock resource list for general review"
+      ]
+     },
+     {
+      "phase_number": 77,
+      "title": "General practice, week 77",
+      "topics": [
+       "Mixed review"
+      ],
+      "estimated_days": 7,
+      "resources": [
+       "Mock resource list for general review"
+      ]
+     },
+     {
+      "phase_number": 78,
+      "title": "General practice, week 78",
+      "topics": [
+       "Mixed review"
+      ],
+      "estimated_days": 7,
+      "resources": [
+       "Mock resource list for general review"
+      ]
+     },
+     {
+      "phase_number": 79,
+      "title": "General practice, week 79",
+      "topics": [
+       "Mixed review"
+      ],
+      "estimated_days": 7,
+      "resources": [
+       "Mock resource list for general review"
+      ]
+     },
+     {
+      "phase_number": 80,
+      "title": "General practice, week 80",
+      "topics": [
+       "Mixed review"
+      ],
+      "estimated_days": 7,
+      "resources": [
+       "Mock resource list for general review"
+      ]
+     },
+     {
+      "phase_number": 81,
+      "title": "General practice, week 81",
+      "topics": [
+       "Mixed review"
+      ],
+      "estimated_days": 7,
+      "resources": [
+       "Mock resource list for general review"
+      ]
+     },
+     {
+      "phase_number": 82,
+      "title": "General practice, week 82",
+      "topics": [
+       "Mixed review"
+      ],
+      "estimated_days": 7,
+      "resources": [
+       "Mock resource list for general review"
+      ]
+     },
+     {
+      "phase_number": 83,
+      "title": "General practice, week 83",
+      "topics": [
+       "Mixed review"
+      ],
+      "estimated_days": 7,
+      "resources": [
+       "Mock resource list for general review"
+      ]
+     },
+     {
+      "phase_number": 84,
+      "title": "General practice, week 84",
+      "topics": [
+       "Mixed review"
+      ],
+      "estimated_days": 7,
+      "resources": [
+       "Mock resource list for general review"
+      ]
+     },
+     {
+      "phase_number": 85,
+      "title": "General practice, week 85",
+      "topics": [
+       "Mixed review"
+      ],
+      "estimated_days": 7,
+      "resources": [
+       "Mock resource list for general review"
+      ]
+     },
+     {
+      "phase_number": 86,
+      "title": "General practice, week 86",
+      "topics": [
+       "Mixed review"
+      ],
+      "estimated_days": 7,
+      "resources": [
+       "Mock resource list for general review"
+      ]
+     },
+     {
+      "phase_number": 87,
+      "title": "General practice, week 87",
+      "topics": [
+       "Mixed review"
+      ],
+      "estimated_days": 7,
+      "resources": [
+       "Mock resource list for general review"
+      ]
+     },
+     {
+      "phase_number": 88,
+      "title": "General practice, week 88",
+      "topics": [
+       "Mixed review"
+      ],
+      "estimated_days": 7,
+      "resources": [
+       "Mock resource list for general review"
+      ]
+     },
+     {
+      "phase_number": 89,
+      "title": "General practice, week 89",
+      "topics": [
+       "Mixed review"
+      ],
+      "estimated_days": 7,
+      "resources": [
+       "Mock resource list for general review"
+      ]
+     },
+     {
+      "phase_number": 90,
+      "title": "General practice, week 90",
+      "topics": [
+       "Mixed review"
+      ],
+      "estimated_days": 7,
+      "resources": [
+       "Mock resource list for general review"
+      ]
+     },
+     {
+      "phase_number": 91,
+      "title": "General practice, week 91",
+      "topics": [
+       "Mixed review"
+      ],
+      "estimated_days": 7,
+      "resources": [
+       "Mock resource list for general review"
+      ]
+     },
+     {
+      "phase_number": 92,
+      "title": "General practice, week 92",
+      "topics": [
+       "Mixed review"
+      ],
+      "estimated_days": 7,
+      "resources": [
+       "Mock resource list for general review"
+      ]
+     },
+     {
+      "phase_number": 93,
+      "title": "General practice, week 93",
+      "topics": [
+       "Mixed review"
+      ],
+      "estimated_days": 7,
+      "resources": [
+       "Mock resource list for general review"
+      ]
+     },
+     {
+      "phase_number": 94,
+      "title": "General practice, week 94",
+      "topics": [
+       "Mixed review"
+      ],
+      "estimated_days": 7,
+      "resources": [
+       "Mock resource list for general review"
+      ]
+     },
+     {
+      "phase_number": 95,
+      "title": "General practice, week 95",
+      "topics": [
+       "Mixed review"
+      ],
+      "estimated_days": 7,
+      "resources": [
+       "Mock resource list for general review"
+      ]
+     },
+     {
+      "phase_number": 96,
+      "title": "General practice, week 96",
+      "topics": [
+       "Mixed review"
+      ],
+      "estimated_days": 7,
+      "resources": [
+       "Mock resource list for general review"
+      ]
+     },
+     {
+      "phase_number": 97,
+      "title": "General practice, week 97",
+      "topics": [
+       "Mixed review"
+      ],
+      "estimated_days": 7,
+      "resources": [
+       "Mock resource list for general review"
+      ]
+     },
+     {
+      "phase_number": 98,
+      "title": "General practice, week 98",
+      "topics": [
+       "Mixed review"
+      ],
+      "estimated_days": 7,
+      "resources": [
+       "Mock resource list for general review"
+      ]
+     },
+     {
+      "phase_number": 99,
+      "title": "General practice, week 99",
+      "topics": [
+       "Mixed review"
+      ],
+      "estimated_days": 7,
+      "resources": [
+       "Mock resource list for general review"
+      ]
+     },
+     {
+      "phase_number": 100,
+      "title": "General practice, week 100",
+      "topics": [
+       "Mixed review"
+      ],
+      "estimated_days": 7,
+      "resources": [
+       "Mock resource list for general review"
+      ]
+     },
+     {
+      "phase_number": 101,
+      "title": "General practice, week 101",
+      "topics": [
+       "Mixed review"
+      ],
+      "estimated_days": 7,
+      "resources": [
+       "Mock resource list for general review"
+      ]
+     },
+     {
+      "phase_number": 102,
+      "title": "General practice, week 102",
+      "topics": [
+       "Mixed review"
+      ],
+      "estimated_days": 7,
+      "resources": [
+       "Mock resource list for general review"
+      ]
+     },
+     {
+      "phase_number": 103,
+      "title": "General practice, week 103",
+      "topics": [
+       "Mixed review"
+      ],
+      "estimated_days": 7,
+      "resources": [
+       "Mock resource list for general review"
+      ]
+     },
+     {
+      "phase_number": 104,
+      "title": "General practice, week 104",
+      "topics": [
+       "Mixed review"
+      ],
+      "estimated_days": 7,
+      "resources": [
+       "Mock resource list for general review"
+      ]
+     }
+    ]
+   }
+  },
+  {
+   "name": "roadmap/many-topics-few-weeks",
+   "method": "POST",
+   "path": "/roadmap/generate",
+   "raw_body": "{\"weak_topics\": [\"t0\", \"t1\", \"t2\", \"t3\", \"t4\", \"t5\", \"t6\", \"t7\", \"t8\", \"t9\", \"t10\", \"t11\", \"t12\", \"t13\", \"t14\", \"t15\", \"t16\", \"t17\", \"t18\", \"t19\", \"t20\", \"t21\", \"t22\", \"t23\", \"t24\"], \"weeks_available\": 3}",
+   "status": 200,
+   "response": {
+    "phases": [
+     {
+      "phase_number": 1,
+      "title": "Focus: t0, t1, t2, t3, t4, t5, t6, t7, t8",
+      "topics": [
+       "t0",
+       "t1",
+       "t2",
+       "t3",
+       "t4",
+       "t5",
+       "t6",
+       "t7",
+       "t8"
+      ],
+      "estimated_days": 7,
+      "resources": [
+       "Mock resource list for t0"
+      ]
+     },
+     {
+      "phase_number": 2,
+      "title": "Focus: t9, t10, t11, t12, t13, t14, t15, t16, t17",
+      "topics": [
+       "t9",
+       "t10",
+       "t11",
+       "t12",
+       "t13",
+       "t14",
+       "t15",
+       "t16",
+       "t17"
+      ],
+      "estimated_days": 7,
+      "resources": [
+       "Mock resource list for t9"
+      ]
+     },
+     {
+      "phase_number": 3,
+      "title": "Focus: t18, t19, t20, t21, t22, t23, t24",
+      "topics": [
+       "t18",
+       "t19",
+       "t20",
+       "t21",
+       "t22",
+       "t23",
+       "t24"
+      ],
+      "estimated_days": 7,
+      "resources": [
+       "Mock resource list for t18"
+      ]
+     }
+    ]
+   }
+  },
+  {
+   "name": "weak/empty",
+   "method": "POST",
+   "path": "/analytics/weak-topics",
+   "raw_body": "{}",
+   "status": 200,
+   "response": {
+    "strong": [],
+    "weak": [],
+    "improving": [],
+    "error_breakdown": {
+     "conceptual": 0,
+     "computational": 0,
+     "careless": 0,
+     "time_management": 0
+    }
+   }
+  },
+  {
+   "name": "weak/spec",
+   "method": "POST",
+   "path": "/analytics/weak-topics",
+   "raw_body": "{\"topic_performance\": [{\"topic\": \"Arrays\", \"accuracy\": 0.9}, {\"topic\": \"Graphs\", \"accuracy\": 0.3}, {\"topic\": \"Strings\", \"accuracy\": 0.6}]}",
+   "status": 200,
+   "response": {
+    "strong": [
+     "Arrays"
+    ],
+    "weak": [
+     "Graphs"
+    ],
+    "improving": [
+     "Strings"
+    ],
+    "error_breakdown": {
+     "conceptual": 1,
+     "computational": 0,
+     "careless": 0,
+     "time_management": 0
+    }
+   }
+  },
+  {
+   "name": "weak/boundaries",
+   "method": "POST",
+   "path": "/analytics/weak-topics",
+   "raw_body": "{\"topic_performance\": [{\"topic\": \"a\", \"accuracy\": 0.75}, {\"topic\": \"b\", \"accuracy\": 0.5}, {\"topic\": \"c\", \"accuracy\": 0.4999}, {\"topic\": \"d\", \"accuracy\": 0.7499}, {\"topic\": \"e\", \"accuracy\": 1}, {\"topic\": \"f\", \"accuracy\": 0}]}",
+   "status": 200,
+   "response": {
+    "strong": [
+     "a",
+     "e"
+    ],
+    "weak": [
+     "c",
+     "f"
+    ],
+    "improving": [
+     "b",
+     "d"
+    ],
+    "error_breakdown": {
+     "conceptual": 2,
+     "computational": 0,
+     "careless": 0,
+     "time_management": 0
+    }
+   }
+  },
+  {
+   "name": "weak/string-accuracy",
+   "method": "POST",
+   "path": "/analytics/weak-topics",
+   "raw_body": "{\"topic_performance\": [{\"topic\": \"a\", \"accuracy\": \"0.9\"}, {\"topic\": \"b\", \"accuracy\": \"abc\"}, {\"topic\": \"c\", \"accuracy\": \"\"}, {\"topic\": \"d\", \"accuracy\": \"0.6\"}]}",
+   "status": 200,
+   "response": {
+    "strong": [
+     "a"
+    ],
+    "weak": [
+     "b",
+     "c"
+    ],
+    "improving": [
+     "d"
+    ],
+    "error_breakdown": {
+     "conceptual": 2,
+     "computational": 0,
+     "careless": 0,
+     "time_management": 0
+    }
+   }
+  },
+  {
+   "name": "weak/missing-fields",
+   "method": "POST",
+   "path": "/analytics/weak-topics",
+   "raw_body": "{\"topic_performance\": [{}, {\"topic\": \"only-topic\"}, {\"accuracy\": 0.9}]}",
+   "status": 200,
+   "response": {
+    "strong": [
+     null
+    ],
+    "weak": [
+     null,
+     "only-topic"
+    ],
+    "improving": [],
+    "error_breakdown": {
+     "conceptual": 2,
+     "computational": 0,
+     "careless": 0,
+     "time_management": 0
+    }
+   }
+  },
+  {
+   "name": "weak/non-object-items",
+   "method": "POST",
+   "path": "/analytics/weak-topics",
+   "raw_body": "{\"topic_performance\": [5, \"x\", [], true]}",
+   "status": 200,
+   "response": {
+    "strong": [],
+    "weak": [
+     null,
+     null,
+     null,
+     null
+    ],
+    "improving": [],
+    "error_breakdown": {
+     "conceptual": 4,
+     "computational": 0,
+     "careless": 0,
+     "time_management": 0
+    }
+   }
+  },
+  {
+   "name": "weak/null-accuracy",
+   "method": "POST",
+   "path": "/analytics/weak-topics",
+   "raw_body": "{\"topic_performance\": [{\"topic\": \"n\", \"accuracy\": null}, {\"topic\": \"t\", \"accuracy\": true}, {\"topic\": \"l\", \"accuracy\": [0.8]}]}",
+   "status": 200,
+   "response": {
+    "strong": [
+     "t",
+     "l"
+    ],
+    "weak": [
+     "n"
+    ],
+    "improving": [],
+    "error_breakdown": {
+     "conceptual": 1,
+     "computational": 0,
+     "careless": 0,
+     "time_management": 0
+    }
+   }
+  },
+  {
+   "name": "weak/non-string-topics",
+   "method": "POST",
+   "path": "/analytics/weak-topics",
+   "raw_body": "{\"topic_performance\": [{\"topic\": 1, \"accuracy\": 0.1}, {\"topic\": null, \"accuracy\": 0.1}, {\"topic\": {\"x\": [1, 2.0]}, \"accuracy\": 0.9}]}",
+   "status": 200,
+   "response": {
+    "strong": [
+     {
+      "x": [
+       1,
+       2
+      ]
+     }
+    ],
+    "weak": [
+     1,
+     null
+    ],
+    "improving": [],
+    "error_breakdown": {
+     "conceptual": 2,
+     "computational": 0,
+     "careless": 0,
+     "time_management": 0
+    }
+   }
+  },
+  {
+   "name": "weak/not-array",
+   "method": "POST",
+   "path": "/analytics/weak-topics",
+   "raw_body": "{\"topic_performance\": \"nope\"}",
+   "status": 200,
+   "response": {
+    "strong": [],
+    "weak": [],
+    "improving": [],
+    "error_breakdown": {
+     "conceptual": 0,
+     "computational": 0,
+     "careless": 0,
+     "time_management": 0
+    }
+   }
+  },
+  {
+   "name": "weak/all-weak",
+   "method": "POST",
+   "path": "/analytics/weak-topics",
+   "raw_body": "{\"topic_performance\": [{\"topic\": \"t0\", \"accuracy\": 0.1}, {\"topic\": \"t1\", \"accuracy\": 0.1}, {\"topic\": \"t2\", \"accuracy\": 0.1}, {\"topic\": \"t3\", \"accuracy\": 0.1}, {\"topic\": \"t4\", \"accuracy\": 0.1}, {\"topic\": \"t5\", \"accuracy\": 0.1}, {\"topic\": \"t6\", \"accuracy\": 0.1}, {\"topic\": \"t7\", \"accuracy\": 0.1}]}",
+   "status": 200,
+   "response": {
+    "strong": [],
+    "weak": [
+     "t0",
+     "t1",
+     "t2",
+     "t3",
+     "t4",
+     "t5",
+     "t6",
+     "t7"
+    ],
+    "improving": [],
+    "error_breakdown": {
+     "conceptual": 8,
+     "computational": 0,
+     "careless": 0,
+     "time_management": 0
+    }
+   }
+  },
+  {
+   "name": "weak/negative-and-over-one",
+   "method": "POST",
+   "path": "/analytics/weak-topics",
+   "raw_body": "{\"topic_performance\": [{\"topic\": \"neg\", \"accuracy\": -1}, {\"topic\": \"big\", \"accuracy\": 7}]}",
+   "status": 200,
+   "response": {
+    "strong": [
+     "big"
+    ],
+    "weak": [
+     "neg"
+    ],
+    "improving": [],
+    "error_breakdown": {
+     "conceptual": 1,
+     "computational": 0,
+     "careless": 0,
+     "time_management": 0
+    }
+   }
+  },
+  {
+   "name": "readiness/empty",
+   "method": "POST",
+   "path": "/readiness/insights",
+   "raw_body": "{}",
+   "status": 200,
+   "response": {
+    "headline": "Early stage for this company -- focus time on the basics.",
+    "strengths": [],
+    "risks": [],
+    "next_actions": [
+     "Keep a daily practice streak",
+     "Target the weakest sub-score first"
+    ]
+   }
+  },
+  {
+   "name": "readiness/spec",
+   "method": "POST",
+   "path": "/readiness/insights",
+   "raw_body": "{\"company\": \"TCS\", \"tier\": \"Ninja\", \"score\": 75, \"probability\": 0.6, \"breakdown\": {\"aptitude\": 80, \"coding\": 40}}",
+   "status": 200,
+   "response": {
+    "headline": "On track for TCS, with room to grow.",
+    "strengths": [
+     "aptitude"
+    ],
+    "risks": [
+     "coding"
+    ],
+    "next_actions": [
+     "Keep a daily practice streak",
+     "Target the weakest sub-score first"
+    ]
+   }
+  },
+  {
+   "name": "readiness/strong",
+   "method": "POST",
+   "path": "/readiness/insights",
+   "raw_body": "{\"company\": \"Google\", \"tier\": \"L4\", \"score\": 95, \"breakdown\": {\"dsa\": 90, \"sys\": 70, \"beh\": 69, \"x\": 50, \"y\": 49}}",
+   "status": 200,
+   "response": {
+    "headline": "Strong readiness for Google (L4).",
+    "strengths": [
+     "dsa",
+     "sys"
+    ],
+    "risks": [
+     "y"
+    ],
+    "next_actions": [
+     "Keep a daily practice streak",
+     "Target the weakest sub-score first"
+    ]
+   }
+  },
+  {
+   "name": "readiness/boundary-80",
+   "method": "POST",
+   "path": "/readiness/insights",
+   "raw_body": "{\"company\": \"A\", \"tier\": \"T\", \"score\": 80}",
+   "status": 200,
+   "response": {
+    "headline": "Strong readiness for A (T).",
+    "strengths": [],
+    "risks": [],
+    "next_actions": [
+     "Keep a daily practice streak",
+     "Target the weakest sub-score first"
+    ]
+   }
+  },
+  {
+   "name": "readiness/boundary-50",
+   "method": "POST",
+   "path": "/readiness/insights",
+   "raw_body": "{\"company\": \"A\", \"tier\": \"T\", \"score\": 50}",
+   "status": 200,
+   "response": {
+    "headline": "On track for A, with room to grow.",
+    "strengths": [],
+    "risks": [],
+    "next_actions": [
+     "Keep a daily practice streak",
+     "Target the weakest sub-score first"
+    ]
+   }
+  },
+  {
+   "name": "readiness/boundary-49",
+   "method": "POST",
+   "path": "/readiness/insights",
+   "raw_body": "{\"company\": \"A\", \"tier\": \"T\", \"score\": 49.99}",
+   "status": 200,
+   "response": {
+    "headline": "Early stage for A -- focus time on the basics.",
+    "strengths": [],
+    "risks": [],
+    "next_actions": [
+     "Keep a daily practice streak",
+     "Target the weakest sub-score first"
+    ]
+   }
+  },
+  {
+   "name": "readiness/string-score",
+   "method": "POST",
+   "path": "/readiness/insights",
+   "raw_body": "{\"company\": \"A\", \"score\": \"85\"}",
+   "status": 200,
+   "response": {
+    "headline": "Strong readiness for A (tier).",
+    "strengths": [],
+    "risks": [],
+    "next_actions": [
+     "Keep a daily practice streak",
+     "Target the weakest sub-score first"
+    ]
+   }
+  },
+  {
+   "name": "readiness/garbage-score",
+   "method": "POST",
+   "path": "/readiness/insights",
+   "raw_body": "{\"company\": \"A\", \"score\": \"high\"}",
+   "status": 200,
+   "response": {
+    "headline": "Early stage for A -- focus time on the basics.",
+    "strengths": [],
+    "risks": [],
+    "next_actions": [
+     "Keep a daily practice streak",
+     "Target the weakest sub-score first"
+    ]
+   }
+  },
+  {
+   "name": "readiness/null-score",
+   "method": "POST",
+   "path": "/readiness/insights",
+   "raw_body": "{\"company\": \"A\", \"score\": null}",
+   "status": 200,
+   "response": {
+    "headline": "Early stage for A -- focus time on the basics.",
+    "strengths": [],
+    "risks": [],
+    "next_actions": [
+     "Keep a daily practice streak",
+     "Target the weakest sub-score first"
+    ]
+   }
+  },
+  {
+   "name": "readiness/no-company-no-tier",
+   "method": "POST",
+   "path": "/readiness/insights",
+   "raw_body": "{\"score\": 90}",
+   "status": 200,
+   "response": {
+    "headline": "Strong readiness for this company (tier).",
+    "strengths": [],
+    "risks": [],
+    "next_actions": [
+     "Keep a daily practice streak",
+     "Target the weakest sub-score first"
+    ]
+   }
+  },
+  {
+   "name": "readiness/falsy-company",
+   "method": "POST",
+   "path": "/readiness/insights",
+   "raw_body": "{\"company\": \"\", \"tier\": 0, \"score\": 90}",
+   "status": 200,
+   "response": {
+    "headline": "Strong readiness for this company (tier).",
+    "strengths": [],
+    "risks": [],
+    "next_actions": [
+     "Keep a daily practice streak",
+     "Target the weakest sub-score first"
+    ]
+   }
+  },
+  {
+   "name": "readiness/number-company",
+   "method": "POST",
+   "path": "/readiness/insights",
+   "raw_body": "{\"company\": 42, \"tier\": true, \"score\": 90}",
+   "status": 200,
+   "response": {
+    "headline": "Strong readiness for 42 (true).",
+    "strengths": [],
+    "risks": [],
+    "next_actions": [
+     "Keep a daily practice streak",
+     "Target the weakest sub-score first"
+    ]
+   }
+  },
+  {
+   "name": "readiness/breakdown-string-values",
+   "method": "POST",
+   "path": "/readiness/insights",
+   "raw_body": "{\"breakdown\": {\"a\": \"70\", \"b\": \"49.9\", \"c\": \"abc\", \"d\": null, \"e\": true, \"f\": [80], \"g\": {}}}",
+   "status": 200,
+   "response": {
+    "headline": "Early stage for this company -- focus time on the basics.",
+    "strengths": [
+     "a",
+     "f"
+    ],
+    "risks": [
+     "b",
+     "d",
+     "e"
+    ],
+    "next_actions": [
+     "Keep a daily practice streak",
+     "Target the weakest sub-score first"
+    ]
+   }
+  },
+  {
+   "name": "readiness/breakdown-int-keys-order",
+   "method": "POST",
+   "path": "/readiness/insights",
+   "raw_body": "{\"breakdown\": {\"zeta\": 90, \"10\": 90, \"2\": 90, \"alpha\": 90, \"1\": 10, \"03\": 90, \"-1\": 90, \"0\": 5}}",
+   "status": 200,
+   "response": {
+    "headline": "Early stage for this company -- focus time on the basics.",
+    "strengths": [
+     "2",
+     "10",
+     "zeta",
+     "alpha",
+     "03",
+     "-1"
+    ],
+    "risks": [
+     "0",
+     "1"
+    ],
+    "next_actions": [
+     "Keep a daily practice streak",
+     "Target the weakest sub-score first"
+    ]
+   }
+  },
+  {
+   "name": "readiness/breakdown-array",
+   "method": "POST",
+   "path": "/readiness/insights",
+   "raw_body": "{\"breakdown\": [90, 10]}",
+   "status": 200,
+   "response": {
+    "headline": "Early stage for this company -- focus time on the basics.",
+    "strengths": [
+     "0"
+    ],
+    "risks": [
+     "1"
+    ],
+    "next_actions": [
+     "Keep a daily practice streak",
+     "Target the weakest sub-score first"
+    ]
+   }
+  },
+  {
+   "name": "readiness/breakdown-string-digits",
+   "method": "POST",
+   "path": "/readiness/insights",
+   "raw_body": "{\"breakdown\": \"9071\"}",
+   "status": 200,
+   "response": {
+    "headline": "Early stage for this company -- focus time on the basics.",
+    "strengths": [],
+    "risks": [
+     "0",
+     "1",
+     "2",
+     "3"
+    ],
+    "next_actions": [
+     "Keep a daily practice streak",
+     "Target the weakest sub-score first"
+    ]
+   }
+  },
+  {
+   "name": "readiness/breakdown-string-words",
+   "method": "POST",
+   "path": "/readiness/insights",
+   "raw_body": "{\"breakdown\": \"ab 4\"}",
+   "status": 200,
+   "response": {
+    "headline": "Early stage for this company -- focus time on the basics.",
+    "strengths": [],
+    "risks": [
+     "2",
+     "3"
+    ],
+    "next_actions": [
+     "Keep a daily practice streak",
+     "Target the weakest sub-score first"
+    ]
+   }
+  },
+  {
+   "name": "readiness/breakdown-string-emoji",
+   "method": "POST",
+   "path": "/readiness/insights",
+   "raw_body": "{\"breakdown\": \"\\ud83d\\ude00 0\"}",
+   "status": 200,
+   "response": {
+    "headline": "Early stage for this company -- focus time on the basics.",
+    "strengths": [],
+    "risks": [
+     "2",
+     "3"
+    ],
+    "next_actions": [
+     "Keep a daily practice streak",
+     "Target the weakest sub-score first"
+    ]
+   }
+  },
+  {
+   "name": "readiness/breakdown-empty-string",
+   "method": "POST",
+   "path": "/readiness/insights",
+   "raw_body": "{\"breakdown\": \"\"}",
+   "status": 200,
+   "response": {
+    "headline": "Early stage for this company -- focus time on the basics.",
+    "strengths": [],
+    "risks": [],
+    "next_actions": [
+     "Keep a daily practice streak",
+     "Target the weakest sub-score first"
+    ]
+   }
+  },
+  {
+   "name": "readiness/breakdown-bool",
+   "method": "POST",
+   "path": "/readiness/insights",
+   "raw_body": "{\"breakdown\": true}",
+   "status": 200,
+   "response": {
+    "headline": "Early stage for this company -- focus time on the basics.",
+    "strengths": [],
+    "risks": [],
+    "next_actions": [
+     "Keep a daily practice streak",
+     "Target the weakest sub-score first"
+    ]
+   }
+  },
+  {
+   "name": "readiness/breakdown-not-object",
+   "method": "POST",
+   "path": "/readiness/insights",
+   "raw_body": "{\"breakdown\": 5}",
+   "status": 200,
+   "response": {
+    "headline": "Early stage for this company -- focus time on the basics.",
+    "strengths": [],
+    "risks": [],
+    "next_actions": [
+     "Keep a daily practice streak",
+     "Target the weakest sub-score first"
+    ]
+   }
+  },
+  {
+   "name": "company/empty",
+   "method": "POST",
+   "path": "/company/intelligence",
+   "raw_body": "{}",
+   "status": 200,
+   "response": {
+    "recent_patterns": [
+     "Mock pattern: this company has recently emphasized data structures rounds."
+    ],
+    "commonly_asked_topics": [
+     "Arrays",
+     "Dynamic Programming",
+     "System Design Basics"
+    ],
+    "interview_tips": [
+     "Research this company's recent product launches before the interview."
+    ],
+    "sources": [
+     "mock-ai-service (offline, deterministic placeholder data)"
+    ]
+   }
+  },
+  {
+   "name": "company/infosys",
+   "method": "POST",
+   "path": "/company/intelligence",
+   "raw_body": "{\"company\": \"Infosys\"}",
+   "status": 200,
+   "response": {
+    "recent_patterns": [
+     "Mock pattern: Infosys has recently emphasized data structures rounds."
+    ],
+    "commonly_asked_topics": [
+     "Arrays",
+     "Dynamic Programming",
+     "System Design Basics"
+    ],
+    "interview_tips": [
+     "Research Infosys's recent product launches before the interview."
+    ],
+    "sources": [
+     "mock-ai-service (offline, deterministic placeholder data)"
+    ]
+   }
+  },
+  {
+   "name": "company/unicode",
+   "method": "POST",
+   "path": "/company/intelligence",
+   "raw_body": "{\"company\": \"Caf\\u00e9 \\ud83d\\ude00 & <b>Co</b> \\\"quoted\\\"\"}",
+   "status": 200,
+   "response": {
+    "recent_patterns": [
+     "Mock pattern: Café 😀 & <b>Co</b> \"quoted\" has recently emphasized data structures rounds."
+    ],
+    "commonly_asked_topics": [
+     "Arrays",
+     "Dynamic Programming",
+     "System Design Basics"
+    ],
+    "interview_tips": [
+     "Research Café 😀 & <b>Co</b> \"quoted\"'s recent product launches before the interview."
+    ],
+    "sources": [
+     "mock-ai-service (offline, deterministic placeholder data)"
+    ]
+   }
+  },
+  {
+   "name": "company/falsy",
+   "method": "POST",
+   "path": "/company/intelligence",
+   "raw_body": "{\"company\": 0}",
+   "status": 200,
+   "response": {
+    "recent_patterns": [
+     "Mock pattern: this company has recently emphasized data structures rounds."
+    ],
+    "commonly_asked_topics": [
+     "Arrays",
+     "Dynamic Programming",
+     "System Design Basics"
+    ],
+    "interview_tips": [
+     "Research this company's recent product launches before the interview."
+    ],
+    "sources": [
+     "mock-ai-service (offline, deterministic placeholder data)"
+    ]
+   }
+  },
+  {
+   "name": "company/number",
+   "method": "POST",
+   "path": "/company/intelligence",
+   "raw_body": "{\"company\": 3.5}",
+   "status": 200,
+   "response": {
+    "recent_patterns": [
+     "Mock pattern: 3.5 has recently emphasized data structures rounds."
+    ],
+    "commonly_asked_topics": [
+     "Arrays",
+     "Dynamic Programming",
+     "System Design Basics"
+    ],
+    "interview_tips": [
+     "Research 3.5's recent product launches before the interview."
+    ],
+    "sources": [
+     "mock-ai-service (offline, deterministic placeholder data)"
+    ]
+   }
+  },
+  {
+   "name": "company/big-float",
+   "method": "POST",
+   "path": "/company/intelligence",
+   "raw_body": "{\"company\": 1e+21}",
+   "status": 200,
+   "response": {
+    "recent_patterns": [
+     "Mock pattern: 1e+21 has recently emphasized data structures rounds."
+    ],
+    "commonly_asked_topics": [
+     "Arrays",
+     "Dynamic Programming",
+     "System Design Basics"
+    ],
+    "interview_tips": [
+     "Research 1e+21's recent product launches before the interview."
+    ],
+    "sources": [
+     "mock-ai-service (offline, deterministic placeholder data)"
+    ]
+   }
+  },
+  {
+   "name": "company/exp-float",
+   "method": "POST",
+   "path": "/company/intelligence",
+   "raw_body": "{\"company\": 1.5e-07}",
+   "status": 200,
+   "response": {
+    "recent_patterns": [
+     "Mock pattern: 1.5e-7 has recently emphasized data structures rounds."
+    ],
+    "commonly_asked_topics": [
+     "Arrays",
+     "Dynamic Programming",
+     "System Design Basics"
+    ],
+    "interview_tips": [
+     "Research 1.5e-7's recent product launches before the interview."
+    ],
+    "sources": [
+     "mock-ai-service (offline, deterministic placeholder data)"
+    ]
+   }
+  },
+  {
+   "name": "company/list",
+   "method": "POST",
+   "path": "/company/intelligence",
+   "raw_body": "{\"company\": [\"a\", null, 3]}",
+   "status": 200,
+   "response": {
+    "recent_patterns": [
+     "Mock pattern: a,,3 has recently emphasized data structures rounds."
+    ],
+    "commonly_asked_topics": [
+     "Arrays",
+     "Dynamic Programming",
+     "System Design Basics"
+    ],
+    "interview_tips": [
+     "Research a,,3's recent product launches before the interview."
+    ],
+    "sources": [
+     "mock-ai-service (offline, deterministic placeholder data)"
+    ]
+   }
+  },
+  {
+   "name": "company/object",
+   "method": "POST",
+   "path": "/company/intelligence",
+   "raw_body": "{\"company\": {\"a\": 1}}",
+   "status": 200,
+   "response": {
+    "recent_patterns": [
+     "Mock pattern: [object Object] has recently emphasized data structures rounds."
+    ],
+    "commonly_asked_topics": [
+     "Arrays",
+     "Dynamic Programming",
+     "System Design Basics"
+    ],
+    "interview_tips": [
+     "Research [object Object]'s recent product launches before the interview."
+    ],
+    "sources": [
+     "mock-ai-service (offline, deterministic placeholder data)"
+    ]
+   }
+  },
+  {
+   "name": "company/negative-zero",
+   "method": "POST",
+   "path": "/company/intelligence",
+   "raw_body": "{\"company\": -0.0}",
+   "status": 200,
+   "response": {
+    "recent_patterns": [
+     "Mock pattern: this company has recently emphasized data structures rounds."
+    ],
+    "commonly_asked_topics": [
+     "Arrays",
+     "Dynamic Programming",
+     "System Design Basics"
+    ],
+    "interview_tips": [
+     "Research this company's recent product launches before the interview."
+    ],
+    "sources": [
+     "mock-ai-service (offline, deterministic placeholder data)"
+    ]
+   }
+  },
+  {
+   "name": "body/empty-raw",
+   "method": "POST",
+   "path": "/company/intelligence",
+   "raw_body": "",
+   "status": 200,
+   "response": {
+    "recent_patterns": [
+     "Mock pattern: this company has recently emphasized data structures rounds."
+    ],
+    "commonly_asked_topics": [
+     "Arrays",
+     "Dynamic Programming",
+     "System Design Basics"
+    ],
+    "interview_tips": [
+     "Research this company's recent product launches before the interview."
+    ],
+    "sources": [
+     "mock-ai-service (offline, deterministic placeholder data)"
+    ]
+   }
+  },
+  {
+   "name": "body/invalid-json",
+   "method": "POST",
+   "path": "/resume/analyze",
+   "raw_body": "{not valid json",
+   "status": 400,
+   "response": {
+    "error": "Invalid JSON body"
+   }
+  },
+  {
+   "name": "body/whitespace-only",
+   "method": "POST",
+   "path": "/resume/analyze",
+   "raw_body": "   ",
+   "status": 400,
+   "response": {
+    "error": "Invalid JSON body"
+   }
+  },
+  {
+   "name": "body/NaN-literal",
+   "method": "POST",
+   "path": "/resume/analyze",
+   "raw_body": "{\"resume_text\": NaN}",
+   "status": 400,
+   "response": {
+    "error": "Invalid JSON body"
+   }
+  },
+  {
+   "name": "body/Infinity-literal",
+   "method": "POST",
+   "path": "/resume/analyze",
+   "raw_body": "{\"a\": Infinity}",
+   "status": 400,
+   "response": {
+    "error": "Invalid JSON body"
+   }
+  },
+  {
+   "name": "body/trailing-comma",
+   "method": "POST",
+   "path": "/resume/analyze",
+   "raw_body": "{\"a\": 1,}",
+   "status": 400,
+   "response": {
+    "error": "Invalid JSON body"
+   }
+  },
+  {
+   "name": "body/single-quotes",
+   "method": "POST",
+   "path": "/resume/analyze",
+   "raw_body": "{'a': 1}",
+   "status": 400,
+   "response": {
+    "error": "Invalid JSON body"
+   }
+  },
+  {
+   "name": "body/array",
+   "method": "POST",
+   "path": "/company/intelligence",
+   "raw_body": "[]",
+   "status": 200,
+   "response": {
+    "recent_patterns": [
+     "Mock pattern: this company has recently emphasized data structures rounds."
+    ],
+    "commonly_asked_topics": [
+     "Arrays",
+     "Dynamic Programming",
+     "System Design Basics"
+    ],
+    "interview_tips": [
+     "Research this company's recent product launches before the interview."
+    ],
+    "sources": [
+     "mock-ai-service (offline, deterministic placeholder data)"
+    ]
+   }
+  },
+  {
+   "name": "body/string",
+   "method": "POST",
+   "path": "/company/intelligence",
+   "raw_body": "\"Infosys\"",
+   "status": 200,
+   "response": {
+    "recent_patterns": [
+     "Mock pattern: this company has recently emphasized data structures rounds."
+    ],
+    "commonly_asked_topics": [
+     "Arrays",
+     "Dynamic Programming",
+     "System Design Basics"
+    ],
+    "interview_tips": [
+     "Research this company's recent product launches before the interview."
+    ],
+    "sources": [
+     "mock-ai-service (offline, deterministic placeholder data)"
+    ]
+   }
+  },
+  {
+   "name": "body/number",
+   "method": "POST",
+   "path": "/company/intelligence",
+   "raw_body": "42",
+   "status": 200,
+   "response": {
+    "recent_patterns": [
+     "Mock pattern: this company has recently emphasized data structures rounds."
+    ],
+    "commonly_asked_topics": [
+     "Arrays",
+     "Dynamic Programming",
+     "System Design Basics"
+    ],
+    "interview_tips": [
+     "Research this company's recent product launches before the interview."
+    ],
+    "sources": [
+     "mock-ai-service (offline, deterministic placeholder data)"
+    ]
+   }
+  },
+  {
+   "name": "body/true",
+   "method": "POST",
+   "path": "/company/intelligence",
+   "raw_body": "true",
+   "status": 200,
+   "response": {
+    "recent_patterns": [
+     "Mock pattern: this company has recently emphasized data structures rounds."
+    ],
+    "commonly_asked_topics": [
+     "Arrays",
+     "Dynamic Programming",
+     "System Design Basics"
+    ],
+    "interview_tips": [
+     "Research this company's recent product launches before the interview."
+    ],
+    "sources": [
+     "mock-ai-service (offline, deterministic placeholder data)"
+    ]
+   }
+  },
+  {
+   "name": "body/duplicate-keys-last-wins",
+   "method": "POST",
+   "path": "/company/intelligence",
+   "raw_body": "{\"company\": \"A\", \"company\": \"B\"}",
+   "status": 200,
+   "response": {
+    "recent_patterns": [
+     "Mock pattern: B has recently emphasized data structures rounds."
+    ],
+    "commonly_asked_topics": [
+     "Arrays",
+     "Dynamic Programming",
+     "System Design Basics"
+    ],
+    "interview_tips": [
+     "Research B's recent product launches before the interview."
+    ],
+    "sources": [
+     "mock-ai-service (offline, deterministic placeholder data)"
+    ]
+   }
+  },
+  {
+   "name": "body/extra-unknown-fields",
+   "method": "POST",
+   "path": "/company/intelligence",
+   "raw_body": "{\"company\": \"A\", \"zzz\": [1,2,3]}",
+   "status": 200,
+   "response": {
+    "recent_patterns": [
+     "Mock pattern: A has recently emphasized data structures rounds."
+    ],
+    "commonly_asked_topics": [
+     "Arrays",
+     "Dynamic Programming",
+     "System Design Basics"
+    ],
+    "interview_tips": [
+     "Research A's recent product launches before the interview."
+    ],
+    "sources": [
+     "mock-ai-service (offline, deterministic placeholder data)"
+    ]
+   }
+  },
+  {
+   "name": "body/utf8-bom",
+   "method": "POST",
+   "path": "/company/intelligence",
+   "raw_body": "﻿{\"company\": \"A\"}",
+   "status": 400,
+   "response": {
+    "error": "Invalid JSON body"
+   }
+  },
+  {
+   "name": "body/surrogate-escape-pair",
+   "method": "POST",
+   "path": "/company/intelligence",
+   "raw_body": "{\"company\": \"\\ud83d\\ude00\"}",
+   "status": 200,
+   "response": {
+    "recent_patterns": [
+     "Mock pattern: 😀 has recently emphasized data structures rounds."
+    ],
+    "commonly_asked_topics": [
+     "Arrays",
+     "Dynamic Programming",
+     "System Design Basics"
+    ],
+    "interview_tips": [
+     "Research 😀's recent product launches before the interview."
+    ],
+    "sources": [
+     "mock-ai-service (offline, deterministic placeholder data)"
+    ]
+   }
+  },
+  {
+   "name": "body/lone-surrogate-escape-hash",
+   "method": "POST",
+   "path": "/interview/score",
+   "raw_body": "{\"question\": \"\\ud83d\", \"answer\": \"x\", \"round_type\": \"hr\"}",
+   "status": 200,
+   "response": {
+    "technical_accuracy": 38,
+    "communication_clarity": 45,
+    "problem_solving_approach": 38,
+    "depth_of_knowledge": 39,
+    "hr_readiness": 33,
+    "feedback": "Answer was quite brief. Mock feedback: elaborate with a concrete example next time.",
+    "follow_up_question": "Mock follow-up: can you walk through a specific example of that?"
+   }
+  },
+  {
+   "name": "route/unknown-post",
+   "method": "POST",
+   "path": "/not/a/real/route",
+   "raw_body": "{}",
+   "status": 404,
+   "response": {
+    "error": "No mock handler for POST /not/a/real/route"
+   }
+  },
+  {
+   "name": "route/get-on-post-route",
+   "method": "GET",
+   "path": "/resume/analyze",
+   "raw_body": "",
+   "status": 404,
+   "response": {
+    "error": "No mock handler for GET /resume/analyze"
+   }
+  },
+  {
+   "name": "route/put-on-post-route",
+   "method": "PUT",
+   "path": "/resume/analyze",
+   "raw_body": "{}",
+   "status": 404,
+   "response": {
+    "error": "No mock handler for PUT /resume/analyze"
+   }
+  },
+  {
+   "name": "route/delete-on-post-route",
+   "method": "DELETE",
+   "path": "/resume/analyze",
+   "raw_body": "",
+   "status": 404,
+   "response": {
+    "error": "No mock handler for DELETE /resume/analyze"
+   }
+  },
+  {
+   "name": "route/post-health",
+   "method": "POST",
+   "path": "/health",
+   "raw_body": "{}",
+   "status": 404,
+   "response": {
+    "error": "No mock handler for POST /health"
+   }
+  },
+  {
+   "name": "route/get-health",
+   "method": "GET",
+   "path": "/health",
+   "raw_body": "",
+   "status": 200,
+   "response": {
+    "status": "ok",
+    "service": "mock-ai-service"
+   }
+  },
+  {
+   "name": "route/health-trailing-slash",
+   "method": "GET",
+   "path": "/health/",
+   "raw_body": "",
+   "status": 404,
+   "response": {
+    "error": "No mock handler for GET /health/"
+   }
+  },
+  {
+   "name": "route/post-trailing-slash",
+   "method": "POST",
+   "path": "/resume/analyze/",
+   "raw_body": "{}",
+   "status": 404,
+   "response": {
+    "error": "No mock handler for POST /resume/analyze/"
+   }
+  },
+  {
+   "name": "route/root",
+   "method": "GET",
+   "path": "/",
+   "raw_body": "",
+   "status": 404,
+   "response": {
+    "error": "No mock handler for GET /"
+   }
+  },
+  {
+   "name": "route/health-with-query",
+   "method": "GET",
+   "path": "/health?x=1",
+   "raw_body": "",
+   "status": 200,
+   "response": {
+    "status": "ok",
+    "service": "mock-ai-service"
+   }
+  },
+  {
+   "name": "route/post-with-query",
+   "method": "POST",
+   "path": "/company/intelligence?x=1",
+   "raw_body": "{\"company\":\"Q\"}",
+   "status": 200,
+   "response": {
+    "recent_patterns": [
+     "Mock pattern: Q has recently emphasized data structures rounds."
+    ],
+    "commonly_asked_topics": [
+     "Arrays",
+     "Dynamic Programming",
+     "System Design Basics"
+    ],
+    "interview_tips": [
+     "Research Q's recent product launches before the interview."
+    ],
+    "sources": [
+     "mock-ai-service (offline, deterministic placeholder data)"
+    ]
+   }
+  },
+  {
+   "name": "route/case-sensitive",
+   "method": "POST",
+   "path": "/Resume/Analyze",
+   "raw_body": "{}",
+   "status": 404,
+   "response": {
+    "error": "No mock handler for POST /Resume/Analyze"
+   }
+  },
+  {
+   "name": "route/docs",
+   "method": "GET",
+   "path": "/docs",
+   "raw_body": "",
+   "status": 404,
+   "response": {
+    "error": "No mock handler for GET /docs"
+   }
+  },
+  {
+   "name": "route/openapi",
+   "method": "GET",
+   "path": "/openapi.json",
+   "raw_body": "",
+   "status": 404,
+   "response": {
+    "error": "No mock handler for GET /openapi.json"
+   }
+  },
+  {
+   "name": "route/encoded-path",
+   "method": "POST",
+   "path": "/resume%20analyze",
+   "raw_body": "{}",
+   "status": 404,
+   "response": {
+    "error": "No mock handler for POST /resume%20analyze"
+   }
+  },
+  {
+   "name": "route/double-slash",
+   "method": "POST",
+   "path": "//resume/analyze",
+   "raw_body": "{}",
+   "status": 404,
+   "response": {
+    "error": "No mock handler for POST /analyze"
+   }
+  }
+ ]
+}

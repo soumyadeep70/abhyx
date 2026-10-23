@@ -1,0 +1,21 @@
+# Judge0 CE 1.13.1. Shared by judge0-server, judge0-workers, judge0-db, judge0-redis.
+RAILS_ENV=production
+RAILS_MAX_THREADS=5
+JUDGE0_TELEMETRY_ENABLE=false
+
+REDIS_HOST=judge0-redis
+REDIS_PORT=6379
+REDIS_PASSWORD=__REDIS_PASSWORD__
+
+POSTGRES_HOST=judge0-db
+POSTGRES_PORT=5432
+POSTGRES_DB=judge0
+POSTGRES_USER=judge0
+POSTGRES_PASSWORD=__J0_PG_PASSWORD__
+
+SECRET_KEY_BASE=__SECRET_KEY_BASE__
+
+# Execution limits (the backend sends per-question limits within these maxima)
+MAX_CPU_TIME_LIMIT=15
+MAX_MEMORY_LIMIT=512000
+MAX_QUEUE_SIZE=200

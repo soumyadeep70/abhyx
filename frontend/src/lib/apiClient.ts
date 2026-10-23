@@ -1,10 +1,14 @@
-import axios, { AxiosError } from 'axios';
+import axios, { AxiosError } from "axios";
 
-const baseURL = import.meta.env.VITE_API_BASE_URL ?? 'http://localhost:8080/api/v1';
+const baseURL = import.meta.env.VITE_API_URL;
+
+if (!baseURL) {
+  throw new Error("VITE_API_URL is not defined. Check your .env file.");
+}
 
 export const apiClient = axios.create({ baseURL });
 
-const TOKEN_KEY = 'ascent.token';
+const TOKEN_KEY = "ascent.token";
 
 export function getToken(): string | null {
   return localStorage.getItem(TOKEN_KEY);
@@ -29,7 +33,7 @@ export class ApiClientError extends Error {
   status?: number;
   constructor(message: string, status?: number) {
     super(message);
-    this.name = 'ApiClientError';
+    this.name = "ApiClientError";
     this.status = status;
   }
 }
@@ -37,9 +41,10 @@ export class ApiClientError extends Error {
 apiClient.interceptors.response.use(
   (res) => res,
   (error: AxiosError<{ error?: { message?: string } }>) => {
-    const message = error.response?.data?.error?.message ?? error.message ?? 'Request failed';
+    const message =
+      error.response?.data?.error?.message ?? error.message ?? "Request failed";
     return Promise.reject(new ApiClientError(message, error.response?.status));
-  }
+  },
 );
 
 export function isUnauthorized(err: unknown): boolean {

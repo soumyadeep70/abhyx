@@ -1,0 +1,54 @@
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[project]
+name = "mock-ai-service"
+version = "1.0.0"
+description = "Deterministic mock of the FastAPI AI microservice, for local dev and tests"
+readme = "README.md"
+requires-python = ">=3.11"
+dependencies = [
+  "fastapi>=0.115",
+  "uvicorn>=0.30",
+]
+
+[project.optional-dependencies]
+dev = [
+  "pytest>=8",
+  "pytest-cov>=5",
+  "httpx>=0.27",
+  "ruff>=0.6",
+  "mypy>=1.11",
+]
+
+[project.scripts]
+mock-ai-service = "mock_ai_service.__main__:main"
+
+[tool.hatch.build.targets.wheel]
+packages = ["src/mock_ai_service"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+addopts = "-ra --strict-markers --cov=mock_ai_service --cov-report=term-missing --cov-fail-under=95"
+filterwarnings = ["error"]
+
+[tool.coverage.run]
+branch = true
+
+[tool.ruff]
+line-length = 100
+target-version = "py311"
+src = ["src", "tests"]
+
+[tool.ruff.lint]
+select = ["E", "F", "I", "B", "UP", "SIM", "C4", "PT", "RUF", "S"]
+ignore = ["S104"]
+
+[tool.ruff.lint.per-file-ignores]
+"tests/**" = ["S101", "S105", "S106"]
+
+[tool.mypy]
+python_version = "3.11"
+strict = true
+plugins = ["pydantic.mypy"]

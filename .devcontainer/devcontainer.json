@@ -13,14 +13,6 @@
   "remoteUser": "node",
   "updateRemoteUserUID": true,
 
-  "forwardPorts": [5173],
-
-  "portsAttributes": {
-    "5173": {
-      "label": "VITE frontend"
-    }
-  },
-
   "customizations": {
     "vscode": {
       "extensions": [
@@ -35,13 +27,13 @@
         "christian-kohler.path-intellisense",
         "mikestead.dotenv",
         "yoavbls.pretty-ts-errors",
-        "ms-azuretools.vscode-containers"
+        "ms-azuretools.vscode-containers",
+        "ms-python.python"
       ],
 
       "settings": {
         "editor.formatOnSave": true,
         "editor.defaultFormatter": "esbenp.prettier-vscode",
-
         "editor.codeActionsOnSave": {
           "source.fixAll.eslint": "explicit"
         },
@@ -49,12 +41,12 @@
         "js/ts.tsdk.path": "node_modules/typescript/lib",
         "js/ts.tsdk.promptToUseWorkspaceVersion": true,
         "js/ts.suggest.autoImports": true,
+        "python.analysis.typeCheckingMode": "standard",
 
         "files.exclude": {
           "**/.git": true,
           "**/.DS_Store": true
         },
-
         "search.exclude": {
           "**/node_modules": true,
           "**/.git": true,
